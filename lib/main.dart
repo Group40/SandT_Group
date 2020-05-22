@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import './ArticleHandling/ArticleHandling.dart';
 import './DiscussionForum/DiscussionForum.dart';
-import './EventPublishingBooking/EventPublishingBooking.dart';
+import './EventPublishingBooking/EventBooking.dart';
+import './EventPublishingBooking/EventPublishing.dart';
 import './SignUpLogIn/SignUpLogIn.dart';
 import './UserManagementAdmin/UserManagementAdmin.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           brightness: Brightness.dark,
           primaryColor: Colors.cyan,
-          accentColor: Colors.indigoAccent),
+          accentColor: Colors.cyan),
     );
     throw UnimplementedError();
   }
@@ -112,19 +113,37 @@ class PiyumalButton extends StatelessWidget {
       margin: EdgeInsets.only(top: 30.0),
       width: 250.0,
       height: 50.0,
-      child: RaisedButton(
-        color: Colors.cyan,
-        child: Text(
-          "Piyumal",
-          style: TextStyle(fontSize: 20.0, color: Colors.blue[900]),
-        ),
-        elevation: 6.0,
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return EventPublishingBooking();
-          }));
-        },
+      child: Row(
+        children: <Widget>[
+          RaisedButton(
+            color: Colors.cyan,
+            child: Text(
+              "Piyumal",
+              style: TextStyle(fontSize: 20.0, color: Colors.blue[900]),
+            ),
+            elevation: 6.0,
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return EventBooking();
+              }));
+            },
+          ),
+          RaisedButton(
+            color: Colors.cyan,
+            child: Text(
+              "Admin",
+              style: TextStyle(fontSize: 20.0, color: Colors.blue[900]),
+            ),
+            elevation: 6.0,
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return EventPublishing();
+              }));
+            },
+          ),
+        ],
       ),
+
     );
     throw UnimplementedError();
   }
