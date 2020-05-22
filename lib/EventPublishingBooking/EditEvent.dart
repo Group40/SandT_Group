@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 
-class EventDetail extends StatefulWidget {
-  //EventDetail();
+class EditEvent extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return EventDetailState();
+    return EditEventState();
     throw UnimplementedError();
   }
 }
 
-class EventDetailState extends State<EventDetail> {
-  static var _priorities = ['Available', 'Not Available'];
+class EditEventState extends State<EditEvent> {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController availabilityController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
 
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController numberController = TextEditingController();
-  TextEditingController headsController = TextEditingController();
-
-  EventDetailState();
+  EditEventState();
 
   @override
   Widget build(BuildContext context) {
@@ -25,129 +22,86 @@ class EventDetailState extends State<EventDetail> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book a Event'),
+        title: Text('Edit Event'),
+
+        //Optional back button
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              moveToLastScreen();
+            }),
+        //Optional back button ends
       ),
       body: Padding(
         padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
         child: ListView(
           children: <Widget>[
+            //First Element
+            Padding(
+              padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+              child: TextField(
+                controller: titleController,
+                style: textStyle,
+                onChanged: (value) {
+                  debugPrint('Something changed in Text Field');
+                },
+                decoration: InputDecoration(
+                    labelText: 'Title',
+                    labelStyle: textStyle,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    )),
+              ),
+            ),
+
             //Second Element
             Padding(
-              padding: EdgeInsets.only(top: 15.0, bottom: 2.0),
-              child: Center(
-                child: Text(
-                  'Dummy Title',
-                  style: TextStyle(
-                    fontSize: 30.0,
-                    color: Colors.cyan,
-                  ),
-                ),
+              padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+              child: TextField(
+                controller: dateController,
+                style: textStyle,
+                onChanged: (value) {
+                  debugPrint('Something changed in Text Field');
+                },
+                decoration: InputDecoration(
+                    labelText: 'Date',
+                    labelStyle: textStyle,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    )),
               ),
             ),
 
-            Padding(
-              padding: EdgeInsets.only(bottom: 15.0),
-              child: Center(
-                child: Text(
-                  'Dummy Date',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
 
+            //Third Element
             Padding(
-              padding: EdgeInsets.only(top: 15.0, bottom: 2.0),
-              child: Center(
-                child: Text(
-                  'Dummy Description',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.cyan,
-                  ),
-                ),
-              ),
-            ),
-
-            Padding(
-              padding: EdgeInsets.only(bottom: 15.0),
-              child: Center(
-                child: Text(
-                  'Dummy Availability',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.white,
-                  ),
-                ),
+              padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+              child: TextField(
+                controller: availabilityController,
+                style: textStyle,
+                onChanged: (value) {
+                  debugPrint('Something changed in Text Field');
+                },
+                decoration: InputDecoration(
+                    labelText: 'Availability',
+                    labelStyle: textStyle,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    )),
               ),
             ),
 
             //Third Element
             Padding(
-              padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+              padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
               child: TextField(
-                controller: nameController,
+                controller: descriptionController,
                 style: textStyle,
                 onChanged: (value) {
-                  debugPrint('Something changed in the Field');
+                  debugPrint('Something changed in Text Field');
                 },
                 decoration: InputDecoration(
-                    labelText: 'Name',
-                    labelStyle: textStyle,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    )),
-              ),
-            ),
-
-            Padding(
-              padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-              child: TextField(
-                controller: emailController,
-                style: textStyle,
-                onChanged: (value) {
-                  debugPrint('Something changed in the Field');
-                },
-                decoration: InputDecoration(
-                    labelText: 'Email',
-                    labelStyle: textStyle,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    )),
-              ),
-            ),
-
-            Padding(
-              padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-              child: TextField(
-                keyboardType: TextInputType.number,
-                controller: numberController,
-                style: textStyle,
-                onChanged: (value) {
-                  debugPrint('Something changed in the Field');
-                },
-                decoration: InputDecoration(
-                    labelText: 'Contact Number',
-                    labelStyle: textStyle,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    )),
-              ),
-            ),
-
-            Padding(
-              padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-              child: TextField(
-                keyboardType: TextInputType.number,
-                controller: headsController,
-                style: textStyle,
-                onChanged: (value) {
-                  debugPrint('Something changed in the Field');
-                },
-                decoration: InputDecoration(
-                    labelText: 'Heads',
+                    labelText: 'Description',
                     labelStyle: textStyle,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
@@ -157,7 +111,7 @@ class EventDetailState extends State<EventDetail> {
 
             //Fourth Element
             Padding(
-              padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+              padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -183,12 +137,12 @@ class EventDetailState extends State<EventDetail> {
                       color: Theme.of(context).primaryColorDark,
                       textColor: Theme.of(context).primaryColorLight,
                       child: Text(
-                        'Request',
+                        'Add',
                         textScaleFactor: 1.5,
                       ),
                       onPressed: () {
                         setState(() {
-                          debugPrint('Request button clicked');
+                          debugPrint('Add button clicked');
                         });
                       },
                     ),
@@ -204,10 +158,10 @@ class EventDetailState extends State<EventDetail> {
   }
 
   void _reset() {
-    nameController.text = '';
-    emailController.text = '';
-    numberController.text = '';
-    headsController.text = '';
+    titleController.text = '';
+    descriptionController.text = '';
+    availabilityController.text = '';
+    dateController.text = '';
   }
 
   void moveToLastScreen() {

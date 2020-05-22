@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './EventDetail.dart';
+import './EditEvent.dart';
+import './AddEvent.dart';
 
 class EventPublishing extends StatefulWidget{
   @override
@@ -19,6 +20,16 @@ class EventPublishingState extends State<EventPublishing> {
         title: Text('Published Events'),
       ),
       body: getListView(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          debugPrint("Fab click");
+          Navigator.push(context, MaterialPageRoute(builder: (context){
+            return AddEvent();
+          }));
+        },
+        tooltip: 'Add Note',
+        child: Icon(Icons.add),
+      ),
     );
     throw UnimplementedError();
   }
@@ -38,11 +49,11 @@ class EventPublishingState extends State<EventPublishing> {
             ),
             title: Text('Dummy title',style: TextStyle(color: Colors.black54)),
             subtitle: Text('Dummy Date',style: TextStyle(color: Colors.cyan[900])),
-            trailing: Icon(Icons.more_vert, color: Colors.grey,),
+            trailing: Icon(Icons.delete, color: Colors.red,),
             onTap: (){
               debugPrint("Event clicked");
               Navigator.push(context, MaterialPageRoute(builder: (context){
-                return EventDetail();
+                return EditEvent();
               }));
             },
           ),
