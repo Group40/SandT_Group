@@ -54,6 +54,7 @@ class AddEventState extends State<AddEvent> {
           label: "YES",
           onPressed: () {
             send();
+            _reset();
           }
       ),
     );
