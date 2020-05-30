@@ -14,7 +14,7 @@ class EventBookingState extends State<EventBooking> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Upcoming Events'),
       ),
