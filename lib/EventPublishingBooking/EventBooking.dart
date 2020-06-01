@@ -3,10 +3,7 @@ import './EventDetail.dart';
 
 class EventBooking extends StatefulWidget{
   @override
-  State<StatefulWidget> createState() {
-    return EventBookingState();
-    throw UnimplementedError();
-  }
+  EventBookingState createState() => EventBookingState();
 }
 
 class EventBookingState extends State<EventBooking> {

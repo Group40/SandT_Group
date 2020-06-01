@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class EventDetail extends StatefulWidget {
   //EventDetail();
   @override
-  State<StatefulWidget> createState() {
-    return EventDetailState();
-    throw UnimplementedError();
-  }
+  EventDetailState createState() => EventDetailState();
 }
 
 class EventDetailState extends State<EventDetail> {

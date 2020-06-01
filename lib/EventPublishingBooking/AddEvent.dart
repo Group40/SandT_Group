@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-
+import './EventPublishing.dart';
 var url = "http://10.0.2.2:8080/addEvent";
 
 class AddEvent extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return AddEventState();
-    throw UnimplementedError();
-  }
+  AddEventState createState() => AddEventState();
 }
 
 class AddEventState extends State<AddEvent> {
@@ -72,7 +69,11 @@ class AddEventState extends State<AddEvent> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              moveToLastScreen();
+              Navigator.pop(context,true);
+              Navigator.pop(context,true);
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return EventPublishing();
+              }));
             }),
         //Optional back button ends
       ),

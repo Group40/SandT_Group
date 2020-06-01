@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 
 class EditEvent extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return EditEventState();
-    throw UnimplementedError();
-  }
+  EditEventState createState() => EditEventState();
 }
 
 class EditEventState extends State<EditEvent> {
