@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import './EventPublishing.dart';
+var url = "http://10.0.2.2:8080/updateEvent";
 
 class EditEvent extends StatefulWidget {
   final String text;
@@ -46,6 +47,30 @@ class EditEventState extends State<EditEvent> {
     });
   }
 
+  TextEditingController nameController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController venueController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  void update() async {
+    debugPrint('funtion called');
+    var body = jsonEncode({
+      'id': id,
+      'name': nameController.text,
+      'date': dateController.text,
+      'venue': venueController.text,
+      'description': descriptionController.text,
+      'headCount': headCount,
+      'available': available
+    });
+    return await http.post(url, body: body, headers: {
+      "Accept": "application/json",
+      "content-type": "application/json"
+    }).then((dynamic res) {
+      print(res.toString());
+    });
+  }
+
   void showSnackBar(BuildContext context){
     var snackBar = SnackBar(
       backgroundColor: Colors.black54,
@@ -57,7 +82,7 @@ class EditEventState extends State<EditEvent> {
           textColor: Colors.cyan,
           label: "YES",
           onPressed: () {
-           //edit function
+            update();
           }
       ),
     );
@@ -69,11 +94,6 @@ class EditEventState extends State<EditEvent> {
   void initState(){
     this.getData();
   }
-
-  TextEditingController nameController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
-  TextEditingController venueController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
