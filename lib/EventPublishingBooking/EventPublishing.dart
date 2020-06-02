@@ -24,8 +24,37 @@ class EventPublishingState extends State<EventPublishing> {
     this.setState(() {
       data = jsonDecode(response.body);
     });
-    print(data[1]["name"]);
     return "success!";
+  }
+
+  void delete(String id) async {
+    final http.Response response = await http.delete(
+      'http://10.0.2.2:8080/delete/'+id,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    setState(() {
+      initState();
+    });
+  }
+
+  void showSnackBar(BuildContext context, String id){
+    var snackBar = SnackBar(
+      backgroundColor: Colors.black54,
+      content:  Text (
+        'Permently delete the event?',
+        style: TextStyle(fontSize: 20, color: Colors.white70),
+      ),
+      action: SnackBarAction(
+          textColor: Colors.cyan,
+          label: "YES",
+          onPressed: () {
+            delete(id);
+          }
+      ),
+    );
+    Scaffold.of(context).showSnackBar(snackBar);
   }
 
   //Call get data
@@ -72,7 +101,13 @@ class EventPublishingState extends State<EventPublishing> {
             ),
             title: Text(data[position]["name"],style: TextStyle(color: Colors.black54)),
             subtitle: Text(data[position]["date"],style: TextStyle(color: Colors.cyan[900])),
-            trailing: Icon(Icons.delete, color: Colors.red,),
+            trailing: IconButton(
+              icon: Icon(Icons.delete, color: Colors.red,),
+              tooltip: 'Delete this event',
+              onPressed: () {
+                showSnackBar(context, data[position]["id"]);
+              }
+            ),
             onTap: (){
               debugPrint("Event clicked");
               Navigator.push(context, MaterialPageRoute(builder: (context){

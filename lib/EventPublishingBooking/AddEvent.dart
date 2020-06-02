@@ -267,8 +267,4 @@ class AddEventState extends State<AddEvent> {
     descriptionController.text = '';
     headCountController.text = '';
   }
-
-  void moveToLastScreen() {
-    Navigator.pop(context);
-  }
 }

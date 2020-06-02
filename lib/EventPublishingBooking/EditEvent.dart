@@ -252,8 +252,4 @@ class EditEventState extends State<EditEvent> {
     );
     throw UnimplementedError();
   }
-
-  void moveToLastScreen() {
-    Navigator.pop(context);
-  }
 }
