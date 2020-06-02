@@ -76,7 +76,7 @@ class EventPublishingState extends State<EventPublishing> {
             onTap: (){
               debugPrint("Event clicked");
               Navigator.push(context, MaterialPageRoute(builder: (context){
-                return EditEvent();
+                return EditEvent(text: data[position]["id"]);
               }));
             },
           ),
