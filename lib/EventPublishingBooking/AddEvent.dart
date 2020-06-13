@@ -85,7 +85,8 @@ class AddEventState extends State<AddEvent> {
                 padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
                 child: ListView(
                   children: <Widget>[
-                    //First Element
+
+                    //Name Field
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
@@ -109,7 +110,7 @@ class AddEventState extends State<AddEvent> {
                       ),
                     ),
 
-                    //Second Element
+                    //Date Field
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
@@ -133,7 +134,7 @@ class AddEventState extends State<AddEvent> {
                       ),
                     ),
 
-                    //Third Element
+                    //Venue Field
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
@@ -157,7 +158,7 @@ class AddEventState extends State<AddEvent> {
                       ),
                     ),
 
-                    //Fourth Element
+                    //Description Field
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
@@ -181,7 +182,7 @@ class AddEventState extends State<AddEvent> {
                       ),
                     ),
 
-                    //Fifth Element
+                    //Heads Field
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
@@ -206,11 +207,13 @@ class AddEventState extends State<AddEvent> {
                       ),
                     ),
 
-                    //Sixth Element
+                    //Buttons
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: Row(
                         children: <Widget>[
+
+                          //Reset Button
                           Expanded(
                             child: RaisedButton(
                               color: Theme.of(context).primaryColorDark,
@@ -229,6 +232,8 @@ class AddEventState extends State<AddEvent> {
                           Container(
                             width: 5.0,
                           ),
+
+                          //Add Button
                           Expanded(
                             child: RaisedButton(
                               color: Theme.of(context).primaryColorDark,
@@ -247,9 +252,11 @@ class AddEventState extends State<AddEvent> {
                               },
                             ),
                           ),
+
                         ],
                       ),
                     ),
+
                   ],
                 ),
               ),

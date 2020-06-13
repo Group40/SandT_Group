@@ -121,7 +121,8 @@ class EditEventState extends State<EditEvent> {
                 padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
                 child: ListView(
                   children: <Widget>[
-                    //First Element
+
+                    //Name Field
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
@@ -145,7 +146,7 @@ class EditEventState extends State<EditEvent> {
                       ),
                     ),
 
-                    //Second Element
+                    //Date Field
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
@@ -169,7 +170,7 @@ class EditEventState extends State<EditEvent> {
                       ),
                     ),
 
-                    //Third Element
+                    //Venue Field
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
@@ -193,7 +194,7 @@ class EditEventState extends State<EditEvent> {
                       ),
                     ),
 
-                    //Fourth Element
+                    //Description Field
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
@@ -217,7 +218,7 @@ class EditEventState extends State<EditEvent> {
                       ),
                     ),
 
-                    //Fifth Element
+                    //Edit Button
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: Row(

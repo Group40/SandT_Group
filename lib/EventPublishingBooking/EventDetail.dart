@@ -52,9 +52,9 @@ class EventDetailState extends State<EventDetail> {
   void request() async {
     debugPrint('funtion called');
     var body = jsonEncode({
-      'Eventid': id,
-      'Eventname': name,
-      'Eventdate': date,
+      'eventId': id,
+      'eventName': name,
+      'eventDate': date,
       'name': nameController.text,
       'number': numberController.text,
       'email': emailController.text,
@@ -115,6 +115,20 @@ class EventDetailState extends State<EventDetail> {
                       name,
                       style: TextStyle(
                         fontSize: 30.0,
+                        color: Colors.cyan,
+                      ),
+                    ),
+                  ),
+                ),
+
+                //Venue Text
+                Padding(
+                  padding: EdgeInsets.only(top: 15.0, bottom: 2.0),
+                  child: Center(
+                    child: Text(
+                      "Venue : "+venue,
+                      style: TextStyle(
+                        fontSize: 20.0,
                         color: Colors.cyan,
                       ),
                     ),
@@ -216,6 +230,7 @@ class EventDetailState extends State<EventDetail> {
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: TextFormField(
+                    keyboardType: TextInputType.number,
                     controller: numberController,
                     validator: (String value) {
                       if (value.isEmpty) {
@@ -240,6 +255,7 @@ class EventDetailState extends State<EventDetail> {
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: TextFormField(
+                    keyboardType: TextInputType.number,
                     controller: headsController,
                     validator: (String value) {
                       if (value.isEmpty) {
@@ -260,7 +276,7 @@ class EventDetailState extends State<EventDetail> {
                   ),
                 ),
 
-                //Request Button
+                //Buttons
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: Row(
@@ -268,6 +284,28 @@ class EventDetailState extends State<EventDetail> {
                       Container(
                         width: 5.0,
                       ),
+
+                      //Reset Button
+                      Expanded(
+                        child: RaisedButton(
+                          color: Theme.of(context).primaryColorDark,
+                          textColor: Theme.of(context).primaryColorLight,
+                          child: Text(
+                            'Reset',
+                            textScaleFactor: 1.5,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _reset();
+                            });
+                          },
+                        ),
+                      ),
+                      Container(
+                        width: 5.0,
+                      ),
+
+                      //Request Button
                       Expanded(
                         child: RaisedButton(
                           color: Theme.of(context).primaryColorDark,
@@ -284,6 +322,7 @@ class EventDetailState extends State<EventDetail> {
                           },
                         ),
                       ),
+
                     ],
                   ),
                 ),
@@ -295,6 +334,13 @@ class EventDetailState extends State<EventDetail> {
       ),
     );
     throw UnimplementedError();
+  }
+
+  void _reset() {
+    nameController.text = '';
+    numberController.text = '';
+    emailController.text = '';
+    headsController.text = '';
   }
 }
 

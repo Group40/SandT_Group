@@ -29,7 +29,7 @@ class EventPublishingState extends State<EventPublishing> {
 
   void delete(String id) async {
     final http.Response response = await http.delete(
-      'http://10.0.2.2:8080/delete/'+id,
+      'http://10.0.2.2:8080/deleteEvent/'+id,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
