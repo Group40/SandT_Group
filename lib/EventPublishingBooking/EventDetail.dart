@@ -45,15 +45,22 @@ class EventDetailState extends State<EventDetail> {
   }
 
   TextEditingController nameController = TextEditingController();
+  TextEditingController numberController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController headsController = TextEditingController();
 
-  void update() async {
+  void request() async {
     debugPrint('funtion called');
     var body = jsonEncode({
-      'id': id,
+      'Eventid': id,
+      'Eventname': name,
+      'Eventdate': date,
       'name': nameController.text,
-      'headCount': headCount,
-      'available': available
+      'number': numberController.text,
+      'email': emailController.text,
+      'heads': headsController.text,
     });
+    print(body);
     return await http.post(url, body: body, headers: {
       "Accept": "application/json",
       "content-type": "application/json"
@@ -73,7 +80,7 @@ class EventDetailState extends State<EventDetail> {
           textColor: Colors.cyan,
           label: "YES",
           onPressed: () {
-            update();
+            request();
           }),
     );
     Scaffold.of(context).showSnackBar(snackBar);
@@ -161,7 +168,7 @@ class EventDetailState extends State<EventDetail> {
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: TextFormField(
-                    controller: nameController..text = name,
+                    controller: nameController,
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please enter the Name';
@@ -185,10 +192,10 @@ class EventDetailState extends State<EventDetail> {
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: TextFormField(
-                    controller: nameController..text = name,
+                    controller: emailController,
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return 'Please enter the Name';
+                        return 'Please enter the Email';
                       }
                       return null;
                     },
@@ -209,10 +216,10 @@ class EventDetailState extends State<EventDetail> {
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: TextFormField(
-                    controller: nameController..text = name,
+                    controller: numberController,
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return 'Please enter the Name';
+                        return 'Please enter the Contact Number';
                       }
                       return null;
                     },
@@ -233,10 +240,10 @@ class EventDetailState extends State<EventDetail> {
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: TextFormField(
-                    controller: nameController..text = name,
+                    controller: headsController,
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return 'Please enter the Name';
+                        return 'Please enter the Heads';
                       }
                       return null;
                     },
@@ -266,13 +273,13 @@ class EventDetailState extends State<EventDetail> {
                           color: Theme.of(context).primaryColorDark,
                           textColor: Theme.of(context).primaryColorLight,
                           child: Text(
-                            'Edit',
+                            'Request',
                             textScaleFactor: 1.5,
                           ),
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
                               showSnackBar(context);
-                              debugPrint('Add button clicked');
+                              debugPrint('Request button clicked');
                             }
                           },
                         ),
