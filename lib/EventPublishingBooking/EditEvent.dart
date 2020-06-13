@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import './EventPublishing.dart';
+import './RequestList.dart';
 var url = "http://10.0.2.2:8080/updateEvent";
 
 class EditEvent extends StatefulWidget {
@@ -198,6 +199,7 @@ class EditEventState extends State<EditEvent> {
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
+                        maxLines: null,
                         controller: descriptionController..text = description,
                         validator: (String value) {
                           if (value.isEmpty) {
@@ -245,6 +247,62 @@ class EditEventState extends State<EditEvent> {
                         ],
                       ),
                     ),
+
+                    //Buttons
+                    Padding(
+                      padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                      child: Row(
+                        children: <Widget>[
+
+                          //Reset Button
+                          Expanded(
+                            child: RaisedButton(
+                              color: Colors.black54,
+                              textColor: Theme.of(context).primaryColorLight,
+                              child: Text(
+                                'Request List',
+                                textScaleFactor: 1.5,
+                                style: TextStyle(
+                                  color: Colors.cyan,
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                                    return RequestList(text: id);
+                                  }));
+                                });
+                              },
+                            ),
+                          ),
+                          Container(
+                            width: 5.0,
+                          ),
+
+                          //Add Button
+                          Expanded(
+                            child: RaisedButton(
+                              color: Colors.black54,
+                              textColor: Theme.of(context).primaryColorLight,
+                              child: Text(
+                                'Confirmed List',
+                                textScaleFactor: 1.5,
+                                style: TextStyle(
+                                  color: Colors.cyan,
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  //function
+                                });
+                              },
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+
                   ],
                 ),
               ),

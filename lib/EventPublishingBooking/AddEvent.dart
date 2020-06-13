@@ -162,6 +162,7 @@ class AddEventState extends State<AddEvent> {
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
+                        maxLines: null,
                         controller: descriptionController,
                         validator: (String value) {
                           if (value.isEmpty) {
