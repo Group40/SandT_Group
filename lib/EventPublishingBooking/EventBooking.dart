@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 import './EventDetail.dart';
 
 class EventBooking extends StatefulWidget{
@@ -7,11 +10,31 @@ class EventBooking extends StatefulWidget{
 }
 
 class EventBookingState extends State<EventBooking> {
-  int count = 10;
+  List data;
+  Future<String> getData() async{
+    http.Response response = await http.get(
+        Uri.encodeFull("http://10.0.2.2:8080/findAllEvents"),
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+    this.setState(() {
+      data = jsonDecode(response.body);
+    });
+    return "success!";
+  }
+
+  //Call get data
+  @override
+  void initState(){
+    this.getData();
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Upcoming Events'),
       ),
@@ -23,7 +46,7 @@ class EventBookingState extends State<EventBooking> {
   ListView getListView(){
     //TextStyle titleStyle = Theme.of(context).textTheme.subhead;
     return ListView.builder(
-      itemCount: count,
+      itemCount: data == null ? 0 : data.length,
       itemBuilder: (BuildContext context, int position){
         return Card(
           color: Colors.cyan[100],
@@ -33,13 +56,12 @@ class EventBookingState extends State<EventBooking> {
               backgroundColor: Colors.cyan,
               child: Icon(Icons.event_available),
             ),
-            title: Text('Dummy title',style: TextStyle(color: Colors.black54)),
-            subtitle: Text('Dummy Date',style: TextStyle(color: Colors.cyan[900])),
-            trailing: Icon(Icons.more_vert, color: Colors.grey,),
+            title: Text(data[position]["name"],style: TextStyle(color: Colors.black54)),
+            subtitle: Text(data[position]["date"],style: TextStyle(color: Colors.cyan[900])),
             onTap: (){
               debugPrint("Event clicked");
               Navigator.push(context, MaterialPageRoute(builder: (context){
-                return EventDetail();
+                return EventDetail(text: data[position]["id"]);
               }));
             },
           ),
