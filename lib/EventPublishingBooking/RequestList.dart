@@ -30,9 +30,9 @@ class RequestListState extends State<RequestList> {
     return "success!";
   }
 
-  void delete(String id) async {
+  void deleteRequest(String id) async {
     final http.Response response = await http.delete(
-      'http://10.0.2.2:8080/deleteEvent/'+id,
+      'http://10.0.2.2:8080/deleteEventRequest/'+id,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -42,7 +42,7 @@ class RequestListState extends State<RequestList> {
     });
   }
 
-  void confirm() async {
+  void confirmRequest() async {
     debugPrint('funtion called');
     var body = jsonEncode({
       'id': "name",
@@ -55,7 +55,7 @@ class RequestListState extends State<RequestList> {
     });
   }
 
-  void showSnackBar(BuildContext context, String id){
+  void showSnackBarConfirm(BuildContext context, String id){
     var snackBar = SnackBar(
       backgroundColor: Colors.black54,
       content:  Text (
@@ -66,7 +66,25 @@ class RequestListState extends State<RequestList> {
           textColor: Colors.cyan,
           label: "YES",
           onPressed: () {
-            delete(id);
+            //delete(id);
+          }
+      ),
+    );
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
+
+  void showSnackBarReject(BuildContext context, String id){
+    var snackBar = SnackBar(
+      backgroundColor: Colors.black54,
+      content:  Text (
+        'WARNING!\nRequests are not recoverable after rejection!',
+        style: TextStyle(fontSize: 20, color: Colors.white70),
+      ),
+      action: SnackBarAction(
+          textColor: Colors.cyan,
+          label: "OKAY",
+          onPressed: () {
+            deleteRequest(id);
           }
       ),
     );
@@ -100,20 +118,33 @@ class RequestListState extends State<RequestList> {
         return Card(
           color: Colors.cyan[100],
           elevation: 2.0,
-          child: ListTile(
-            leading: CircleAvatar(
-              backgroundColor: Colors.cyan,
-              child: Icon(Icons.event_available),
-            ),
-            title: Text("Name : "+data[position]["name"],style: TextStyle(color: Colors.black54)),
-            subtitle: Text("Contact Number : "+data[position]["number"]+"\nEmail : "+data[position]["email"]+"\nHeads : "+data[position]["heads"],style: TextStyle(color: Colors.cyan[900])),
-            trailing: IconButton(
-                icon: Icon(Icons.delete, color: Colors.red,),
-                tooltip: 'Delete this event',
-                onPressed: () {
-                  showSnackBar(context, data[position]["id"]);
-                }
-            ),
+          child : Column(
+            children: <Widget>[
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: Colors.cyan,
+                  child: Icon(Icons.people),
+                ),
+                title: Text("Name : "+data[position]["name"],style: TextStyle(color: Colors.black54)),
+                subtitle: Text("Contact Number : "+data[position]["number"]+"\nEmail : "+data[position]["email"]+"\nHeads : "+data[position]["heads"],style: TextStyle(color: Colors.cyan[900])),
+              ),
+              ButtonBar(
+                children: <Widget>[
+                  FlatButton(
+                    child: const Text('CONFIRM',style: TextStyle(color: Colors.blue)),
+                    onPressed: () {
+                      showSnackBarConfirm(context, data[position]["id"]);
+                    },
+                  ),
+                  FlatButton(
+                    child: const Text('REJECT',style: TextStyle(color: Colors.red)),
+                    onPressed: () {
+                      showSnackBarReject(context, data[position]["id"]);
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
         );
       },
