@@ -17,6 +17,7 @@ class ConfirmedListState extends State<ConfirmedList> {
   ConfirmedListState(String text);
 
   List data;
+
   Future<String> getData() async{
     http.Response response = await http.get(
         Uri.encodeFull("http://10.0.2.2:8080/getConfirmedEventRequestsByEventId/"+widget.text),

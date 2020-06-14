@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import './EventPublishing.dart';
+import 'package:flutter/services.dart';
 var url = "http://10.0.2.2:8080/addEvent";
 
 class AddEvent extends StatefulWidget {
@@ -188,6 +189,9 @@ class AddEventState extends State<AddEvent> {
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
                         keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          WhitelistingTextInputFormatter.digitsOnly
+                        ],
                         controller: headCountController,
                         validator: (String value) {
                           if (value.isEmpty) {

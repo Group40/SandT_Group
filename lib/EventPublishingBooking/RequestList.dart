@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import './EditEvent.dart';
 var url = "http://10.0.2.2:8080/addConfirmedEventRequest";
 
 class RequestList extends StatefulWidget {
@@ -16,7 +17,10 @@ class RequestListState extends State<RequestList> {
 
   RequestListState(String text);
 
-  List data;
+  List requestData;
+  var eventData;
+  String availableString ='';
+
   Future<String> getData() async{
     http.Response response = await http.get(
         Uri.encodeFull("http://10.0.2.2:8080/getEventRequestsByEventId/"+widget.text),
@@ -25,7 +29,15 @@ class RequestListState extends State<RequestList> {
         }
     );
     this.setState(() {
-      data = jsonDecode(response.body);
+      requestData = jsonDecode(response.body);
+    });
+    http.Response response2 = await http.get(
+        Uri.encodeFull("http://10.0.2.2:8080/findAllEvents/" + widget.text),
+        headers: {"Accept": "application/json"});
+
+    this.setState(() {
+      eventData = jsonDecode(response2.body);
+      availableString = eventData['available'];
     });
     return "success!";
   }
@@ -43,17 +55,40 @@ class RequestListState extends State<RequestList> {
     });
   }
 
+  void reduceAvailable(int position) async {
+    int heads = int.parse(requestData[position]["heads"]);
+    int available = int.parse(availableString);
+    available = available - heads;
+    debugPrint('funtion called');
+
+    var body = jsonEncode({
+      'id': eventData["id"],
+      'name': eventData["name"],
+      'date': eventData["date"],
+      'venue': eventData["venue"],
+      'description': eventData["description"],
+      'headCount': eventData["headCount"],
+      'available': available
+    });
+    return await http.post("http://10.0.2.2:8080/updateEvent", body: body, headers: {
+      "Accept": "application/json",
+      "content-type": "application/json"
+    }).then((dynamic res) {
+      print(res.toString());
+    });
+  }
+
   //Add to Confirmed Request Collection
   void confirmRequest(int position) async {
     debugPrint('funtion called');
     var body = jsonEncode({
-      'eventId': data[position]["eventId"],
-      'eventName':  data[position]["eventName"],
-      'eventDate':  data[position]["eventDate"],
-      'name':  data[position]["name"],
-      'number':  data[position]["number"],
-      'email': data[position]["email"],
-      'heads':  data[position]["heads"],
+      'eventId':requestData[position]["eventId"],
+      'eventName':  requestData[position]["eventName"],
+      'eventDate':  requestData[position]["eventDate"],
+      'name': requestData[position]["name"],
+      'number':  requestData[position]["number"],
+      'email': requestData[position]["email"],
+      'heads':  requestData[position]["heads"],
     });
     print(body);
     return await http.post(url, body: body, headers: {
@@ -77,6 +112,7 @@ class RequestListState extends State<RequestList> {
           onPressed: () {
             confirmRequest(position);
             deleteRequest(id);
+            reduceAvailable(position);
           }
       ),
     );
@@ -114,6 +150,17 @@ class RequestListState extends State<RequestList> {
       //backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("Request List"),
+        //Optional back button
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context, true);
+              Navigator.pop(context, true);
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return EditEvent(text: widget.text);
+              }));
+            }),
+        //Optional back button ends
       ),
       body: getListView(),
     );
@@ -123,7 +170,7 @@ class RequestListState extends State<RequestList> {
   ListView getListView(){
     //TextStyle titleStyle = Theme.of(context).textTheme.subhead;
     return ListView.builder(
-      itemCount: data == null ? 0 : data.length,
+      itemCount: requestData == null ? 0 : requestData.length,
       itemBuilder: (BuildContext context, int position){
         return Card(
           color: Colors.cyan[100],
@@ -135,21 +182,21 @@ class RequestListState extends State<RequestList> {
                   backgroundColor: Colors.cyan,
                   child: Icon(Icons.people),
                 ),
-                title: Text("Name : "+data[position]["name"],style: TextStyle(color: Colors.black54)),
-                subtitle: Text("Contact Number : "+data[position]["number"]+"\nEmail : "+data[position]["email"]+"\nHeads : "+data[position]["heads"],style: TextStyle(color: Colors.cyan[900])),
+                title: Text("Name : "+requestData[position]["name"],style: TextStyle(color: Colors.black54)),
+                subtitle: Text("Contact Number : "+requestData[position]["number"]+"\nEmail : "+requestData[position]["email"]+"\nHeads : "+requestData[position]["heads"],style: TextStyle(color: Colors.cyan[900])),
               ),
               ButtonBar(
                 children: <Widget>[
                   FlatButton(
                     child: const Text('CONFIRM',style: TextStyle(color: Colors.blue)),
                     onPressed: () {
-                      showSnackBarConfirm(context, data[position]["id"], position);
+                      showSnackBarConfirm(context, requestData[position]["id"], position);
                     },
                   ),
                   FlatButton(
                     child: const Text('REJECT',style: TextStyle(color: Colors.red)),
                     onPressed: () {
-                      showSnackBarReject(context, data[position]["id"]);
+                      showSnackBarReject(context, requestData[position]["id"]);
                     },
                   ),
                 ],
