@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-var url = "http://10.0.2.2:8080/updateEvent";
+var url = "http://10.0.2.2:8080/addConfirmedEventRequest";
 
 class RequestList extends StatefulWidget {
   final String text;
@@ -30,6 +30,7 @@ class RequestListState extends State<RequestList> {
     return "success!";
   }
 
+  //Delete From Request Collection
   void deleteRequest(String id) async {
     final http.Response response = await http.delete(
       'http://10.0.2.2:8080/deleteEventRequest/'+id,
@@ -42,11 +43,19 @@ class RequestListState extends State<RequestList> {
     });
   }
 
-  void confirmRequest() async {
+  //Add to Confirmed Request Collection
+  void confirmRequest(int position) async {
     debugPrint('funtion called');
     var body = jsonEncode({
-      'id': "name",
+      'eventId': data[position]["eventId"],
+      'eventName':  data[position]["eventName"],
+      'eventDate':  data[position]["eventDate"],
+      'name':  data[position]["name"],
+      'number':  data[position]["number"],
+      'email': data[position]["email"],
+      'heads':  data[position]["heads"],
     });
+    print(body);
     return await http.post(url, body: body, headers: {
       "Accept": "application/json",
       "content-type": "application/json"
@@ -55,18 +64,19 @@ class RequestListState extends State<RequestList> {
     });
   }
 
-  void showSnackBarConfirm(BuildContext context, String id){
+  void showSnackBarConfirm(BuildContext context, String id, int position){
     var snackBar = SnackBar(
       backgroundColor: Colors.black54,
       content:  Text (
-        'Permently delete the event?',
+        'Are you sure?',
         style: TextStyle(fontSize: 20, color: Colors.white70),
       ),
       action: SnackBarAction(
           textColor: Colors.cyan,
           label: "YES",
           onPressed: () {
-            //delete(id);
+            confirmRequest(position);
+            deleteRequest(id);
           }
       ),
     );
@@ -103,7 +113,7 @@ class RequestListState extends State<RequestList> {
     return Scaffold(
       //backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(widget.text),
+        title: Text("Request List"),
       ),
       body: getListView(),
     );
@@ -133,7 +143,7 @@ class RequestListState extends State<RequestList> {
                   FlatButton(
                     child: const Text('CONFIRM',style: TextStyle(color: Colors.blue)),
                     onPressed: () {
-                      showSnackBarConfirm(context, data[position]["id"]);
+                      showSnackBarConfirm(context, data[position]["id"], position);
                     },
                   ),
                   FlatButton(
