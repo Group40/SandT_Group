@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import './EventPublishing.dart';
 import './RequestList.dart';
+import './ConfirmedList.dart';
 var url = "http://10.0.2.2:8080/updateEvent";
 
 class EditEvent extends StatefulWidget {
@@ -293,7 +294,9 @@ class EditEventState extends State<EditEvent> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  //function
+                                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                                    return ConfirmedList(text: id);
+                                  }));
                                 });
                               },
                             ),
