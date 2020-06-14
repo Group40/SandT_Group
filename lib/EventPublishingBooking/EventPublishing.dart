@@ -34,6 +34,18 @@ class EventPublishingState extends State<EventPublishing> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+    final http.Response response2 = await http.delete(
+      'http://10.0.2.2:8080/deleteEventRequestByEventId/'+id,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    final http.Response response3 = await http.delete(
+      'http://10.0.2.2:8080/deleteConfirmedEventRequestByEventId/'+id,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
     setState(() {
       initState();
     });
