@@ -264,8 +264,13 @@ class EventDetailState extends State<EventDetail> {
                     ],
                     controller: headsController,
                     validator: (String value) {
+                      int valueInt = int.parse(value);
+                      int availableInt = int.parse(available);
                       if (value.isEmpty) {
                         return 'Please enter the Heads';
+                      }
+                      else if (availableInt < valueInt) {
+                        return 'Should be equal or less than current availability';
                       }
                       return null;
                     },
