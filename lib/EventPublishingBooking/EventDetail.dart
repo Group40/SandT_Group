@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+
 var url = "http://10.0.2.2:8080/addEventRequest";
 
 class EventDetail extends StatefulWidget {
@@ -106,7 +107,6 @@ class EventDetailState extends State<EventDetail> {
             padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
             child: ListView(
               children: <Widget>[
-
                 //Name Text
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 2.0),
@@ -126,7 +126,7 @@ class EventDetailState extends State<EventDetail> {
                   padding: EdgeInsets.only(top: 15.0, bottom: 2.0),
                   child: Center(
                     child: Text(
-                      "Venue : "+venue,
+                      "Venue : " + venue,
                       style: TextStyle(
                         fontSize: 20.0,
                         color: Colors.cyan,
@@ -140,7 +140,7 @@ class EventDetailState extends State<EventDetail> {
                   padding: EdgeInsets.only(bottom: 15.0),
                   child: Center(
                     child: Text(
-                      "Date : "+date,
+                      "Date : " + date,
                       style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.white,
@@ -154,8 +154,7 @@ class EventDetailState extends State<EventDetail> {
                   padding: EdgeInsets.only(top: 15.0, bottom: 2.0),
                   child: Center(
                     child: Text(
-                      "Event Description >> "+
-                      description,
+                      "Event Description >> " + description,
                       style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.cyan,
@@ -169,7 +168,7 @@ class EventDetailState extends State<EventDetail> {
                   padding: EdgeInsets.only(bottom: 15.0),
                   child: Center(
                     child: Text(
-                      "Available Seats : "+available,
+                      "Available Seats : " + available,
                       style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.white,
@@ -268,9 +267,10 @@ class EventDetailState extends State<EventDetail> {
                       int availableInt = int.parse(available);
                       if (value.isEmpty) {
                         return 'Please enter the Heads';
-                      }
-                      else if (availableInt < valueInt) {
+                      } else if (availableInt < valueInt) {
                         return 'Should be equal or less than current availability';
+                      } else if (1 > valueInt) {
+                        return 'Should be a value more than 0';
                       }
                       return null;
                     },
@@ -333,11 +333,9 @@ class EventDetailState extends State<EventDetail> {
                           },
                         ),
                       ),
-
                     ],
                   ),
                 ),
-
               ],
             ),
           ),
@@ -354,4 +352,3 @@ class EventDetailState extends State<EventDetail> {
     headsController.text = '';
   }
 }
-
