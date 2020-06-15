@@ -4,20 +4,18 @@ import 'dart:async';
 import 'dart:convert';
 import './EventDetail.dart';
 
-class EventBooking extends StatefulWidget{
+class EventBooking extends StatefulWidget {
   @override
   EventBookingState createState() => EventBookingState();
 }
 
 class EventBookingState extends State<EventBooking> {
   List data;
-  Future<String> getData() async{
+
+  Future<String> getData() async {
     http.Response response = await http.get(
         Uri.encodeFull("http://10.0.2.2:8080/findAllEvents"),
-        headers: {
-          "Accept": "application/json"
-        }
-    );
+        headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body);
     });
@@ -26,13 +24,12 @@ class EventBookingState extends State<EventBooking> {
 
   //Call get data
   @override
-  void initState(){
+  void initState() {
     this.getData();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       //backgroundColor: Colors.white,
       appBar: AppBar(
@@ -43,24 +40,31 @@ class EventBookingState extends State<EventBooking> {
     throw UnimplementedError();
   }
 
-  ListView getListView(){
+  ListView getListView() {
     //TextStyle titleStyle = Theme.of(context).textTheme.subhead;
     return ListView.builder(
       itemCount: data == null ? 0 : data.length,
-      itemBuilder: (BuildContext context, int position){
+      itemBuilder: (BuildContext context, int position) {
+        int availableInt = int.parse(data[position]["available"]);
         return Card(
           color: Colors.cyan[100],
           elevation: 2.0,
           child: ListTile(
             leading: CircleAvatar(
-              backgroundColor: Colors.cyan,
-              child: Icon(Icons.event_available),
+              backgroundColor: availableInt == 0
+                  ? Colors.red
+                  : Colors.cyan,
+              child: availableInt == 0
+                  ? Icon(Icons.event_busy, color: Colors.black,)
+                  : Icon(Icons.event_available),
             ),
-            title: Text(data[position]["name"],style: TextStyle(color: Colors.black54)),
-            subtitle: Text(data[position]["date"],style: TextStyle(color: Colors.cyan[900])),
-            onTap: (){
+            title: Text(data[position]["name"],
+                style: TextStyle(color: Colors.black54)),
+            subtitle: Text(data[position]["date"],
+                style: TextStyle(color: Colors.cyan[900])),
+            onTap: () {
               debugPrint("Event clicked");
-              Navigator.push(context, MaterialPageRoute(builder: (context){
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return EventDetail(text: data[position]["id"]);
               }));
             },
