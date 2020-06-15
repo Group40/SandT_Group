@@ -19,7 +19,7 @@ class EditEvent extends StatefulWidget {
 
 class EditEventState extends State<EditEvent> {
   EditEventState(String text);
-
+  DateTime _dateTime = DateTime.now();
   var _formKey = GlobalKey<FormState>();
   var event;
   String name = '';
@@ -184,24 +184,62 @@ class EditEventState extends State<EditEvent> {
                 //Date Field
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: TextFormField(
-                    controller: dateController..text = date,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'Please enter the date';
-                      }
-                      return null;
-                    },
-                    style: textStyle,
-                    onChanged: (value) {
-                      debugPrint('Something changed in Text Field');
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'Date',
-                        labelStyle: textStyle,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        )),
+                  child: Row(
+                    children: <Widget>[
+
+                      //Date Field
+                      Expanded(
+                        child: TextFormField(
+                          enabled: false,
+                          controller: dateController..text = date,
+                          validator: (String value) {
+                            if (value.isEmpty) {
+                              return 'Please enter the date';
+                            }
+                            return null;
+                          },
+                          style: textStyle,
+                          onChanged: (value) {
+                            debugPrint('Something changed in Text Field');
+                          },
+                          decoration: InputDecoration(
+                              labelText: 'Date',
+                              labelStyle: textStyle,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              )),
+                        ),
+                      ),
+                      Container(
+                        width: 5.0,
+                      ),
+
+                      //Calendar Button
+                      Expanded(
+                        child: ButtonTheme(
+                          child: RaisedButton(
+                            color: Colors.black26,
+                            child: Text('Take a date'),
+                            onPressed: () {
+                              showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2001),
+                                lastDate: DateTime(2222),
+                              ).then((inputDate) => {
+                                setState((){
+                                  if(inputDate != null){
+                                    _dateTime = inputDate;
+                                    date = _dateTime.toString().substring(0,10);
+                                  }
+                                }),
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+
+                    ],
                   ),
                 ),
 
