@@ -99,26 +99,103 @@ class RequestListState extends State<RequestList> {
     });
   }
 
-  void showSnackBarConfirm(BuildContext context, String id, int position){
-    var snackBar = SnackBar(
-      backgroundColor: Colors.black54,
-      content:  Text (
-        'Are you sure?',
-        style: TextStyle(fontSize: 20, color: Colors.white70),
-      ),
-      action: SnackBarAction(
-          textColor: Colors.cyan,
-          label: "YES",
-          onPressed: () {
-            confirmRequest(position);
-            deleteRequest(id);
-            reduceAvailable(position);
-          }
-      ),
+  //Out of capacity Error Message
+  void errorPopUp() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          backgroundColor: Colors.cyan,
+          title: new Text("There are not enough seats"),
+          content: new Text("Atomatically rejecting the request by the system"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("OKAY"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
-    Scaffold.of(context).showSnackBar(snackBar);
   }
 
+  //Confirm SnackBar
+  void showSnackBarConfirm(BuildContext context, String id, int position){
+    int heads = int.parse(requestData[position]["heads"]);
+    int available = int.parse(availableString);
+    available = available - heads;
+    if(available<0){
+      //Out of Capacity : Error
+      var snackBar = SnackBar(
+        backgroundColor: Colors.black54,
+        content:  Text (
+          'Are you sure?',
+          style: TextStyle(fontSize: 20, color: Colors.white70),
+        ),
+        action: SnackBarAction(
+            textColor: Colors.cyan,
+            label: "YES",
+            onPressed: () {
+              //Error
+              deleteRequest(id);
+              //Pop up error message
+              errorPopUp();
+            }
+        ),
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+    else if(available==0){
+      //OKAY : All are booking from now on
+      var snackBar = SnackBar(
+        backgroundColor: Colors.black54,
+        content:  Text (
+          'Are you sure?',
+          style: TextStyle(fontSize: 20, color: Colors.white70),
+        ),
+        action: SnackBarAction(
+            textColor: Colors.cyan,
+            label: "YES",
+            onPressed: () {
+              //finish
+              confirmRequest(position);
+              deleteRequest(id);
+              reduceAvailable(position);
+              //Make event Unavailable here
+            }
+        ),
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+    else{
+      //Okay : Normal confirmation Scenario
+      var snackBar = SnackBar(
+        backgroundColor: Colors.black54,
+        content:  Text (
+          'Are you sure?',
+          style: TextStyle(fontSize: 20, color: Colors.white70),
+        ),
+        action: SnackBarAction(
+            textColor: Colors.cyan,
+            label: "YES",
+            onPressed: () {
+              //Normal
+              confirmRequest(position);
+              deleteRequest(id);
+              reduceAvailable(position);
+            }
+        ),
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+  }
+
+  //Reject SnackBar
   void showSnackBarReject(BuildContext context, String id){
     var snackBar = SnackBar(
       backgroundColor: Colors.black54,
