@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import './EventPublishing.dart';
+import 'package:flutter/services.dart';
 
 var url = "http://10.0.2.2:8080/addEvent";
 
 class AddEvent extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return AddEventState();
-    throw UnimplementedError();
-  }
+  AddEventState createState() => AddEventState();
 }
 
 class AddEventState extends State<AddEvent> {
+  DateTime _dateTime = DateTime.now();
   var _formKey = GlobalKey<FormState>();
 
   TextEditingController nameController = TextEditingController();
@@ -72,7 +72,11 @@ class AddEventState extends State<AddEvent> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              moveToLastScreen();
+              Navigator.pop(context,true);
+              Navigator.pop(context,true);
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return EventPublishing();
+              }));
             }),
         //Optional back button ends
       ),
@@ -84,7 +88,8 @@ class AddEventState extends State<AddEvent> {
                 padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
                 child: ListView(
                   children: <Widget>[
-                    //First Element
+
+                    //Name Field
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
@@ -108,31 +113,70 @@ class AddEventState extends State<AddEvent> {
                       ),
                     ),
 
-                    //Second Element
+                    //Date Field
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                      child: TextFormField(
-                        controller: dateController,
-                        validator: (String value) {
-                          if (value.isEmpty) {
-                            return 'Please enter the date';
-                          }
-                          return null;
-                        },
-                        style: textStyle,
-                        onChanged: (value) {
-                          debugPrint('Something changed in Text Field');
-                        },
-                        decoration: InputDecoration(
-                            labelText: 'Date',
-                            labelStyle: textStyle,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            )),
+                      child: Row(
+                        children: <Widget>[
+
+                          //Date Field
+                          Expanded(
+                            child: TextFormField(
+                              enabled: false,
+
+                              controller: dateController..text = _dateTime.toString().substring(0,10),
+                              validator: (String value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter the date';
+                                }
+                                return null;
+                              },
+                              style: textStyle,
+                              onChanged: (value) {
+                                debugPrint('Something changed in Text Field');
+                              },
+                              decoration: InputDecoration(
+                                  labelText: 'Date',
+                                  labelStyle: textStyle,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  )),
+                            ),
+                          ),
+                          Container(
+                            width: 5.0,
+                          ),
+
+                          //Calendar Button
+                          Expanded(
+                            child: ButtonTheme(
+                              child: RaisedButton(
+                                color: Colors.black26,
+                                child: Text('Take a date'),
+                                onPressed: () {
+                                  showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2001),
+                                    lastDate: DateTime(2222),
+                                  ).then((date) => {
+                                    setState((){
+                                      if(date == null){
+                                        date = DateTime.now();
+                                      }
+                                      _dateTime = date;
+                                    }),
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+
+                        ],
                       ),
                     ),
 
-                    //Third Element
+                    //Venue Field
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
@@ -156,10 +200,11 @@ class AddEventState extends State<AddEvent> {
                       ),
                     ),
 
-                    //Fourth Element
+                    //Description Field
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
+                        maxLines: null,
                         controller: descriptionController,
                         validator: (String value) {
                           if (value.isEmpty) {
@@ -180,11 +225,14 @@ class AddEventState extends State<AddEvent> {
                       ),
                     ),
 
-                    //Fifth Element
+                    //Heads Field
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
                         keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          WhitelistingTextInputFormatter.digitsOnly
+                        ],
                         controller: headCountController,
                         validator: (String value) {
                           if (value.isEmpty) {
@@ -205,11 +253,13 @@ class AddEventState extends State<AddEvent> {
                       ),
                     ),
 
-                    //Sixth Element
+                    //Buttons
                     Padding(
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: Row(
                         children: <Widget>[
+
+                          //Reset Button
                           Expanded(
                             child: RaisedButton(
                               color: Theme.of(context).primaryColorDark,
@@ -228,6 +278,8 @@ class AddEventState extends State<AddEvent> {
                           Container(
                             width: 5.0,
                           ),
+
+                          //Add Button
                           Expanded(
                             child: RaisedButton(
                               color: Theme.of(context).primaryColorDark,
@@ -246,9 +298,11 @@ class AddEventState extends State<AddEvent> {
                               },
                             ),
                           ),
+
                         ],
                       ),
                     ),
+
                   ],
                 ),
               ),
@@ -265,9 +319,5 @@ class AddEventState extends State<AddEvent> {
     venueController.text = '';
     descriptionController.text = '';
     headCountController.text = '';
-  }
-
-  void moveToLastScreen() {
-    Navigator.pop(context);
   }
 }

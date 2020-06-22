@@ -1,48 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 import './EventDetail.dart';
+import './Calendar.dart';
 
-class EventBooking extends StatefulWidget{
+class EventBooking extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return EventBookingState();
-    throw UnimplementedError();
-  }
+  EventBookingState createState() => EventBookingState();
 }
 
 class EventBookingState extends State<EventBooking> {
-  int count = 10;
+  List data;
+
+  Future<String> getData() async {
+    http.Response response = await http.get(
+        Uri.encodeFull("http://10.0.2.2:8080/findAllEvents"),
+        headers: {"Accept": "application/json"});
+    this.setState(() {
+      data = jsonDecode(response.body);
+    });
+    return "success!";
+  }
+
+  //Call get data
+  @override
+  void initState() {
+    this.getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Upcoming Events'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.calendar_today),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return Calendar();
+              }));
+            },
+          ),
+        ],
       ),
       body: getListView(),
     );
     throw UnimplementedError();
   }
 
-  ListView getListView(){
+  ListView getListView() {
     //TextStyle titleStyle = Theme.of(context).textTheme.subhead;
     return ListView.builder(
-      itemCount: count,
-      itemBuilder: (BuildContext context, int position){
+      itemCount: data == null ? 0 : data.length,
+      itemBuilder: (BuildContext context, int position) {
+        int availableInt = int.parse(data[position]["available"]);
         return Card(
           color: Colors.cyan[100],
           elevation: 2.0,
           child: ListTile(
             leading: CircleAvatar(
-              backgroundColor: Colors.cyan,
-              child: Icon(Icons.event_available),
+              backgroundColor: availableInt == 0 ? Colors.red : Colors.cyan,
+              child: availableInt == 0
+                  ? Icon(
+                      Icons.event_busy,
+                      color: Colors.black,
+                    )
+                  : Icon(Icons.event_available),
             ),
-            title: Text('Dummy title',style: TextStyle(color: Colors.black54)),
-            subtitle: Text('Dummy Date',style: TextStyle(color: Colors.cyan[900])),
-            trailing: Icon(Icons.more_vert, color: Colors.grey,),
-            onTap: (){
+            title: Text(data[position]["name"],
+                style: TextStyle(color: Colors.black54)),
+            subtitle: Text(data[position]["date"],
+                style: TextStyle(color: Colors.cyan[900])),
+            onTap: () {
               debugPrint("Event clicked");
-              Navigator.push(context, MaterialPageRoute(builder: (context){
-                return EventDetail();
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return EventDetail(text: data[position]["id"]);
               }));
             },
           ),
