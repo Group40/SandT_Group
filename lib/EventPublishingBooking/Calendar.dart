@@ -17,10 +17,10 @@ class Calendar extends StatefulWidget {
 }
 
 class CalendarState extends State<Calendar> {
-  DateTime _currentDate = DateTime(2020, 6, 3);
-  DateTime _currentDate2 = DateTime(2020, 6, 3);
-  String _currentMonth = DateFormat.yMMM().format(DateTime(2020, 6, 3));
-  DateTime _targetDateTime = DateTime(2020, 6, 3);
+  DateTime _currentDate = DateTime.now();
+  DateTime _currentDate2 = DateTime.now();
+  String _currentMonth = DateFormat.yMMM().format(DateTime.now());
+  DateTime _targetDateTime = DateTime.now();
   List data;
   EventList<Event> _markedDateMap = new EventList<Event>();
   CalendarCarousel _calendarCarousel, _calendarCarouselNoHeader;
