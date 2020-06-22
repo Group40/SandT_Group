@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:intl/intl.dart' show DateFormat;
+import 'dart:async';
+import 'dart:convert';
 
 class Calendar extends StatefulWidget {
   //optional
@@ -15,16 +17,45 @@ class Calendar extends StatefulWidget {
 }
 
 class CalendarState extends State<Calendar> {
-  DateTime _currentDate = DateTime(2019, 2, 3);
-  DateTime _currentDate2 = DateTime(2019, 2, 3);
-  String _currentMonth = DateFormat.yMMM().format(DateTime(2019, 2, 3));
-  DateTime _targetDateTime = DateTime(2019, 2, 3);
+  DateTime _currentDate = DateTime(2020, 6, 3);
+  DateTime _currentDate2 = DateTime(2020, 6, 3);
+  String _currentMonth = DateFormat.yMMM().format(DateTime(2020, 6, 3));
+  DateTime _targetDateTime = DateTime(2020, 6, 3);
+  List data;
+  EventList<Event> _markedDateMap = new EventList<Event>();
+  CalendarCarousel _calendarCarousel, _calendarCarouselNoHeader;
 
-//  List<DateTime> _markedDate = [DateTime(2018, 9, 20), DateTime(2018, 10, 11)];
+  Future<String> getData() async {
+    http.Response response = await http.get(
+        Uri.encodeFull("http://10.0.2.2:8080/findAllEvents"),
+        headers: {"Accept": "application/json"});
+    this.setState(() {
+      data = jsonDecode(response.body);
+    });
+    //Add data to calendar _markedDateMap
+    for (int i = 0; i < data.length; i++) {
+      _markedDateMap.add(
+          new DateTime(
+              data == null ? 0 : int.parse(data[i]["date"].substring(0, 4)),
+              data == null ? 0 : int.parse(data[i]["date"].substring(5, 7)),
+              data == null ? 0 : int.parse(data[i]["date"].substring(8, 10))),
+          new Event(
+            date: DateTime(
+                data == null ? 0 : int.parse(data[i]["date"].substring(0, 4)),
+                data == null ? 0 : int.parse(data[i]["date"].substring(5, 7)),
+                data == null ? 0 : int.parse(data[i]["date"].substring(8, 10))),
+            title: data == null ? "wait" : data[i]["name"],
+            //title: data[0]["name"],
+            icon: _eventIcon,
+          ));
+    }
+    return "success!";
+  }
+
+  //Icon
   static Widget _eventIcon = new Container(
     decoration: new BoxDecoration(
         color: Colors.white,
-//        borderRadius: BorderRadius.all(Radius.circular(1000)),
         border: Border.all(color: Colors.cyan, width: 5.0)),
     child: new Icon(
       Icons.event,
@@ -32,72 +63,9 @@ class CalendarState extends State<Calendar> {
     ),
   );
 
-  EventList<Event> _markedDateMap = new EventList<Event>(
-    events: {
-      new DateTime(2019, 2, 10): [
-        new Event(
-          date: new DateTime(2019, 2, 10),
-          title: 'Event 1',
-          icon: _eventIcon,
-          dot: Container(
-            margin: EdgeInsets.symmetric(horizontal: 1.0),
-            color: Colors.red,
-            height: 5.0,
-            width: 5.0,
-          ),
-        ),
-        new Event(
-          date: new DateTime(2019, 2, 10),
-          title: 'Event 2',
-          icon: _eventIcon,
-        ),
-        new Event(
-          date: new DateTime(2019, 2, 10),
-          title: 'Event 3',
-          icon: _eventIcon,
-        ),
-      ],
-    },
-  );
-
-  CalendarCarousel _calendarCarousel, _calendarCarouselNoHeader;
-
   @override
   void initState() {
-    /// Add more events to _markedDateMap EventList
-    _markedDateMap.add(
-        new DateTime(2019, 2, 25),
-        new Event(
-          date: new DateTime(2019, 2, 25),
-          title: 'Event 5',
-          icon: _eventIcon,
-        ));
-
-    _markedDateMap.add(
-        new DateTime(2019, 2, 10),
-        new Event(
-          date: new DateTime(2019, 2, 10),
-          title: 'Event 4',
-          icon: _eventIcon,
-        ));
-
-    _markedDateMap.addAll(new DateTime(2019, 2, 11), [
-      new Event(
-        date: new DateTime(2019, 2, 11),
-        title: 'Event 1',
-        icon: _eventIcon,
-      ),
-      new Event(
-        date: new DateTime(2019, 2, 11),
-        title: 'Event 2',
-        icon: _eventIcon,
-      ),
-      new Event(
-        date: new DateTime(2019, 2, 11),
-        title: 'Event 3',
-        icon: _eventIcon,
-      ),
-    ]);
+    this.getData();
     super.initState();
   }
 
@@ -137,7 +105,9 @@ class CalendarState extends State<Calendar> {
       //Event days
       markedDateCustomTextStyle: TextStyle(fontSize: 30, color: Colors.red),
       markedDateShowIcon: true,
-      markedDateIconBuilder: (event){return event.icon;},
+      markedDateIconBuilder: (event) {
+        return event.icon;
+      },
       //markedDateMoreShowTotal: true,
 
       //Action
@@ -145,19 +115,21 @@ class CalendarState extends State<Calendar> {
         this.setState(() => _currentDate2 = date);
         events.forEach((event) => print(event.title));
       },
-      onCalendarChanged: (DateTime date){
-        this.setState((){
+      onCalendarChanged: (DateTime date) {
+        this.setState(() {
           _targetDateTime = date;
           _currentMonth = DateFormat.yMMM().format(_targetDateTime);
         });
       },
-      onDayLongPressed: (DateTime date){print('long pressed date $date');},
+      onDayLongPressed: (DateTime date) {
+        print('long pressed date $date');
+      },
     );
 
     return new Scaffold(
         //backgroundColor: Colors.black38,
         appBar: new AppBar(
-          title: new Text("Cale"),
+          title: new Text("Event Calendar"),
         ),
         body: SingleChildScrollView(
           child: Column(
