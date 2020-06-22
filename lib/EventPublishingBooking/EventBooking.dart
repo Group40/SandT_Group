@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import './EventDetail.dart';
+import './Calendar.dart';
 
 class EventBooking extends StatefulWidget {
   @override
@@ -34,6 +35,16 @@ class EventBookingState extends State<EventBooking> {
       //backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Upcoming Events'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.calendar_today),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return Calendar();
+              }));
+            },
+          ),
+        ],
       ),
       body: getListView(),
     );
@@ -51,11 +62,12 @@ class EventBookingState extends State<EventBooking> {
           elevation: 2.0,
           child: ListTile(
             leading: CircleAvatar(
-              backgroundColor: availableInt == 0
-                  ? Colors.red
-                  : Colors.cyan,
+              backgroundColor: availableInt == 0 ? Colors.red : Colors.cyan,
               child: availableInt == 0
-                  ? Icon(Icons.event_busy, color: Colors.black,)
+                  ? Icon(
+                      Icons.event_busy,
+                      color: Colors.black,
+                    )
                   : Icon(Icons.event_available),
             ),
             title: Text(data[position]["name"],
