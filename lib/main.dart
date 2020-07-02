@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/DiscussionForum/Login.dart';
 
 import './ArticleHandling/ArticleHandling.dart';
 import './DiscussionForum/DiscussionForum.dart';
@@ -143,7 +144,6 @@ class PiyumalButton extends StatelessWidget {
           ),
         ],
       ),
-
     );
     throw UnimplementedError();
   }
@@ -165,7 +165,7 @@ class HasiniButton extends StatelessWidget {
         elevation: 6.0,
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return DiscussionForum();
+            return Login();
           }));
         },
       ),
