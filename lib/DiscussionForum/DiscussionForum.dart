@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bubble/bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -25,21 +26,29 @@ class _DiscussionForumState extends State<DiscussionForum> {
   Widget buildMessage(int index, DocumentSnapshot document) {
     return Row(
       children: <Widget>[
-        Container(
-          child: Text(
-            document['body'],
-            style: TextStyle(
-              color: Colors.black,
+        Flexible(
+          child: Bubble(
+            child: Text(
+              document['body'],
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 15.0,
+              ),
             ),
+            // padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+            // width: 200.0,
+            // decoration: BoxDecoration(
+            //   color: Colors.grey,
+            //   borderRadius: BorderRadius.circular(8.0),
+            // ),
+            alignment: Alignment.topLeft,
+            color: Colors.white,
+            nip: BubbleNip.leftTop,
+            margin: BubbleEdges.only(top: 10, right: 10.0),
           ),
-          padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-          width: 200.0,
-          decoration: BoxDecoration(
-            color: Colors.grey,
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          margin: EdgeInsets.all(1.0),
         ),
+        // Flexible(
+        //     child: IconButton(icon: Icon(Icons.more_vert), onPressed: null))
       ],
     );
   }
@@ -62,79 +71,101 @@ class _DiscussionForumState extends State<DiscussionForum> {
             .jumpTo(listScrollController.position.maxScrollExtent));
   }
 
+  Future<bool> _onBackPressed() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Are you sure you want to leave discussion?'),
+            actions: <Widget>[
+              FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: Text('NO')),
+              FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: Text('YES'))
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: Text(
-          'Discussion Forum',
-          style: TextStyle(color: Colors.white),
-        ),
-        leading: BackButton(
-          color: Colors.white,
-        ),
-      ),
+          title: Text(
+            'Discussion Forum',
+            style: TextStyle(color: Colors.white),
+          ),
+          automaticallyImplyLeading: false),
       resizeToAvoidBottomPadding: false,
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            messagesStream(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: Row(
-                  children: <Widget>[
-                    Material(
-                      child: Container(
-                        color: Colors.white,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.image,
-                            color: Colors.cyan,
+      body: WillPopScope(
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              messagesStream(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Row(
+                    children: <Widget>[
+                      Material(
+                        child: Container(
+                          color: Colors.white,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.image,
+                              color: Colors.cyan,
+                            ),
+                            onPressed: null, //onPressed method to get images
                           ),
-                          onPressed: null, //onPressed method to get images
                         ),
                       ),
-                    ),
-                    Flexible(
-                      child: Container(
-                        child: TextField(
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15.0,
-                          ),
-                          controller: myController,
-                          decoration: InputDecoration.collapsed(
-                            hintText: 'Type message',
-                            hintStyle: TextStyle(
-                              color: Colors.grey,
+                      Flexible(
+                        child: Container(
+                          child: TextField(
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15.0,
+                            ),
+                            controller: myController,
+                            decoration: InputDecoration.collapsed(
+                              hintText: 'Type message',
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Material(
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: IconButton(
-                          icon: Icon(Icons.send, color: Colors.cyan),
-                          onPressed: () => send('100', myController.text, 0),
-                        ), //send method to send messages
+                      Material(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: IconButton(
+                            icon: Icon(Icons.send, color: Colors.cyan),
+                            onPressed: () => send('100', myController.text, 0),
+                          ), //send method to send messages
+                        ),
+                        color: Colors.white,
                       ),
-                      color: Colors.white,
-                    ),
-                  ],
+                    ],
+                  ),
+                  width: double.infinity,
+                  height: 50.0,
+                  decoration: BoxDecoration(color: Colors.white),
                 ),
-                width: double.infinity,
-                height: 50.0,
-                decoration: BoxDecoration(color: Colors.white),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        onWillPop: _onBackPressed,
       ),
     );
   }
