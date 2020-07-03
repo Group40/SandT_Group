@@ -15,6 +15,8 @@ class _DiscussionForumState extends State<DiscussionForum> {
   final _firestore = Firestore.instance;
   final myController = TextEditingController();
   final listScrollController = ScrollController(initialScrollOffset: 50.0);
+  String name = '';
+  String id = '';
 
   @override
   void initState() {
@@ -25,8 +27,19 @@ class _DiscussionForumState extends State<DiscussionForum> {
   //build item
   Widget buildMessage(int index, DocumentSnapshot document) {
     return Row(
-      children: <Widget>[
-        Flexible(
+      children: [
+        Container(
+          child: Text(
+            document['name'],
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 10.0,
+            ),
+          ),
+          margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+        ),
+        Expanded(
+          flex: 16,
           child: Bubble(
             child: Text(
               document['body'],
@@ -35,40 +48,40 @@ class _DiscussionForumState extends State<DiscussionForum> {
                 fontSize: 15.0,
               ),
             ),
-            // padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-            // width: 200.0,
-            // decoration: BoxDecoration(
-            //   color: Colors.grey,
-            //   borderRadius: BorderRadius.circular(8.0),
-            // ),
             alignment: Alignment.topLeft,
-            color: Colors.white,
+            color: Colors.cyan,
             nip: BubbleNip.leftTop,
-            margin: BubbleEdges.only(top: 10, right: 10.0),
+            margin: BubbleEdges.only(top: 20.0, right: 10.0),
           ),
         ),
-        // Flexible(
-        //     child: IconButton(icon: Icon(Icons.more_vert), onPressed: null))
+        Expanded(
+            flex: 2,
+            child: IconButton(
+                icon: Icon(
+                  Icons.more_vert,
+                  color: Colors.cyan,
+                ),
+                onPressed: null)),
       ],
     );
   }
 
   //send method
-  Future<void> send(String id, String content, int type) async {
+  Future<void> send(String id, String name, String content, int type) async {
     if (content.trim() != '') {
       myController.clear();
     }
 
     _firestore.collection('messages').add({
       'id': id,
+      'name': name,
       'body': content,
       'type': type,
-      'timestamp': DateTime.now().millisecondsSinceEpoch.toString()
+      'timestamp': FieldValue.serverTimestamp()
+      //DateTime.now().millisecondsSinceEpoch.toString()
     });
-    Timer(
-        Duration(milliseconds: 300),
-        () => listScrollController
-            .jumpTo(listScrollController.position.maxScrollExtent));
+    listScrollController.animateTo(0.0,
+        duration: Duration(milliseconds: 300), curve: Curves.easeOut);
   }
 
   Future<bool> _onBackPressed() {
@@ -96,6 +109,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
           title: Text(
@@ -150,7 +164,8 @@ class _DiscussionForumState extends State<DiscussionForum> {
                           margin: EdgeInsets.symmetric(horizontal: 8.0),
                           child: IconButton(
                             icon: Icon(Icons.send, color: Colors.cyan),
-                            onPressed: () => send('100', myController.text, 0),
+                            onPressed: () => send('100', 'Yoshitha Kaushalya',
+                                myController.text, 0),
                           ), //send method to send messages
                         ),
                         color: Colors.white,
@@ -186,7 +201,6 @@ class _DiscussionForumState extends State<DiscussionForum> {
               ),
             );
           }
-
           return ListView.builder(
             padding: EdgeInsets.all(10.0),
             itemBuilder: (_, index) =>
