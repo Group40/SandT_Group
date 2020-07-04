@@ -7,6 +7,7 @@ import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'dart:async';
 import 'dart:convert';
+import './EventByDate.dart';
 
 class Calendar extends StatefulWidget {
   //optional
@@ -113,7 +114,9 @@ class CalendarState extends State<Calendar> {
       //Action
       onDayPressed: (DateTime date, List<Event> events) {
         this.setState(() => _currentDate2 = date);
-        events.forEach((event) => print(event.title));
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return EventByDate(date: date.toString().substring(0,10));
+        }));
       },
       onCalendarChanged: (DateTime date) {
         this.setState(() {
