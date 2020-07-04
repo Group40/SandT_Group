@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/DiscussionForum/CreateForum.dart';
 import 'package:sandtgroup/DiscussionForum/Login.dart';
 
 import './ArticleHandling/ArticleHandling.dart';
@@ -156,18 +157,35 @@ class HasiniButton extends StatelessWidget {
       margin: EdgeInsets.only(top: 30.0),
       width: 250.0,
       height: 50.0,
-      child: RaisedButton(
-        color: Colors.cyan,
-        child: Text(
-          "Hasini",
-          style: TextStyle(fontSize: 20.0, color: Colors.blue[900]),
-        ),
-        elevation: 6.0,
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return Login();
-          }));
-        },
+      child: Row(
+        children: <Widget>[
+          RaisedButton(
+            color: Colors.cyan,
+            child: Text(
+              "Hasini",
+              style: TextStyle(fontSize: 20.0, color: Colors.blue[900]),
+            ),
+            elevation: 6.0,
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return Login();
+              }));
+            },
+          ),
+          RaisedButton(
+            color: Colors.cyan,
+            child: Text(
+              "Admin",
+              style: TextStyle(fontSize: 20.0, color: Colors.blue[900]),
+            ),
+            elevation: 6.0,
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return CreateForum();
+              }));
+            },
+          ),
+        ],
       ),
     );
     throw UnimplementedError();

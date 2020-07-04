@@ -24,22 +24,28 @@ class _DiscussionForumState extends State<DiscussionForum> {
     //isLoading = false;
   }
 
+  void popUpMenu() {}
+
   //build item
   Widget buildMessage(int index, DocumentSnapshot document) {
     return Row(
       children: [
-        Container(
-          child: Text(
-            document['name'],
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 10.0,
+        Row(
+          children: <Widget>[
+            Container(
+              child: Text(
+                document['name'],
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 10.0,
+                ),
+              ),
+              margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
             ),
-          ),
-          margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+          ],
         ),
         Expanded(
-          flex: 16,
+          flex: 14,
           child: Bubble(
             child: Text(
               document['body'],
@@ -55,13 +61,14 @@ class _DiscussionForumState extends State<DiscussionForum> {
           ),
         ),
         Expanded(
-            flex: 2,
+            flex: 4,
             child: IconButton(
-                icon: Icon(
-                  Icons.more_vert,
-                  color: Colors.cyan,
-                ),
-                onPressed: null)),
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.cyan,
+              ),
+              onPressed: () => popUpMenu(),
+            )),
       ],
     );
   }
@@ -84,23 +91,36 @@ class _DiscussionForumState extends State<DiscussionForum> {
         duration: Duration(milliseconds: 300), curve: Curves.easeOut);
   }
 
+  //back press
   Future<bool> _onBackPressed() {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Are you sure you want to leave discussion?'),
+            backgroundColor: Colors.white,
+            title: Text(
+              'Are you sure you want to leave discussion?',
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
-                  child: Text('NO')),
+                  child: Text(
+                    'NO',
+                    style: TextStyle(color: Colors.black),
+                  )),
               FlatButton(
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },
-                  child: Text('YES'))
+                  child: Text(
+                    'YES',
+                    style: TextStyle(color: Colors.black),
+                  ))
             ],
           );
         });
@@ -164,8 +184,8 @@ class _DiscussionForumState extends State<DiscussionForum> {
                           margin: EdgeInsets.symmetric(horizontal: 8.0),
                           child: IconButton(
                             icon: Icon(Icons.send, color: Colors.cyan),
-                            onPressed: () => send('100', 'Yoshitha Kaushalya',
-                                myController.text, 0),
+                            onPressed: () => send(
+                                '100', 'Hasini Kandage', myController.text, 0),
                           ), //send method to send messages
                         ),
                         color: Colors.white,
