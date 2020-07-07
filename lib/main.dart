@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:sandtgroup/FirstScreen/SideBarLayout.dart';
 import './ArticleHandling/ArticleHandling.dart';
 import './DiscussionForum/DiscussionForum.dart';
 import './EventPublishingBooking/EventBooking.dart';
 import './EventPublishingBooking/EventPublishing.dart';
 import './SignUpLogIn/SignUpLogIn.dart';
 import './UserManagementAdmin/UserManagementAdmin.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -17,17 +18,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'S & T Group',
       debugShowCheckedModeBanner: false,
-      home: Home(),
       theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
           brightness: Brightness.dark,
           primaryColor: Colors.cyan,
           accentColor: Colors.cyan),
+      home: SideBarLayout()
     );
     throw UnimplementedError();
   }
 }
 
-class Home extends StatelessWidget {
+class Home extends StatelessWidget /*with NavigationState*/ {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,7 +145,6 @@ class PiyumalButton extends StatelessWidget {
           ),
         ],
       ),
-
     );
     throw UnimplementedError();
   }
