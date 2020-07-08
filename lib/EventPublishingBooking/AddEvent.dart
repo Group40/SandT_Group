@@ -105,6 +105,14 @@ class AddEventState extends State<AddEvent> {
                     },
                     decoration: InputDecoration(
                         labelText: 'Title',
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.only(top: 0),
+                          // add padding to adjust icon
+                          child: Icon(
+                            Icons.perm_identity,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
                         labelStyle: TextStyle(
                           color: Theme.of(context).primaryColor,
                         ),
@@ -146,6 +154,14 @@ class AddEventState extends State<AddEvent> {
                           },
                           decoration: InputDecoration(
                               labelText: 'Date',
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.only(top: 0),
+                                // add padding to adjust icon
+                                child: Icon(
+                                  Icons.date_range,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
                               labelStyle: TextStyle(
                                 color: Theme.of(context).primaryColor,
                               ),
@@ -217,6 +233,14 @@ class AddEventState extends State<AddEvent> {
                     },
                     decoration: InputDecoration(
                         labelText: 'Venue',
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.only(top: 0),
+                          // add padding to adjust icon
+                          child: Icon(
+                            Icons.location_on,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
                         labelStyle: TextStyle(
                           color: Theme.of(context).primaryColor,
                         ),
@@ -253,6 +277,14 @@ class AddEventState extends State<AddEvent> {
                     },
                     decoration: InputDecoration(
                         labelText: 'Description',
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.only(top: 0),
+                          // add padding to adjust icon
+                          child: Icon(
+                            Icons.description,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
                         labelStyle: TextStyle(
                           color: Theme.of(context).primaryColor,
                         ),
@@ -292,6 +324,14 @@ class AddEventState extends State<AddEvent> {
                     },
                     decoration: InputDecoration(
                         labelText: 'Head Count',
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.only(top: 0),
+                          // add padding to adjust icon
+                          child: Icon(
+                            Icons.people,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
                         labelStyle: TextStyle(
                           color: Theme.of(context).primaryColor,
                         ),

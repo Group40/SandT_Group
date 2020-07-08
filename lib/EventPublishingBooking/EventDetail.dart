@@ -103,11 +103,11 @@ class EventDetailState extends State<EventDetail> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            name,
-            style: TextStyle(
-              fontSize: 18.0,
-              color: Theme.of(context).accentColor,
-            ),
+          name,
+          style: TextStyle(
+            fontSize: 18.0,
+            color: Theme.of(context).accentColor,
+          ),
         ),
       ),
       body: Builder(
@@ -117,10 +117,10 @@ class EventDetailState extends State<EventDetail> {
             padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
             child: ListView(
               children: <Widget>[
-
                 //Venue Text
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: screenWidth*0.08, vertical: 8.0),
+                  margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.08, vertical: 8.0),
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(35.0),
@@ -145,7 +145,8 @@ class EventDetailState extends State<EventDetail> {
 
                 //date
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: screenWidth*0.18, vertical: 8.0),
+                  margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.18, vertical: 8.0),
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(35.0),
@@ -170,7 +171,8 @@ class EventDetailState extends State<EventDetail> {
 
                 //Availability
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: screenWidth*0.28, vertical: 8.0),
+                  margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.28, vertical: 8.0),
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(35.0),
@@ -197,7 +199,8 @@ class EventDetailState extends State<EventDetail> {
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 8.0),
                   child: Card(
-                    margin: EdgeInsets.symmetric(horizontal: screenWidth*0.04, vertical: 8.0),
+                    margin: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.04, vertical: 8.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
@@ -214,7 +217,9 @@ class EventDetailState extends State<EventDetail> {
                   ),
                 ),
 
-                Container(height: 30,),
+                Container(
+                  height: 30,
+                ),
 
                 //join
                 Container(
@@ -239,7 +244,8 @@ class EventDetailState extends State<EventDetail> {
 
                 //Name Field
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: screenWidth*0.18, vertical: 8.0),
+                  margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.18, vertical: 8.0),
                   child: TextFormField(
                     controller: nameController,
                     validator: (String value) {
@@ -254,6 +260,14 @@ class EventDetailState extends State<EventDetail> {
                     },
                     decoration: InputDecoration(
                         labelText: 'Name',
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.only(top: 0),
+                          // add padding to adjust icon
+                          child: Icon(
+                            Icons.perm_identity,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
                         labelStyle: TextStyle(
                           fontSize: 18.0,
                           color: Theme.of(context).primaryColor,
@@ -261,8 +275,7 @@ class EventDetailState extends State<EventDetail> {
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 2.0
-                          ),
+                              width: 2.0),
                           borderRadius: BorderRadius.circular(35.0),
                         ),
                         border: OutlineInputBorder(
@@ -273,7 +286,8 @@ class EventDetailState extends State<EventDetail> {
 
                 //Email Field
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: screenWidth*0.08, vertical: 8.0),
+                  margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.08, vertical: 8.0),
                   child: Padding(
                     padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
                     child: TextFormField(
@@ -290,6 +304,14 @@ class EventDetailState extends State<EventDetail> {
                       },
                       decoration: InputDecoration(
                           labelText: 'Email',
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.only(top: 0),
+                            // add padding to adjust icon
+                            child: Icon(
+                              Icons.email,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
                           labelStyle: TextStyle(
                             fontSize: 18.0,
                             color: Theme.of(context).primaryColor,
@@ -297,8 +319,7 @@ class EventDetailState extends State<EventDetail> {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Theme.of(context).primaryColor,
-                                width: 2.0
-                            ),
+                                width: 2.0),
                             borderRadius: BorderRadius.circular(35.0),
                           ),
                           border: OutlineInputBorder(
@@ -310,7 +331,8 @@ class EventDetailState extends State<EventDetail> {
 
                 //Contact Number Field
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: screenWidth*0.18, vertical: 8.0),
+                  margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.18, vertical: 8.0),
                   child: Padding(
                     padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
                     child: TextFormField(
@@ -331,6 +353,14 @@ class EventDetailState extends State<EventDetail> {
                       },
                       decoration: InputDecoration(
                           labelText: 'Contact Number',
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.only(top: 0),
+                            // add padding to adjust icon
+                            child: Icon(
+                              Icons.contact_phone,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
                           labelStyle: TextStyle(
                             fontSize: 18.0,
                             color: Theme.of(context).primaryColor,
@@ -338,8 +368,7 @@ class EventDetailState extends State<EventDetail> {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Theme.of(context).primaryColor,
-                                width: 2.0
-                            ),
+                                width: 2.0),
                             borderRadius: BorderRadius.circular(35.0),
                           ),
                           border: OutlineInputBorder(
@@ -351,7 +380,8 @@ class EventDetailState extends State<EventDetail> {
 
                 //Heads Field
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: screenWidth*0.27, vertical: 8.0),
+                  margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.27, vertical: 8.0),
                   child: Padding(
                     padding: EdgeInsets.only(top: 0.0, bottom: 15.0),
                     child: TextFormField(
@@ -379,6 +409,14 @@ class EventDetailState extends State<EventDetail> {
                       },
                       decoration: InputDecoration(
                           labelText: 'Heads',
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.only(top: 0),
+                            // add padding to adjust icon
+                            child: Icon(
+                              Icons.people,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
                           labelStyle: TextStyle(
                             fontSize: 18.0,
                             color: Theme.of(context).primaryColor,
@@ -386,8 +424,7 @@ class EventDetailState extends State<EventDetail> {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Theme.of(context).primaryColor,
-                                width: 2.0
-                            ),
+                                width: 2.0),
                             borderRadius: BorderRadius.circular(35.0),
                           ),
                           border: OutlineInputBorder(
@@ -396,7 +433,6 @@ class EventDetailState extends State<EventDetail> {
                     ),
                   ),
                 ),
-
 
                 //Buttons
                 Padding(
