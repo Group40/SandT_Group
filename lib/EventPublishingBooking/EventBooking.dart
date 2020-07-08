@@ -46,7 +46,11 @@ class EventBookingState extends State<EventBooking> {
           ),
         ],
       ),
-      body: getListView(),
+      body: Container(
+        margin: const EdgeInsets.only(top: 20.0),
+        child : getListView(),
+      )
+//
     );
     throw UnimplementedError();
   }
@@ -57,32 +61,43 @@ class EventBookingState extends State<EventBooking> {
       itemCount: data == null ? 0 : data.length,
       itemBuilder: (BuildContext context, int position) {
         int availableInt = int.parse(data[position]["available"]);
-        return Card(
-          color: Colors.cyan[100],
-          elevation: 2.0,
-          child: ListTile(
-            leading: CircleAvatar(
-              backgroundColor: availableInt == 0 ? Colors.red : Colors.cyan,
-              child: availableInt == 0
-                  ? Icon(
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(35.0),
+            ),
+            color: Colors.cyan[200],
+            elevation: 5.0,
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: availableInt == 0 ? Colors.red : Colors.cyan,
+                child: availableInt == 0
+                    ? Icon(
                       Icons.event_busy,
                       color: Colors.black,
                     )
-                  : Icon(Icons.event_available),
+                    : Icon(
+                      Icons.event_available,
+                      color: Colors.black,
+                ),
+              ),
+              title: Text(data[position]["name"],
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.black)),
+              subtitle: Text(data[position]["date"],
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.cyan[900])),
+              onTap: () {
+                debugPrint("Event clicked");
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return EventDetail(text: data[position]["id"]);
+                }));
+              },
             ),
-            title: Text(data[position]["name"],
-                style: TextStyle(color: Colors.black54)),
-            subtitle: Text(data[position]["date"],
-                style: TextStyle(color: Colors.cyan[900])),
-            onTap: () {
-              debugPrint("Event clicked");
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return EventDetail(text: data[position]["id"]);
-              }));
-            },
           ),
         );
-      },
+      }
     );
   }
 }
