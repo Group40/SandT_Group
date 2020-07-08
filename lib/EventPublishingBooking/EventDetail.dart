@@ -220,8 +220,9 @@ class EventDetailState extends State<EventDetail> {
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 8.0),
                   child: Card(
+                    color: Theme.of(context).primaryColor,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(35.0),
+                      borderRadius: BorderRadius.circular(0.0),
                     ),
                     child: ListTile(
                       title: Text(
@@ -229,7 +230,7 @@ class EventDetailState extends State<EventDetail> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 20.0,
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).accentColor,
                         ),
                       ),
                     ),
@@ -256,6 +257,13 @@ class EventDetailState extends State<EventDetail> {
                         labelStyle: TextStyle(
                           fontSize: 18.0,
                           color: Theme.of(context).primaryColor,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0
+                          ),
+                          borderRadius: BorderRadius.circular(35.0),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(35.0),
@@ -285,6 +293,13 @@ class EventDetailState extends State<EventDetail> {
                           labelStyle: TextStyle(
                             fontSize: 18.0,
                             color: Theme.of(context).primaryColor,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 2.0
+                            ),
+                            borderRadius: BorderRadius.circular(35.0),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(35.0),
@@ -319,6 +334,13 @@ class EventDetailState extends State<EventDetail> {
                           labelStyle: TextStyle(
                             fontSize: 18.0,
                             color: Theme.of(context).primaryColor,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 2.0
+                            ),
+                            borderRadius: BorderRadius.circular(35.0),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(35.0),
@@ -360,6 +382,13 @@ class EventDetailState extends State<EventDetail> {
                           labelStyle: TextStyle(
                             fontSize: 18.0,
                             color: Theme.of(context).primaryColor,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 2.0
+                            ),
+                            borderRadius: BorderRadius.circular(35.0),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(35.0),

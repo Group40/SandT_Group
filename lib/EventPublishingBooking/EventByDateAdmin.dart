@@ -8,17 +8,21 @@ import './AddEvent.dart';
 
 class EventByDateAdmin extends StatefulWidget {
   final String date;
+
   EventByDateAdmin({Key key, @required this.date}) : super(key: key);
+
   @override
   EventByDateAdminState createState() => EventByDateAdminState(date);
 }
 
 class EventByDateAdminState extends State<EventByDateAdmin> {
   EventByDateAdminState(String date);
+
   List data;
+
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findEventsByDate/"+widget.date),
+        Uri.encodeFull("http://10.0.2.2:8080/findEventsByDate/" + widget.date),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body);
@@ -92,6 +96,8 @@ class EventByDateAdminState extends State<EventByDateAdmin> {
       ),
       body: getListView(),
       floatingActionButton: FloatingActionButton(
+        foregroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
           debugPrint("Fab click");
           Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -119,10 +125,13 @@ class EventByDateAdminState extends State<EventByDateAdmin> {
               backgroundColor: availableInt == 0 ? Colors.red : Colors.cyan,
               child: availableInt == 0
                   ? Icon(
-                Icons.event_busy,
-                color: Colors.black,
-              )
-                  : Icon(Icons.event_available),
+                      Icons.event_busy,
+                      color: Colors.black,
+                    )
+                  : Icon(
+                      Icons.event_available,
+                      color: Colors.black,
+                    ),
             ),
             title: Text(data[position]["name"],
                 style: TextStyle(color: Colors.black54)),

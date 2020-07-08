@@ -7,17 +7,21 @@ import './Calendar.dart';
 
 class EventByDate extends StatefulWidget {
   final String date;
+
   EventByDate({Key key, @required this.date}) : super(key: key);
+
   @override
   EventByDateState createState() => EventByDateState(date);
 }
 
 class EventByDateState extends State<EventByDate> {
   EventByDateState(String date);
+
   List data;
+
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findEventsByDate/"+widget.date),
+        Uri.encodeFull("http://10.0.2.2:8080/findEventsByDate/" + widget.date),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body);
@@ -48,7 +52,10 @@ class EventByDateState extends State<EventByDate> {
           ),
         ],
       ),
-      body: getListView(),
+      body:  Container(
+        margin: const EdgeInsets.only(top: 20.0),
+        child : getListView(),
+      )
     );
     throw UnimplementedError();
   }
@@ -59,29 +66,39 @@ class EventByDateState extends State<EventByDate> {
       itemCount: data == null ? 0 : data.length,
       itemBuilder: (BuildContext context, int position) {
         int availableInt = int.parse(data[position]["available"]);
-        return Card(
-          color: Colors.cyan[100],
-          elevation: 2.0,
-          child: ListTile(
-            leading: CircleAvatar(
-              backgroundColor: availableInt == 0 ? Colors.red : Colors.cyan,
-              child: availableInt == 0
-                  ? Icon(
-                Icons.event_busy,
-                color: Colors.black,
-              )
-                  : Icon(Icons.event_available),
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(35.0),
             ),
-            title: Text(data[position]["name"],
-                style: TextStyle(color: Colors.black54)),
-            subtitle: Text(data[position]["date"],
-                style: TextStyle(color: Colors.cyan[900])),
-            onTap: () {
-              debugPrint("Event clicked");
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return EventDetail(text: data[position]["id"]);
-              }));
-            },
+            color: Colors.cyan[100],
+            elevation: 2.0,
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: availableInt == 0 ? Colors.red : Colors.cyan,
+                child: availableInt == 0
+                    ? Icon(
+                        Icons.event_busy,
+                        color: Colors.black,
+                      )
+                    : Icon(
+                      Icons.event_available,
+                      color: Colors.black,
+                ),
+
+              ),
+              title: Text(data[position]["name"],
+                  style: TextStyle(color: Colors.black54)),
+              subtitle: Text(data[position]["date"],
+                  style: TextStyle(color: Colors.cyan[900])),
+              onTap: () {
+                debugPrint("Event clicked");
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return EventDetail(text: data[position]["id"]);
+                }));
+              },
+            ),
           ),
         );
       },

@@ -91,6 +91,8 @@ class EventPublishingState extends State<EventPublishing> {
       ),
       body: getListView(),
       floatingActionButton: FloatingActionButton(
+        foregroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
           debugPrint("Fab click");
           Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -121,12 +123,15 @@ class EventPublishingState extends State<EventPublishing> {
                       Icons.event_busy,
                       color: Colors.black,
                     )
-                  : Icon(Icons.event_available),
+                  : Icon(
+                    Icons.event_available,
+                    color: Colors.black,
+              ),
             ),
             title: Text(data[position]["name"],
                 style: TextStyle(color: Colors.black54)),
             subtitle: Text(data[position]["date"],
-                style: TextStyle(color: Colors.cyan[900])),
+                style: TextStyle(color: Colors.black54)),
             trailing: IconButton(
                 icon: Icon(
                   Icons.delete,
