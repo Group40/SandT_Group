@@ -31,6 +31,9 @@ dependencies:
   cloud_firestore: ^0.13.7
   intl: ^0.16.1
   bubble: ^1.1.9+1
+  popup_menu: ^1.0.5
+  flutter_screen_scaler: ^0.0.1
+
 
 dev_dependencies:
   flutter_test:

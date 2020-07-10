@@ -132,6 +132,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.12"
+  flutter_screen_scaler:
+    dependency: "direct main"
+    description:
+      name: flutter_screen_scaler
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -219,6 +226,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  popup_menu:
+    dependency: "direct main"
+    description:
+      name: popup_menu
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.5"
   quiver:
     dependency: transitive
     description:

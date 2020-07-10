@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sandtgroup/DiscussionForum/CreateForum.dart';
 import 'package:sandtgroup/DiscussionForum/Login.dart';
 
 import './ArticleHandling/ArticleHandling.dart';
-import './DiscussionForum/DiscussionForum.dart';
 import './EventPublishingBooking/EventBooking.dart';
 import './EventPublishingBooking/EventPublishing.dart';
 import './SignUpLogIn/SignUpLogIn.dart';
@@ -181,14 +179,13 @@ class HasiniButton extends StatelessWidget {
             elevation: 6.0,
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return CreateForum();
+                return null;
               }));
             },
           ),
         ],
       ),
     );
-    throw UnimplementedError();
   }
 }
 
