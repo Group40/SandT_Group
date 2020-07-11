@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sandtgroup/FirstScreen/SideBarLayout.dart';
+import 'package:sandtgroup/SignUpLogIn/AuthScreen.dart';
 import './ArticleHandling/ArticleHandling.dart';
 import './DiscussionForum/DiscussionForum.dart';
 import './EventPublishingBooking/EventBooking.dart';
 import './EventPublishingBooking/EventPublishing.dart';
 import './SignUpLogIn/SignUpLogIn.dart';
 import './UserManagementAdmin/UserManagementAdmin.dart';
-
+import 'FirstScreen/HomePage.dart';
+import 'FirstScreen/Splash.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,16 +17,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'S & T Group',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          brightness: Brightness.dark,
-          primaryColor: Colors.cyan,
-          accentColor: Colors.cyan),
-      home: SideBarLayout()
-    );
-    throw UnimplementedError();
+        title: 'S & T Group',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
+            brightness: Brightness.light,
+            primaryColor: Colors.blueAccent,
+            accentColor: Colors.white),
+        home: SplashScreen());
   }
 }
 
@@ -99,12 +98,12 @@ class SandunButton extends StatelessWidget {
         elevation: 6.0,
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return SignUpLogIn();
+            return AuthScreen();
           }));
         },
       ),
     );
-    throw UnimplementedError();
+    //throw UnimplementedError();
   }
 }
 

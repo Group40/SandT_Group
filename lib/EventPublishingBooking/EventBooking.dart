@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sandtgroup/Navigation/Navigation.dart';
 import './EventDetail.dart';
 
-class EventBooking extends StatefulWidget /*with NavigationState*/ {
+class EventBooking extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return EventBookingState();

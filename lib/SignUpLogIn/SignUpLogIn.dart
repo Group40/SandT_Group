@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+/*mport 'package:flutter/cupertino.dart';
 import 'package:sandtgroup/main.dart';
 import 'clipper.dart';
 import 'package:http/http.dart' as http;
@@ -552,3 +552,4 @@ class _LoginPageState extends State<SignUpLogIn> {
         ));
   }
 }
+*/
