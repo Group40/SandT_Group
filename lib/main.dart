@@ -19,9 +19,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Home(),
       theme: ThemeData(
-          brightness: Brightness.dark,
-          primaryColor: Colors.cyan,
-          accentColor: Colors.cyan),
+          brightness: Brightness.light,
+          primaryColor: Colors.blueAccent,
+          accentColor: Colors.white,
+      ),
     );
     throw UnimplementedError();
   }

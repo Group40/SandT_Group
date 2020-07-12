@@ -19,6 +19,7 @@ class EventDetailState extends State<EventDetail> {
   EventDetailState(String text);
 
   var _formKey = GlobalKey<FormState>();
+  var requestForm = false;
   var event;
   String name = '';
   String id = '';
@@ -95,10 +96,19 @@ class EventDetailState extends State<EventDetail> {
 
   @override
   Widget build(BuildContext context) {
+    var _mediaQueryData = MediaQuery.of(context);
+    var screenWidth = _mediaQueryData.size.width;
+    var screenHeight = _mediaQueryData.size.height;
     TextStyle textStyle = Theme.of(context).textTheme.title;
     return Scaffold(
       appBar: AppBar(
-        title: Text(name),
+        title: Text(
+          name,
+          style: TextStyle(
+            fontSize: 18.0,
+            color: Theme.of(context).accentColor,
+          ),
+        ),
       ),
       body: Builder(
         builder: (context) => Form(
@@ -107,79 +117,135 @@ class EventDetailState extends State<EventDetail> {
             padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
             child: ListView(
               children: <Widget>[
-                //Name Text
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 2.0),
-                  child: Center(
-                    child: Text(
-                      name,
-                      style: TextStyle(
-                        fontSize: 30.0,
-                        color: Colors.cyan,
-                      ),
-                    ),
-                  ),
-                ),
-
                 //Venue Text
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 2.0),
-                  child: Center(
-                    child: Text(
-                      "Venue : " + venue,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.cyan,
+                Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.08, vertical: 8.0),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(35.0),
+                    ),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                          backgroundColor: Theme.of(context).accentColor,
+                          child: Icon(
+                            Icons.location_on,
+                            color: Theme.of(context).primaryColor,
+                          )),
+                      title: Text(
+                        venue,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Theme.of(context).primaryColor,
+                        ),
                       ),
                     ),
                   ),
                 ),
 
-                //Date Text
-                Padding(
-                  padding: EdgeInsets.only(bottom: 15.0),
-                  child: Center(
-                    child: Text(
-                      "Date : " + date,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.white,
+                //date
+                Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.18, vertical: 8.0),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(35.0),
+                    ),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                          backgroundColor: Theme.of(context).accentColor,
+                          child: Icon(
+                            Icons.calendar_today,
+                            color: Theme.of(context).primaryColor,
+                          )),
+                      title: Text(
+                        date,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Theme.of(context).primaryColor,
+                        ),
                       ),
                     ),
                   ),
                 ),
 
-                //Description Text
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 2.0),
-                  child: Center(
-                    child: Text(
-                      "Event Description >> " + description,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.cyan,
+                //Availability
+                Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.28, vertical: 8.0),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(35.0),
+                    ),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                          backgroundColor: Theme.of(context).accentColor,
+                          child: Icon(
+                            Icons.people,
+                            color: Theme.of(context).primaryColor,
+                          )),
+                      title: Text(
+                        available,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Theme.of(context).primaryColor,
+                        ),
                       ),
                     ),
                   ),
                 ),
 
-                //Availability Text
-                Padding(
-                  padding: EdgeInsets.only(bottom: 15.0),
-                  child: Center(
-                    child: Text(
-                      "Available Seats : " + available,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.white,
+                //Description
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 8.0),
+                  child: Card(
+                    margin: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.04, vertical: 8.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: ListTile(
+                      subtitle: Text(
+                        description,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                Container(
+                  height: 30,
+                ),
+
+                //join
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 8.0),
+                  child: Card(
+                    color: Theme.of(context).primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        "Join with us by filling this",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Theme.of(context).accentColor,
+                        ),
                       ),
                     ),
                   ),
                 ),
 
                 //Name Field
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.18, vertical: 8.0),
                   child: TextFormField(
                     controller: nameController,
                     validator: (String value) {
@@ -194,96 +260,177 @@ class EventDetailState extends State<EventDetail> {
                     },
                     decoration: InputDecoration(
                         labelText: 'Name',
-                        labelStyle: textStyle,
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.only(top: 0),
+                          // add padding to adjust icon
+                          child: Icon(
+                            Icons.perm_identity,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                        labelStyle: TextStyle(
+                          fontSize: 18.0,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0),
+                          borderRadius: BorderRadius.circular(35.0),
+                        ),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
+                          borderRadius: BorderRadius.circular(35.0),
                         )),
                   ),
                 ),
 
                 //Email Field
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: TextFormField(
-                    controller: emailController,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'Please enter the Email';
-                      }
-                      return null;
-                    },
-                    style: textStyle,
-                    onChanged: (value) {
-                      debugPrint('Something changed in Text Field');
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'Email',
-                        labelStyle: textStyle,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        )),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.08, vertical: 8.0),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
+                    child: TextFormField(
+                      controller: emailController,
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Please enter the Email';
+                        }
+                        return null;
+                      },
+                      style: textStyle,
+                      onChanged: (value) {
+                        debugPrint('Something changed in Text Field');
+                      },
+                      decoration: InputDecoration(
+                          labelText: 'Email',
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.only(top: 0),
+                            // add padding to adjust icon
+                            child: Icon(
+                              Icons.email,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          labelStyle: TextStyle(
+                            fontSize: 18.0,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 2.0),
+                            borderRadius: BorderRadius.circular(35.0),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(35.0),
+                          )),
+                    ),
                   ),
                 ),
 
                 //Contact Number Field
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      WhitelistingTextInputFormatter.digitsOnly
-                    ],
-                    controller: numberController,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'Please enter the Contact Number';
-                      }
-                      return null;
-                    },
-                    style: textStyle,
-                    onChanged: (value) {
-                      debugPrint('Something changed in Text Field');
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'Contact Number',
-                        labelStyle: textStyle,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        )),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.18, vertical: 8.0),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        WhitelistingTextInputFormatter.digitsOnly
+                      ],
+                      controller: numberController,
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Please enter the Contact Number';
+                        }
+                        return null;
+                      },
+                      style: textStyle,
+                      onChanged: (value) {
+                        debugPrint('Something changed in Text Field');
+                      },
+                      decoration: InputDecoration(
+                          labelText: 'Contact Number',
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.only(top: 0),
+                            // add padding to adjust icon
+                            child: Icon(
+                              Icons.contact_phone,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          labelStyle: TextStyle(
+                            fontSize: 18.0,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 2.0),
+                            borderRadius: BorderRadius.circular(35.0),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(35.0),
+                          )),
+                    ),
                   ),
                 ),
 
                 //Heads Field
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      WhitelistingTextInputFormatter.digitsOnly
-                    ],
-                    controller: headsController,
-                    validator: (String value) {
-                      int valueInt = int.parse(value);
-                      int availableInt = int.parse(available);
-                      if (value.isEmpty) {
-                        return 'Please enter the Heads';
-                      } else if (availableInt < valueInt) {
-                        return 'Should be equal or less than current availability';
-                      } else if (1 > valueInt) {
-                        return 'Should be a value more than 0';
-                      }
-                      return null;
-                    },
-                    style: textStyle,
-                    onChanged: (value) {
-                      debugPrint('Something changed in Text Field');
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'Heads',
-                        labelStyle: textStyle,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        )),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.27, vertical: 8.0),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 0.0, bottom: 15.0),
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        WhitelistingTextInputFormatter.digitsOnly
+                      ],
+                      controller: headsController,
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Please enter the Heads';
+                        }
+                        int valueInt = int.parse(value);
+                        int availableInt = int.parse(available);
+                        if (availableInt < valueInt) {
+                          return 'Not enough seats';
+                        } else if (1 > valueInt) {
+                          return 'Enter a real Value';
+                        }
+                        return null;
+                      },
+                      style: textStyle,
+                      onChanged: (value) {
+                        debugPrint('Something changed in Text Field');
+                      },
+                      decoration: InputDecoration(
+                          labelText: 'Heads',
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.only(top: 0),
+                            // add padding to adjust icon
+                            child: Icon(
+                              Icons.people,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          labelStyle: TextStyle(
+                            fontSize: 18.0,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 2.0),
+                            borderRadius: BorderRadius.circular(35.0),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(35.0),
+                          )),
+                    ),
                   ),
                 ),
 
@@ -295,12 +442,11 @@ class EventDetailState extends State<EventDetail> {
                       Container(
                         width: 5.0,
                       ),
-
                       //Reset Button
                       Expanded(
                         child: RaisedButton(
-                          color: Theme.of(context).primaryColorDark,
-                          textColor: Theme.of(context).primaryColorLight,
+                          color: Theme.of(context).primaryColor,
+                          textColor: Theme.of(context).accentColor,
                           child: Text(
                             'Reset',
                             textScaleFactor: 1.5,
@@ -319,8 +465,8 @@ class EventDetailState extends State<EventDetail> {
                       //Request Button
                       Expanded(
                         child: RaisedButton(
-                          color: Theme.of(context).primaryColorDark,
-                          textColor: Theme.of(context).primaryColorLight,
+                          color: Theme.of(context).primaryColor,
+                          textColor: Theme.of(context).accentColor,
                           child: Text(
                             'Request',
                             textScaleFactor: 1.5,

@@ -99,7 +99,7 @@ class EditEventState extends State<EditEvent> {
     TextStyle textStyle = Theme.of(context).textTheme.title;
     return Scaffold(
       appBar: AppBar(
-        title: Text(name),
+        title: Text("Edit this event"),
         //Optional back button
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -116,9 +116,64 @@ class EditEventState extends State<EditEvent> {
         builder: (context) => Form(
           key: _formKey,
           child: Padding(
-            padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
+            padding: EdgeInsets.only(top: 0.0, left: 10.0, right: 10.0, bottom: 5),
             child: ListView(
               children: <Widget>[
+
+                //Buttons
+                Padding(
+                  padding: EdgeInsets.only(top: 0, bottom: 15.0),
+                  child: Row(
+                    children: <Widget>[
+                      //Request Button
+                      Expanded(
+                        child: RaisedButton(
+                          color: Theme.of(context).primaryColor,
+                          textColor: Theme.of(context).accentColor,
+                          child: Text(
+                            'Request List',
+                            textScaleFactor: 1.5,
+                            style: TextStyle(
+                              color: Theme.of(context).accentColor,
+                            ),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                    return RequestList(text: id);
+                                  }));
+                            });
+                          },
+                        ),
+                      ),
+
+                      //Confirm Button
+                      Expanded(
+                        child: RaisedButton(
+                          color:Theme.of(context).accentColor,
+                          textColor: Theme.of(context).primaryColorLight,
+                          child: Text(
+                            'Confirmed List',
+                            textScaleFactor: 1.5,
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                    return ConfirmedList(text: id);
+                                  }));
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
                 //Capacity and Availability
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -131,7 +186,7 @@ class EditEventState extends State<EditEvent> {
                           'Capacity : '+headCount,
                           textScaleFactor: 1.5,
                           style: TextStyle(
-                            color: Colors.cyan,
+                            color: Theme.of(context).primaryColor,
                           ),
                         ),
                       ),
@@ -145,7 +200,7 @@ class EditEventState extends State<EditEvent> {
                           'Availabile : '+available,
                           textScaleFactor: 1.5,
                           style: TextStyle(
-                            color: Colors.cyan,
+                            color: Theme.of(context).primaryColor,
                           ),
                         ),
                       ),
@@ -168,13 +223,24 @@ class EditEventState extends State<EditEvent> {
                       }
                       return null;
                     },
-                    style: textStyle,
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
                     onChanged: (value) {
                       debugPrint('Something changed in Text Field');
                     },
                     decoration: InputDecoration(
                         labelText: 'Name',
-                        labelStyle: textStyle,
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0
+                          ),
+                          borderRadius: BorderRadius.circular(35.0),
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         )),
@@ -198,13 +264,24 @@ class EditEventState extends State<EditEvent> {
                             }
                             return null;
                           },
-                          style: textStyle,
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
                           onChanged: (value) {
                             debugPrint('Something changed in Text Field');
                           },
                           decoration: InputDecoration(
                               labelText: 'Date',
-                              labelStyle: textStyle,
+                              labelStyle: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 2.0
+                                ),
+                                borderRadius: BorderRadius.circular(35.0),
+                              ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0),
                               )),
@@ -218,8 +295,13 @@ class EditEventState extends State<EditEvent> {
                       Expanded(
                         child: ButtonTheme(
                           child: RaisedButton(
-                            color: Colors.black26,
-                            child: Text('Take a date'),
+                            color: Theme.of(context).accentColor,
+                            child: Text(
+                                'Take a date',
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
                             onPressed: () {
                               showDatePicker(
                                 context: context,
@@ -254,13 +336,24 @@ class EditEventState extends State<EditEvent> {
                       }
                       return null;
                     },
-                    style: textStyle,
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
                     onChanged: (value) {
                       debugPrint('Something changed in Text Field');
                     },
                     decoration: InputDecoration(
                         labelText: 'Venue',
-                        labelStyle: textStyle,
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0
+                          ),
+                          borderRadius: BorderRadius.circular(35.0),
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         )),
@@ -279,13 +372,24 @@ class EditEventState extends State<EditEvent> {
                       }
                       return null;
                     },
-                    style: textStyle,
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
                     onChanged: (value) {
                       debugPrint('Something changed in Text Field');
                     },
                     decoration: InputDecoration(
                         labelText: 'Description',
-                        labelStyle: textStyle,
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0
+                          ),
+                          borderRadius: BorderRadius.circular(35.0),
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         )),
@@ -302,8 +406,8 @@ class EditEventState extends State<EditEvent> {
                       ),
                       Expanded(
                         child: RaisedButton(
-                          color: Theme.of(context).primaryColorDark,
-                          textColor: Theme.of(context).primaryColorLight,
+                          color: Theme.of(context).primaryColor,
+                          textColor: Theme.of(context).accentColor,
                           child: Text(
                             'Edit',
                             textScaleFactor: 1.5,
@@ -320,62 +424,7 @@ class EditEventState extends State<EditEvent> {
                   ),
                 ),
 
-                //Buttons
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: Row(
-                    children: <Widget>[
-                      //Reset Button
-                      Expanded(
-                        child: RaisedButton(
-                          color: Colors.black54,
-                          textColor: Theme.of(context).primaryColorLight,
-                          child: Text(
-                            'Request List',
-                            textScaleFactor: 1.5,
-                            style: TextStyle(
-                              color: Colors.cyan,
-                            ),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return RequestList(text: id);
-                              }));
-                            });
-                          },
-                        ),
-                      ),
-                      Container(
-                        width: 5.0,
-                      ),
 
-                      //Add Button
-                      Expanded(
-                        child: RaisedButton(
-                          color: Colors.black54,
-                          textColor: Theme.of(context).primaryColorLight,
-                          child: Text(
-                            'Confirmed List',
-                            textScaleFactor: 1.5,
-                            style: TextStyle(
-                              color: Colors.cyan,
-                            ),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return ConfirmedList(text: id);
-                              }));
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),

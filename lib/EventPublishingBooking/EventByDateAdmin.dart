@@ -2,22 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import './CalendarAdmin.dart';
 import './EditEvent.dart';
 import './AddEvent.dart';
 
-class EventPublishing extends StatefulWidget {
+class EventByDateAdmin extends StatefulWidget {
+  final String date;
+
+  EventByDateAdmin({Key key, @required this.date}) : super(key: key);
+
   @override
-  EventPublishingState createState() => EventPublishingState();
+  EventByDateAdminState createState() => EventByDateAdminState(date);
 }
 
-class EventPublishingState extends State<EventPublishing> {
+class EventByDateAdminState extends State<EventByDateAdmin> {
+  EventByDateAdminState(String date);
+
   List data;
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllEvents"),
+        Uri.encodeFull("http://10.0.2.2:8080/findEventsByDate/" + widget.date),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body);
@@ -124,14 +129,14 @@ class EventPublishingState extends State<EventPublishing> {
                       color: Colors.black,
                     )
                   : Icon(
-                    Icons.event_available,
-                    color: Colors.black,
-              ),
+                      Icons.event_available,
+                      color: Colors.black,
+                    ),
             ),
             title: Text(data[position]["name"],
                 style: TextStyle(color: Colors.black54)),
             subtitle: Text(data[position]["date"],
-                style: TextStyle(color: Colors.black54)),
+                style: TextStyle(color: Colors.cyan[900])),
             trailing: IconButton(
                 icon: Icon(
                   Icons.delete,

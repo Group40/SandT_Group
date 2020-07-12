@@ -7,17 +7,17 @@ import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'dart:async';
 import 'dart:convert';
-import './EventByDate.dart';
+import './EventByDateAdmin.dart';
 
-class Calendar extends StatefulWidget {
+class CalendarAdmin extends StatefulWidget {
   //optional
-  Calendar({Key key}) : super(key: key);
+  CalendarAdmin({Key key}) : super(key: key);
 
   @override
-  CalendarState createState() => CalendarState();
+  CalendarAdminState createState() => CalendarAdminState();
 }
 
-class CalendarState extends State<Calendar> {
+class CalendarAdminState extends State<CalendarAdmin> {
   DateTime _currentDate = DateTime.now();
   DateTime _currentDate2 = DateTime.now();
   String _currentMonth = DateFormat.yMMM().format(DateTime.now());
@@ -115,7 +115,7 @@ class CalendarState extends State<Calendar> {
       onDayPressed: (DateTime date, List<Event> events) {
         this.setState(() => _currentDate2 = date);
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return EventByDate(date: date.toString().substring(0,10));
+          return EventByDateAdmin(date: date.toString().substring(0,10));
         }));
       },
       onCalendarChanged: (DateTime date) {
@@ -130,7 +130,7 @@ class CalendarState extends State<Calendar> {
     );
 
     return new Scaffold(
-        //backgroundColor: Colors.black38,
+      //backgroundColor: Colors.black38,
         appBar: new AppBar(
           title: new Text("Event Calendar"),
         ),
