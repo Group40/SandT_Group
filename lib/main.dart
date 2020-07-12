@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
+import 'package:sandtgroup/SignUpLogIn/AuthScreen.dart';
 
 import './ArticleHandling/ArticleHandling.dart';
 import './DiscussionForum/DiscussionForum.dart';
 import './EventPublishingBooking/EventBooking.dart';
 import './EventPublishingBooking/EventPublishing.dart';
-import './SignUpLogIn/SignUpLogIn.dart';
 import './UserManagementAdmin/UserManagementAdmin.dart';
 
 void main() {
@@ -17,11 +18,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'S & T Group',
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: SplashScreen(),
       theme: ThemeData(
-          brightness: Brightness.light,
-          primaryColor: Colors.blueAccent,
-          accentColor: Colors.white,
+        brightness: Brightness.light,
+        primaryColor: Colors.blueAccent,
+        accentColor: Colors.white,
       ),
     );
     throw UnimplementedError();
@@ -98,7 +99,7 @@ class SandunButton extends StatelessWidget {
         elevation: 6.0,
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return SignUpLogIn();
+            return AuthScreen();
           }));
         },
       ),
@@ -144,7 +145,6 @@ class PiyumalButton extends StatelessWidget {
           ),
         ],
       ),
-
     );
     throw UnimplementedError();
   }
