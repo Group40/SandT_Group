@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sandtgroup/EventPublishingBooking/EventBooking.dart';
 import 'package:sandtgroup/FirstScreen/Profile.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
+import 'package:sandtgroup/Photography/ViewPhoto.dart';
 import 'package:sandtgroup/main.dart';
 //import '../FirstSceen/Profile.dart';
 
@@ -60,43 +62,31 @@ class _AppDrawerState extends State<AppDrawer> {
 
       child: new ListView(
         children: <Widget>[
-          new Container(
-              child: CircleAvatar(
-            radius: 40,
-            child: Icon(
-              Icons.account_circle,
-              color: Colors.white,
-              size: 70,
-            ),
-          )),
-          Divider(
-            color: Colors.black.withOpacity(0),
-          ),
-          new ListTile(
-            title: new Text(
-              "User Name",
+          new UserAccountsDrawerHeader(
+            accountName: Text(
+              getUsername().toUpperCase(),
               style: TextStyle(
-                fontSize: 25,
+                fontSize: 18,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
-              textAlign: TextAlign.center,
             ),
-            subtitle: Text(
-              "email@email.com",
+            accountEmail: Text(
+              getEmail(),
               style: TextStyle(
-                color: Colors.black,
                 fontSize: 15,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
               ),
-              textAlign: TextAlign.center,
             ),
-          ),
-          Divider(
-            height: 10,
-            thickness: 0.8,
-            color: Colors.black.withOpacity(0.3),
-            indent: 32,
-            endIndent: 32,
+            currentAccountPicture: Align(
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.account_circle,
+                color: Colors.white,
+                size: 80,
+              ),
+            ),
           ),
           Menu(
             icon: Icons.person,
@@ -123,6 +113,15 @@ class _AppDrawerState extends State<AppDrawer> {
               Navigator.of(context).pop();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => EventBooking()));
+            },
+          ),
+          Menu(
+            icon: Icons.home,
+            title: "Photography",
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ViewPhoto()));
             },
           ),
           Divider(

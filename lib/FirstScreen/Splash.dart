@@ -11,12 +11,15 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
+String _token;
+String _id;
+String _fname;
+String _lname;
+String _email;
+
 class _SplashScreenState extends State<SplashScreen> {
-  String _token;
-  String _id;
-  String _fname;
-  String _lname;
-  String _email;
+  
+
 /*
   @override
   void initState() {
@@ -53,17 +56,27 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(Duration(milliseconds: 3000));
     final prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey('userData')) {
+      ////////temp fun for developing time
+      final userData = json.encode(
+        {
+          'token': "Sandun",
+          'username': "Sandun",
+          'lname': " Weerasekara",
+          'email': "Sandun@email.com",
+        },
+      );
+      prefs.setString('userData', userData);
       return false;
+    } else {
+      final extractedUserData =
+          json.decode(prefs.getString('userData')) as Map<String, Object>;
+      _token = extractedUserData['token'];
+      _fname = extractedUserData['username'];
+      _lname = extractedUserData['lname'];
+      _email = extractedUserData['email'];
+
+      return true;
     }
-    final extractedUserData =
-        json.decode(prefs.getString('userData')) as Map<String, Object>;
-
-    _token = extractedUserData['token'];
-    _fname = extractedUserData['username'];
-    _lname = extractedUserData['lname'];
-    _email = extractedUserData['email'];
-
-    return true;
   }
 
   void _navigationHome() {
@@ -96,4 +109,17 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
+}
+
+String getUsername() {
+  String username = _fname + _lname;
+  return username;
+}
+
+String getEmail() {
+  return _email;
+}
+
+String getToken() {
+  return _token;
 }

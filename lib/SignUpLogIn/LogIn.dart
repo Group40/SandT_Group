@@ -37,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Text('Okay'),
             onPressed: () {
               Navigator.of(ctx).pop();
+              _reset();
             },
           )
         ],

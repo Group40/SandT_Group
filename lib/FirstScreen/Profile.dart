@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
+import 'package:sandtgroup/SignUpLogIn/AuthScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -40,7 +43,7 @@ class _ProfileState extends State<Profile> {
                   )),
                   SizedBox(height: 40.0),
                   Text(
-                    'Name',
+                    getUsername(),
                     style: TextStyle(
                         fontSize: 40.0,
                         color: Colors.black,
@@ -49,7 +52,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   SizedBox(height: 15.0),
                   Text(
-                    'email@email.com',
+                    getEmail(),
                     style: TextStyle(
                         fontSize: 25.0,
                         color: Colors.black,
@@ -114,7 +117,15 @@ class _ProfileState extends State<Profile> {
                         color: Colors.red,
                         elevation: 7.0,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            Navigator.of(context).pop();
+                            final pref = await SharedPreferences.getInstance();
+                            await pref.clear();
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        AuthScreen()));
+                          },
                           child: Center(
                             child: Text(
                               'Log out',
