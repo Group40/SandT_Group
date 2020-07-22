@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:image_picker/image_picker.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ViewPhoto extends StatefulWidget {
   @override
@@ -9,18 +7,8 @@ class ViewPhoto extends StatefulWidget {
 }
 
 class ViewPhotoState extends State<ViewPhoto> {
-  File _image;
-
-  Future getimage() async {
-    // ignore: deprecated_member_use
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _image = image;
-    });
-  }
-
-  @override
-  void initState() {}
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descrptController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +18,15 @@ class ViewPhotoState extends State<ViewPhoto> {
           title: Text('Astro Photography'),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.image),
+              icon: Icon(
+                FontAwesomeIcons.undo,
+              ),
               onPressed: () {
-                getimage();
+                setState(() {});
               },
             ),
           ],
         ),
-        body: Container()
-        //
-        );
-    throw UnimplementedError();
+        body: ListView());
   }
 }

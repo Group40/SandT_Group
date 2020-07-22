@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/EventPublishingBooking/AddEvent.dart';
 import 'package:sandtgroup/EventPublishingBooking/EventBooking.dart';
 import 'package:sandtgroup/FirstScreen/Profile.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
+import 'package:sandtgroup/Photography/UploadPics.dart';
 import 'package:sandtgroup/Photography/ViewPhoto.dart';
 import 'package:sandtgroup/main.dart';
 //import '../FirstSceen/Profile.dart';
@@ -111,8 +113,8 @@ class _AppDrawerState extends State<AppDrawer> {
             title: "Piyumal",
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => EventBooking()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => AddEvent()));
             },
           ),
           Menu(
@@ -121,7 +123,7 @@ class _AppDrawerState extends State<AppDrawer> {
             onTap: () {
               Navigator.of(context).pop();
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ViewPhoto()));
+                  MaterialPageRoute(builder: (context) => UploadPics()));
             },
           ),
           Divider(
