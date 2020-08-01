@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sandtgroup/FirstScreen/Profile.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 import 'package:sandtgroup/Photography/UploadPics.dart';
-import 'package:sandtgroup/Photography/ViewPhoto.dart';
+import 'package:sandtgroup/Photography/MainPage.dart';
 import 'package:sandtgroup/main.dart';
 
 import 'Menu.dart';
@@ -119,8 +119,8 @@ class _AppDrawerState extends State<AppDrawer> {
             title: "Photography",
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ViewPhoto()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MainPage()));
             },
           ),
           Divider(

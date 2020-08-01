@@ -2,29 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'package:sandtgroup/FirstScreen/HomePage.dart';
-import 'package:sandtgroup/FirstScreen/Splash.dart';
-import 'package:sandtgroup/Photography/UploadPics.dart';
-//import 'package:flutter_advanced_networkimage/provider.dart';
+import 'PicGallery.dart';
 
-class ViewPhoto extends StatefulWidget {
+class SeachPic extends StatefulWidget {
   @override
-  ViewPhotoState createState() => ViewPhotoState();
+  SeachPicState createState() => SeachPicState();
 }
 
-class ViewPhotoState extends State<ViewPhoto> {
+class SeachPicState extends State<SeachPic> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   ScrollController _scrollController = new ScrollController();
   List list = List();
   List<String> picsurl = new List();
-  List<String> picstitle = new List();
-  List<String> picsdetail = new List();
-  List<String> picsid = new List();
-  String email = getEmail();
   bool isLoading = true;
-  int pagesize = 3;
+  int pagesize = 9;
   int pageno = 0;
   bool isLoadmorePic = true;
+  String txt = setTxt();
 
   @override
   void dispose() {
@@ -35,57 +29,80 @@ class ViewPhotoState extends State<ViewPhoto> {
   @override
   void initState() {
     super.initState();
-    getMyPic();
-
+    serchGallery();
     _scrollController.addListener(() {
       if ((_scrollController.position.pixels ==
               _scrollController.position.maxScrollExtent) &&
           isLoadmorePic == true) {
-        getMyPic();
+        serchGallery();
       }
     });
   }
-/*
-  void fetchtow() {
-    getMyPic();
-    setState(() {
-      pageno++;
-    });
-    getMyPic();
-  }*/
 
-  Future<String> getMyPic() async {
-    await Future.delayed(Duration(milliseconds: 3000));
+  Future<String> serchGallery() async {
+    if (txt.isEmpty) {
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      try {
+        http.Response response = await http.get(
+            Uri.encodeFull("http://10.0.2.2:8080/serchPic/" +
+                txt +
+                "?pageSize=" +
+                pagesize.toString() +
+                "&pageNo=" +
+                pageno.toString()),
+            headers: {
+              "Accept": "application/json"
+            }).timeout(const Duration(seconds: 40));
+
+        if (response.statusCode == 200) {
+          list = (json.decode(response.body) as List);
+          setState(() {
+            pageno++;
+            for (int i = 0; i < list.length; i++) {
+              picsurl.add(json.decode(response.body)[i]['photourl']);
+            }
+            isLoading = false;
+          });
+          if (pagesize != list.length) {
+            setState(() {
+              isLoadmorePic = false;
+            });
+          }
+          list.clear();
+        } else {
+          _showNetErrorDialog("Somjething went wrong ");
+          return null;
+        }
+      } on TimeoutException catch (_) {
+        _showNetErrorDialog("Internet Connection Problem");
+        throw Exception('Failed to load');
+      }
+    }
+  }
+
+  Future<String> getPicdata(String url) async {
+    String dataurl = 'http://10.0.2.2:8080/viewPicsdata';
+    var uri = Uri.parse(dataurl);
+    var request = new http.MultipartRequest("POST", uri);
+    request.fields['url'] = url;
+    var body = {'url': url};
     try {
-      http.Response response = await http.get(
-          Uri.encodeFull("http://10.0.2.2:8080/getMypicslist/" +
-              email +
-              "?pageSize=" +
-              pagesize.toString() +
-              "&pageNo=" +
-              pageno.toString()),
-          headers: {
-            "Accept": "application/json"
-          }).timeout(const Duration(seconds: 40));
+      final response =
+          await request.send().timeout(const Duration(seconds: 60));
 
       if (response.statusCode == 200) {
-        list = (json.decode(response.body) as List);
-        setState(() {
-          pageno++;
-          for (int i = 0; i < list.length; i++) {
-            picsurl.add(json.decode(response.body)[i]['photourl']);
-            picstitle.add(json.decode(response.body)[i]['picTitle']);
-            picsdetail.add(json.decode(response.body)[i]['picDetails']);
-            picsid.add(json.decode(response.body)[i]['uploadPhotoId']);
-          }
-          isLoading = false;
-        });
-        if (pagesize != list.length) {
+        response.stream.transform(utf8.decoder).listen((value) {
+          list = (json.decode(value) as List);
+          viewpic(url, list[0]['picTitle'], list[0]['picDetails'],
+              list[0]['ownername'], "id");
           setState(() {
-            isLoadmorePic = false;
+            isLoading = false;
           });
           list.clear();
-        }
+        });
       } else {
         _showNetErrorDialog("Somjething went wrong ");
         return null;
@@ -101,18 +118,6 @@ class ViewPhotoState extends State<ViewPhoto> {
     return Scaffold(
         key: _scaffoldKey,
         //backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text('My Album'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.file_upload),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UploadPics()));
-              },
-            ),
-          ],
-        ),
         body: StreamBuilder(
             stream: null,
             builder: (context, snapshot) {
@@ -123,21 +128,30 @@ class ViewPhotoState extends State<ViewPhoto> {
                   ),
                 );
               } else {
-                return GridView.builder(
-                    controller: _scrollController,
-                    itemCount: picsurl.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2),
-                    itemBuilder: (context, index) {
-                      Future.delayed(Duration(milliseconds: 3000));
-                      return createPicBox(picstitle[index], picsurl[index],
-                          picsdetail[index], picsid[index]);
-                    });
+                if (picsurl.length == 0) {
+                  return Center(
+                    child: Text(
+                      "Can't Find Any thing related " + txt,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  );
+                } else {
+                  return GridView.builder(
+                      controller: _scrollController,
+                      itemCount: picsurl.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3),
+                      itemBuilder: (context, index) {
+                        Future.delayed(Duration(milliseconds: 3000));
+                        return createPicBox(picsurl[index]);
+                      });
+                }
               }
             }));
   }
 
-  void viewpic(String url, String title, String details, String id) {
+  void viewpic(
+      String url, String title, String details, String name, String id) {
     _scaffoldKey.currentState.showBottomSheet<void>((BuildContext context) {
       return DecoratedBox(
         decoration: BoxDecoration(color: Colors.black87),
@@ -147,7 +161,7 @@ class ViewPhotoState extends State<ViewPhoto> {
               child: Stack(
                 children: <Widget>[
                   Positioned(
-                      top: 25,
+                      top: 10,
                       right: 10,
                       child: IconButton(
                         onPressed: () {
@@ -161,7 +175,7 @@ class ViewPhotoState extends State<ViewPhoto> {
                       )),
                 ],
               ),
-              height: 80,
+              height: 50,
               width: 50,
             ),
             SingleChildScrollView(
@@ -169,16 +183,10 @@ class ViewPhotoState extends State<ViewPhoto> {
                 shrinkWrap: true,
                 primary: false,
                 crossAxisCount: 1,
-                children: <Widget>[
-                  Container(
-                      color: url == null ? Colors.green[100] : null,
-                      decoration: new BoxDecoration(
-                          image: new DecorationImage(
-                              image: new NetworkImage(url), fit: BoxFit.cover)))
-                ],
+                children: <Widget>[getpic(url)],
               ),
             ),
-            SizedBox(height: 25.0),
+            SizedBox(height: 10.0),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
@@ -188,6 +196,18 @@ class ViewPhotoState extends State<ViewPhoto> {
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(2),
+              child: Text(
+                "Captured by " + name,
+                style: TextStyle(
+                  fontSize: 13.0,
+                  color: Colors.redAccent,
+                  //fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.end,
               ),
             ),
             Padding(
@@ -206,11 +226,13 @@ class ViewPhotoState extends State<ViewPhoto> {
     });
   }
 
-  GestureDetector createPicBox(
-      String title, String url, String detail, String id) {
+  GestureDetector createPicBox(String url) {
     return GestureDetector(
         onTap: () {
-          viewpic(url, title, detail, id);
+          getPicdata(url);
+          setState(() {
+            isLoading = true;
+          });
         },
         child: getpic(url));
   }
@@ -221,7 +243,7 @@ class ViewPhotoState extends State<ViewPhoto> {
       child: Container(
           decoration: new BoxDecoration(
               image: new DecorationImage(
-                  image: new NetworkImage(url), fit: BoxFit.cover))),
+                  image: new NetworkImage(url), fit: BoxFit.contain))),
     );
   }
 
@@ -236,8 +258,8 @@ class ViewPhotoState extends State<ViewPhoto> {
             child: Text('Go Back'),
             onPressed: () {
               Navigator.of(ctx).pop();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PicGallery()));
             },
           ),
         ],
