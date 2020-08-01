@@ -16,10 +16,10 @@ String _id;
 String _fname;
 String _lname;
 String _email;
+String _tokentype;
+int _role;
 
 class _SplashScreenState extends State<SplashScreen> {
-  
-
 /*
   @override
   void initState() {
@@ -74,6 +74,8 @@ class _SplashScreenState extends State<SplashScreen> {
       _fname = extractedUserData['username'];
       _lname = extractedUserData['lname'];
       _email = extractedUserData['email'];
+      _role = extractedUserData['role'];
+      _tokentype = extractedUserData['tokentype'];
 
       return true;
     }
@@ -112,7 +114,7 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 
 String getUsername() {
-  String username = _fname + _lname;
+  String username = _fname + " " + _lname;
   return username;
 }
 
@@ -122,4 +124,12 @@ String getEmail() {
 
 String getToken() {
   return _token;
+}
+
+String getTokentype() {
+  return _tokentype;
+}
+
+int getrole() {
+  return _role;
 }
