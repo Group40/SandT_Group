@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/FirstScreen/AppDrawer.dart';
 import 'package:sandtgroup/Photography/PicGallery.dart';
 import 'package:sandtgroup/Photography/UploadPics.dart';
 import 'package:sandtgroup/Photography/ViewPhoto.dart';
@@ -19,6 +20,7 @@ class PicPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: new AppDrawer(),
       appBar: AppBar(
         title: Text('Gallery (For Test)'),
       ),

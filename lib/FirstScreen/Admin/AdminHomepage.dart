@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
-import 'AppDrawer.dart';
+import 'AdminAppDrawer.dart';
 
-class HomePage extends StatefulWidget {
+class AdminHomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => new _HomePageState();
+  _AdminHomePageState createState() => new _AdminHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _AdminHomePageState extends State<AdminHomePage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
         key: _scaffoldKey,
-        drawer: new AppDrawer(),
+        drawer: new AdminAppDrawer(),
         appBar: new AppBar(
           title: new Text(
-            "S & T",
+            "Admin",
             style: TextStyle(
                 color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
           ),
         ),
         body: Center(
           child: Text(
-            "User Home Page ",
+            "Admin Home Page ",
             style: TextStyle(fontSize: 25),
           ),
         ));

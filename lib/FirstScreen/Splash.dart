@@ -4,6 +4,7 @@ import 'package:sandtgroup/SignUpLogIn/AuthScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+import 'Admin/AdminHomepage.dart';
 import 'HomePage.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -82,8 +83,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigationHome() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (BuildContext context) => HomePage())); //HomePage()
+    if (getrole() == 3) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => AdminHomePage()));
+    } else if (getrole() == 2) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+    } else {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+    }
   }
 
   void _navigationLog() {
