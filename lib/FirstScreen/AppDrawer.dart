@@ -6,6 +6,7 @@ import '../main.dart';
 import 'Menu.dart';
 import 'Profile.dart';
 import 'Splash.dart';
+import '../EventPublishingBooking/EventBooking.dart';
 
 class AppDrawer extends StatefulWidget {
   @override
@@ -65,11 +66,11 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           Menu(
             icon: Icons.event,
-            title: "Event",
+            title: "Upcoming Event",
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => UploadPics()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return EventBooking();
+              }));
             },
           ),
           Menu(
