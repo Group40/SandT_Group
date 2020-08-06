@@ -6,6 +6,7 @@ import '../../main.dart';
 import '../Menu.dart';
 import '../Splash.dart';
 import '../../EventPublishingBooking/EventPublishing.dart';
+import '../../Institute/AdminCourseList.dart';
 
 class AdminAppDrawer extends StatefulWidget {
   @override
@@ -52,6 +53,15 @@ class _AdminAppDrawerState extends State<AdminAppDrawer> {
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return EventPublishing();
+              }));
+            },
+          ),
+          Menu(
+            icon: Icons.event,
+            title: "Course List",
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return AdminCourse();
               }));
             },
           ),
