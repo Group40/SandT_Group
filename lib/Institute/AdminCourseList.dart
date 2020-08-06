@@ -40,7 +40,7 @@ class AdminCourseState extends State<AdminCourse> {
     var snackBar = SnackBar(
       backgroundColor: Colors.black54,
       content: Text(
-        'Permently delete the event?',
+        'Permently delete the course?',
         style: TextStyle(fontSize: 20, color: Colors.white70),
       ),
       action: SnackBarAction(
@@ -64,7 +64,7 @@ class AdminCourseState extends State<AdminCourse> {
     return Scaffold(
       //backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Published Events'),
+        title: Text('Published Courses'),
       ),
       body: getListView(),
       floatingActionButton: FloatingActionButton(
@@ -73,7 +73,7 @@ class AdminCourseState extends State<AdminCourse> {
         onPressed: () {
           debugPrint("Fab click");
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return AddEvent();
+            return AddCourse();
           }));
         },
         tooltip: 'Add Note',
@@ -108,14 +108,14 @@ class AdminCourseState extends State<AdminCourse> {
                   Icons.delete,
                   color: Colors.red,
                 ),
-                tooltip: 'Delete this event',
+                tooltip: 'Delete this course',
                 onPressed: () {
                   showSnackBar(context, data[position]["id"]);
                 }),
             onTap: () {
-              debugPrint("Event clicked");
+              debugPrint("Course clicked");
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return EditEvent(text: data[position]["id"]);
+                return EditCourse(text: data[position]["id"]);
               }));
             },
           ),

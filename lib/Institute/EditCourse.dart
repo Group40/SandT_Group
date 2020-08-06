@@ -8,17 +8,17 @@ import 'dart:convert';
 
 var url = "http://10.0.2.2:8080/updateEvent";
 
-class EditEvent extends StatefulWidget {
+class EditCourse extends StatefulWidget {
   final String text;
 
-  EditEvent({Key key, @required this.text}) : super(key: key);
+  EditCourse({Key key, @required this.text}) : super(key: key);
 
   @override
-  EditEventState createState() => EditEventState(text);
+  EditCourseState createState() => EditCourseState(text);
 }
 
-class EditEventState extends State<EditEvent> {
-  EditEventState(String text);
+class EditCourseState extends State<EditCourse> {
+  EditCourseState(String text);
   DateTime _dateTime = DateTime.now();
   var _formKey = GlobalKey<FormState>();
   var event;
