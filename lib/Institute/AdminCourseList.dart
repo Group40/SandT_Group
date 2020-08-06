@@ -95,7 +95,7 @@ class AdminCourseState extends State<AdminCourse> {
             leading: CircleAvatar(
               backgroundColor: Colors.cyan,
               child: Icon(
-                Icons.event_available,
+                Icons.edit,
                 color: Colors.black,
               ),
             ),
