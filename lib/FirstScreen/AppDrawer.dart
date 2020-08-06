@@ -7,6 +7,7 @@ import 'Menu.dart';
 import 'Profile.dart';
 import 'Splash.dart';
 import '../EventPublishingBooking/EventBooking.dart';
+import '../Institute/CourseList.dart';
 
 class AppDrawer extends StatefulWidget {
   @override
@@ -70,6 +71,15 @@ class _AppDrawerState extends State<AppDrawer> {
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return EventBooking();
+              }));
+            },
+          ),
+          Menu(
+            icon: Icons.event,
+            title: "Courses",
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return CourseList();
               }));
             },
           ),
