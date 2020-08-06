@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 import '../Menu.dart';
 import '../Splash.dart';
+import '../../EventPublishingBooking/EventPublishing.dart';
 
 class AdminAppDrawer extends StatefulWidget {
   @override
@@ -46,30 +47,12 @@ class _AdminAppDrawerState extends State<AdminAppDrawer> {
             ),
           ),
           Menu(
-            icon: Icons.home,
-            title: "Home",
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
-            },
-          ),
-          Menu(
             icon: Icons.event,
-            title: "Event",
+            title: "Publish Events",
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => UploadPics()));
-            },
-          ),
-          Menu(
-            icon: Icons.image,
-            title: "Photography",
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MainPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return EventPublishing();
+              }));
             },
           ),
           Divider(
