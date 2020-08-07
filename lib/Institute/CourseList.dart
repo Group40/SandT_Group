@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import './CourseDetail.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 
 class CourseList extends StatefulWidget {
   @override
@@ -11,11 +12,14 @@ class CourseList extends StatefulWidget {
 }
 
 class CourseListState extends State<CourseList> {
-  List data;
+  TextEditingController ageController = TextEditingController();
 
+  List data;
+  var modal = false;
   String name;
   String url;
   String searchTerm;
+  String age;
 
   Future<String> getData() async {
     http.Response response = await http.get(
@@ -39,6 +43,22 @@ class CourseListState extends State<CourseList> {
         data.length = j;
       }
     }
+    if (age != null) {
+      if (age.length != 0) {
+        var j = 0;
+        for (var i = 0; i < data.length; i++) {
+          int ageGroupMinInt = int.parse(data[i]["ageGroupMin"]);
+          int ageGroupMaxInt = int.parse(data[i]["ageGroupMax"]);
+          int ageInt = int.parse(age);
+          if ((ageGroupMinInt <= ageInt) && (ageInt <= ageGroupMaxInt)) {
+            print(data[i]["name"]);
+            data[j] = data[i];
+            j++;
+          }
+        }
+        data.length = j;
+      }
+    }
     return "success!";
   }
 
@@ -54,23 +74,6 @@ class CourseListState extends State<CourseList> {
     });
   }
 
-  void showSnackBar(BuildContext context, String id) {
-    var snackBar = SnackBar(
-      backgroundColor: Colors.black54,
-      content: Text(
-        'Permently delete the course?',
-        style: TextStyle(fontSize: 20, color: Colors.white70),
-      ),
-      action: SnackBarAction(
-          textColor: Colors.cyan,
-          label: "YES",
-          onPressed: () {
-            delete(id);
-          }),
-    );
-    Scaffold.of(context).showSnackBar(snackBar);
-  }
-
   //Call get data
   @override
   void initState() {
@@ -79,59 +82,96 @@ class CourseListState extends State<CourseList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: TextField(
-          onChanged: (value) {
-            setState(() {
-              searchTerm = value;
-            });
-          },
-          decoration: InputDecoration(
-              hintText: "Search Destination",
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide.none),
-              filled: true,
-              fillColor: Colors.black12,
-              isDense: true,
-              contentPadding: EdgeInsets.all(8)),
+    if (modal) {
+      return Scaffold(
+        //backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: TextField(
+            onChanged: (value) {
+              setState(() {
+                searchTerm = value;
+              });
+            },
+            decoration: InputDecoration(
+                hintText: "Search Destination",
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none),
+                filled: true,
+                fillColor: Colors.black12,
+                isDense: true,
+                contentPadding: EdgeInsets.all(8)),
+          ),
+          iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                getData();
+              },
+              color: Theme.of(context).primaryColor,
+            ),
+            IconButton(
+              icon: Icon(Icons.filter_list),
+              onPressed: () {
+                setState(() {
+                  modal = !modal;
+                });
+              },
+              color: Theme.of(context).primaryColor,
+            ),
+          ],
         ),
-        iconTheme: new IconThemeData(color: Colors.purple),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              getData();
+        body: filterModal(),
+      );
+    } else {
+      return Scaffold(
+        //backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: TextField(
+            onChanged: (value) {
+              setState(() {
+                searchTerm = value;
+              });
             },
-            color: Colors.purple,
+            decoration: InputDecoration(
+                hintText: "Search Destination",
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none),
+                filled: true,
+                fillColor: Colors.black12,
+                isDense: true,
+                contentPadding: EdgeInsets.all(8)),
           ),
-          IconButton(
-            icon: Icon(Icons.filter_list),
-            onPressed: () {
-              // showFilterModal(context);
-            },
-            color: Colors.purple,
-          ),
-        ],
-      ),
-      body: getListView(),
-      floatingActionButton: FloatingActionButton(
-        foregroundColor: Theme.of(context).accentColor,
-        backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () {
-          debugPrint("Fab click");
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            // return AddCourse();
-          }));
-        },
-        tooltip: 'Add Note',
-        child: Icon(Icons.add),
-      ),
-    );
+          iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                getData();
+              },
+              color: Theme.of(context).primaryColor,
+            ),
+            IconButton(
+              icon: Icon(Icons.filter_list),
+              onPressed: () {
+                setState(() {
+                  modal = !modal;
+                });
+              },
+              color: Theme.of(context).primaryColor,
+            ),
+          ],
+        ),
+        body: getListView(),
+      );
+    }
+
     throw UnimplementedError();
   }
 
@@ -141,19 +181,23 @@ class CourseListState extends State<CourseList> {
       itemCount: data == null ? 0 : data.length,
       itemBuilder: (BuildContext context, int position) {
         return Card(
-          color: Colors.cyan[100],
+          color: Theme.of(context).accentColor,
           elevation: 2.0,
           child: ListTile(
             leading: CircleAvatar(
-              backgroundColor: Colors.cyan,
+              backgroundColor: Colors.transparent,
               child: Icon(
                 Icons.school,
-                color: Colors.black,
+                color: Theme.of(context).primaryColor,
               ),
             ),
             title: Text(data[position]["name"],
-                style: TextStyle(color: Colors.black54)),
-            subtitle: Text(" " + data[position]["url"],
+                style: TextStyle(color: Theme.of(context).primaryColor)),
+            subtitle: Text(
+                "From age " +
+                    data[position]["ageGroupMin"] +
+                    " to " +
+                    data[position]["ageGroupMax"],
                 style: TextStyle(color: Colors.black54)),
             onTap: () {
               debugPrint("Course clicked");
@@ -161,6 +205,103 @@ class CourseListState extends State<CourseList> {
                 return CourseDetail(text: data[position]["id"]);
               }));
             },
+          ),
+        );
+      },
+    );
+  }
+
+  ListView filterModal() {
+    //TextStyle titleStyle = Theme.of(context).textTheme.subhead;
+    return ListView.builder(
+      itemCount: 1,
+      itemBuilder: (BuildContext context, int position) {
+        return Container(
+          width: MediaQuery.of(context).size.width * 0.7,
+          height: 330,
+          padding: EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "Filter Courses",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey),
+              ),
+              Divider(),
+              Text("By Age"),
+              Padding(
+                padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    WhitelistingTextInputFormatter.digitsOnly
+                  ],
+                  controller: ageController,
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Please enter an age group';
+                    }
+                    int valueInt = int.parse(value);
+                    if (1 > valueInt) {
+                      return 'Enter a real Age';
+                    }
+                    return null;
+                  },
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  onChanged: (value) {
+                    debugPrint('Something changed in Text Field');
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'My Age',
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.only(top: 0),
+                        // add padding to adjust icon
+                        child: Icon(
+                          Icons.view_agenda,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      labelStyle: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Theme.of(context).primaryColor, width: 2.0),
+                        borderRadius: BorderRadius.circular(0.0),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0.0),
+                      )),
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: RaisedButton(
+                  child: Text(
+                    "Set Filter",
+                    style: TextStyle(color: Theme.of(context).accentColor),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      age = ageController.text;
+                      modal = !modal;
+                    });
+                    getData();
+                  },
+                  color: Theme.of(context).primaryColor,
+                ),
+              )
+            ],
           ),
         );
       },

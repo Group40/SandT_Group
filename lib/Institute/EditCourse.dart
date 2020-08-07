@@ -168,6 +168,10 @@ class EditCourseState extends State<EditCourse> {
                       if (value.isEmpty) {
                         return 'Please enter age group';
                       }
+                      int valueInt = int.parse(value);
+                      if (1 > valueInt) {
+                        return 'Enter a real Age';
+                      }
                       return null;
                     },
                     style: TextStyle(
@@ -201,6 +205,10 @@ class EditCourseState extends State<EditCourse> {
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please enter age group';
+                      }
+                      int valueInt = int.parse(value);
+                      if (1 > valueInt) {
+                        return 'Enter a real Age';
                       }
                       return null;
                     },
