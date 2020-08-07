@@ -16,7 +16,8 @@ class AddCourseState extends State<AddCourse> {
   var _formKey = GlobalKey<FormState>();
 
   TextEditingController nameController = TextEditingController();
-  TextEditingController ageGroupController = TextEditingController();
+  TextEditingController ageGroupMinController = TextEditingController();
+  TextEditingController ageGroupMaxController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -28,7 +29,8 @@ class AddCourseState extends State<AddCourse> {
     debugPrint('funtion called');
     var body = jsonEncode({
       'name': nameController.text,
-      'ageGroup': ageGroupController.text,
+      'ageGroupMin': ageGroupMinController.text,
+      'ageGroupMax': ageGroupMaxController.text,
       'price': priceController.text,
       'location': locationController.text,
       'description': descriptionController.text,
@@ -129,14 +131,22 @@ class AddCourseState extends State<AddCourse> {
                   ),
                 ),
 
-                //Age Group Field
+                //Age Group Min Field
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: TextFormField(
-                    controller: ageGroupController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      WhitelistingTextInputFormatter.digitsOnly
+                    ],
+                    controller: ageGroupMinController,
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please enter an age group';
+                      }
+                      int valueInt = int.parse(value);
+                      if (1 > valueInt) {
+                        return 'Enter a real Age';
                       }
                       return null;
                     },
@@ -147,7 +157,57 @@ class AddCourseState extends State<AddCourse> {
                       debugPrint('Something changed in Text Field');
                     },
                     decoration: InputDecoration(
-                        labelText: 'Age Group',
+                        labelText: 'From Age',
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.only(top: 0),
+                          // add padding to adjust icon
+                          child: Icon(
+                            Icons.view_agenda,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0),
+                          borderRadius: BorderRadius.circular(35.0),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(35.0),
+                        )),
+                  ),
+                ),
+
+                //Age Group Max Field
+                Padding(
+                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      WhitelistingTextInputFormatter.digitsOnly
+                    ],
+                    controller: ageGroupMaxController,
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Please enter an age group';
+                      }
+                      int valueInt = int.parse(value);
+                      if (1 > valueInt) {
+                        return 'Enter a real Age';
+                      }
+                      return null;
+                    },
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    onChanged: (value) {
+                      debugPrint('Something changed in Text Field');
+                    },
+                    decoration: InputDecoration(
+                        labelText: 'To Age',
                         prefixIcon: Padding(
                           padding: EdgeInsets.only(top: 0),
                           // add padding to adjust icon
@@ -400,7 +460,8 @@ class AddCourseState extends State<AddCourse> {
 
   void _reset() {
     nameController.text = '';
-    ageGroupController.text = '';
+    ageGroupMinController.text = '';
+    ageGroupMaxController.text = '';
     priceController.text = '';
     locationController.text = '';
     descriptionController.text = '';

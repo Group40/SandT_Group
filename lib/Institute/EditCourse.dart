@@ -23,7 +23,8 @@ class EditCourseState extends State<EditCourse> {
   var course;
   String name = '';
   String id = '';
-  String ageGroup = '';
+  String ageGroupMin = '';
+  String ageGroupMax = '';
   String price = '';
   String location = '';
   String description = '';
@@ -38,7 +39,8 @@ class EditCourseState extends State<EditCourse> {
       course = jsonDecode(response.body);
       id = course['id'];
       name = course['name'];
-      ageGroup = course['ageGroup'];
+      ageGroupMin = course['ageGroupMin'];
+      ageGroupMax = course['ageGroupMax'];
       price = course['price'];
       location = course['location'];
       description = course['description'];
@@ -47,7 +49,8 @@ class EditCourseState extends State<EditCourse> {
   }
 
   TextEditingController nameController = TextEditingController();
-  TextEditingController ageGroupController = TextEditingController();
+  TextEditingController ageGroupMinController = TextEditingController();
+  TextEditingController ageGroupMaxController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -58,7 +61,8 @@ class EditCourseState extends State<EditCourse> {
     var body = jsonEncode({
       'id': id,
       'name': nameController.text,
-      'ageGroup': ageGroupController.text,
+      'ageGroupMin': ageGroupMinController.text,
+      'ageGroupMax': ageGroupMaxController.text,
       'price': priceController.text,
       'location': locationController.text,
       'description': descriptionController.text,
@@ -155,11 +159,11 @@ class EditCourseState extends State<EditCourse> {
                   ),
                 ),
 
-                //Age Group Field
+                //Age Group Min Field
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: TextFormField(
-                    controller: ageGroupController..text = ageGroup,
+                    controller: ageGroupMinController..text = ageGroupMin,
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please enter age group';
@@ -173,7 +177,41 @@ class EditCourseState extends State<EditCourse> {
                       debugPrint('Something changed in Text Field');
                     },
                     decoration: InputDecoration(
-                        labelText: 'Age Group',
+                        labelText: 'Minimum Age',
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0),
+                          borderRadius: BorderRadius.circular(35.0),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        )),
+                  ),
+                ),
+
+                //Age Group Max Field
+                Padding(
+                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                  child: TextFormField(
+                    controller: ageGroupMaxController..text = ageGroupMax,
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Please enter age group';
+                      }
+                      return null;
+                    },
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    onChanged: (value) {
+                      debugPrint('Something changed in Text Field');
+                    },
+                    decoration: InputDecoration(
+                        labelText: 'Maximum Age',
                         labelStyle: TextStyle(
                           color: Theme.of(context).primaryColor,
                         ),

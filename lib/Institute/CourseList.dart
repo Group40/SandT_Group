@@ -152,7 +152,7 @@ class CourseListState extends State<CourseList> {
             ),
             title: Text(data[position]["name"],
                 style: TextStyle(color: Colors.black54)),
-            subtitle: Text(data[position]["url"],
+            subtitle: Text(" " + data[position]["url"],
                 style: TextStyle(color: Colors.black54)),
             trailing: IconButton(
                 icon: Icon(
