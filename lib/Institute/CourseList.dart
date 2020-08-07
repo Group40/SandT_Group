@@ -274,7 +274,7 @@ class CourseListState extends State<CourseList> {
                   ],
                   controller: ageController,
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.black54,
                   ),
                   onChanged: (value) {
                     debugPrint('Something changed in Text Field');
@@ -286,15 +286,15 @@ class CourseListState extends State<CourseList> {
                         // add padding to adjust icon
                         child: Icon(
                           Icons.view_agenda,
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.black54,
                         ),
                       ),
                       labelStyle: TextStyle(
-                        color: Theme.of(context).primaryColor,
+                        color: Colors.black54,
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Theme.of(context).primaryColor, width: 2.0),
+                        borderSide:
+                            BorderSide(color: Colors.black54, width: 2.0),
                         borderRadius: BorderRadius.circular(0.0),
                       ),
                       border: OutlineInputBorder(
@@ -339,7 +339,7 @@ class CourseListState extends State<CourseList> {
                   ],
                   controller: minPriceController,
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.black54,
                   ),
                   onChanged: (value) {
                     debugPrint('Something changed in Text Field');
@@ -351,15 +351,15 @@ class CourseListState extends State<CourseList> {
                         // add padding to adjust icon
                         child: Icon(
                           Icons.view_agenda,
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.black54,
                         ),
                       ),
                       labelStyle: TextStyle(
-                        color: Theme.of(context).primaryColor,
+                        color: Colors.black54,
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Theme.of(context).primaryColor, width: 2.0),
+                        borderSide:
+                            BorderSide(color: Colors.black54, width: 2.0),
                         borderRadius: BorderRadius.circular(0.0),
                       ),
                       border: OutlineInputBorder(
@@ -404,7 +404,7 @@ class CourseListState extends State<CourseList> {
                   ],
                   controller: maxPriceController,
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.black54,
                   ),
                   onChanged: (value) {
                     debugPrint('Something changed in Text Field');
@@ -416,15 +416,15 @@ class CourseListState extends State<CourseList> {
                         // add padding to adjust icon
                         child: Icon(
                           Icons.view_agenda,
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.black54,
                         ),
                       ),
                       labelStyle: TextStyle(
-                        color: Theme.of(context).primaryColor,
+                        color: Colors.black54,
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Theme.of(context).primaryColor, width: 2.0),
+                        borderSide:
+                            BorderSide(color: Colors.black54, width: 2.0),
                         borderRadius: BorderRadius.circular(0.0),
                       ),
                       border: OutlineInputBorder(

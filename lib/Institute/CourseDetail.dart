@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CourseDetail extends StatefulWidget {
@@ -67,6 +66,8 @@ class CourseDetailState extends State<CourseDetail> {
     TextStyle textStyle = Theme.of(context).textTheme.title;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.01,
         title: Text(
           name,
           style: TextStyle(
@@ -78,29 +79,24 @@ class CourseDetailState extends State<CourseDetail> {
       body: Builder(
         builder: (context) => Form(
           child: Padding(
-            padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
+            padding: EdgeInsets.only(left: 10.0, right: 10.0),
             child: ListView(
               children: <Widget>[
                 //Location Text
                 Container(
-                  margin: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.04, vertical: 8.0),
                   child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(35.0),
-                    ),
                     child: ListTile(
                       leading: CircleAvatar(
                           backgroundColor: Theme.of(context).accentColor,
                           child: Icon(
                             Icons.location_on,
-                            color: Theme.of(context).primaryColor,
+                            color: Colors.black54,
                           )),
                       title: Text(
                         location,
                         style: TextStyle(
                           fontSize: 20.0,
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.black54,
                         ),
                       ),
                     ),
@@ -109,24 +105,19 @@ class CourseDetailState extends State<CourseDetail> {
 
                 //Age
                 Container(
-                  margin: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.04, vertical: 8.0),
                   child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(35.0),
-                    ),
                     child: ListTile(
                       leading: CircleAvatar(
                           backgroundColor: Colors.transparent,
                           child: Icon(
-                            Icons.calendar_today,
-                            color: Theme.of(context).primaryColor,
+                            Icons.assignment_ind,
+                            color: Colors.black54,
                           )),
                       title: Text(
                         "From age " + ageGroupMin + " to " + ageGroupMax,
                         style: TextStyle(
                           fontSize: 20.0,
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.black54,
                         ),
                       ),
                     ),
@@ -135,24 +126,19 @@ class CourseDetailState extends State<CourseDetail> {
 
                 //Price
                 Container(
-                  margin: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.04, vertical: 8.0),
                   child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(35.0),
-                    ),
                     child: ListTile(
                       leading: CircleAvatar(
                           backgroundColor: Theme.of(context).accentColor,
                           child: Icon(
-                            Icons.people,
-                            color: Theme.of(context).primaryColor,
+                            Icons.monetization_on,
+                            color: Colors.black54,
                           )),
                       title: Text(
                         price,
                         style: TextStyle(
                           fontSize: 20.0,
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.black54,
                         ),
                       ),
                     ),
@@ -161,44 +147,33 @@ class CourseDetailState extends State<CourseDetail> {
 
                 //Description
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 8.0),
                   child: Card(
-                    margin: EdgeInsets.symmetric(
-                        horizontal: screenWidth * 0.04, vertical: 8.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                     child: ListTile(
                       subtitle: Text(
-                        description,
+                        "Description :\n" + description,
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: 18.0,
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.black54,
                         ),
                       ),
                     ),
                   ),
                 ),
 
-                Container(
-                  height: 30,
-                ),
-
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: Row(
                     children: <Widget>[
-                      Container(
-                        width: 5.0,
-                      ),
                       Expanded(
                         child: RaisedButton(
                           color: Theme.of(context).primaryColor,
                           textColor: Theme.of(context).accentColor,
                           child: Text(
                             'More Information',
-                            textScaleFactor: 1.5,
                           ),
                           onPressed: () {
                             _launchURL();
