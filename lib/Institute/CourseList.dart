@@ -35,9 +35,7 @@ class CourseListState extends State<CourseList> {
             j++;
           }
         }
-        for (var i = j; i < data.length; i++) {
-          // data2.remove(data2[i]);
-        }
+        data.length = j;
       }
     }
     return "success!";
