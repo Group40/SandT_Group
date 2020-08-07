@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import './CourseDetail.dart';
 
 class CourseList extends StatefulWidget {
   @override
@@ -146,7 +147,7 @@ class CourseListState extends State<CourseList> {
             leading: CircleAvatar(
               backgroundColor: Colors.cyan,
               child: Icon(
-                Icons.edit,
+                Icons.school,
                 color: Colors.black,
               ),
             ),
@@ -154,19 +155,10 @@ class CourseListState extends State<CourseList> {
                 style: TextStyle(color: Colors.black54)),
             subtitle: Text(" " + data[position]["url"],
                 style: TextStyle(color: Colors.black54)),
-            trailing: IconButton(
-                icon: Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                ),
-                tooltip: 'Delete this course',
-                onPressed: () {
-                  showSnackBar(context, data[position]["id"]);
-                }),
             onTap: () {
               debugPrint("Course clicked");
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                // return EditCourse(text: data[position]["id"]);
+                return CourseDetail(text: data[position]["id"]);
               }));
             },
           ),
