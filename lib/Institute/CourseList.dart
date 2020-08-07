@@ -10,8 +10,12 @@ class CourseList extends StatefulWidget {
 }
 
 class CourseListState extends State<CourseList> {
-  List<dynamic> data;
-  List<dynamic> data2 = null;
+  List data;
+  List data2;
+  List data3;
+
+  String name;
+  String url;
   String searchTerm;
 
   Future<String> getData() async {
@@ -19,9 +23,13 @@ class CourseListState extends State<CourseList> {
         Uri.encodeFull("http://10.0.2.2:8080/findAllCourses"),
         headers: {"Accept": "application/json"});
     this.setState(() {
+      //original
+      data3 = jsonDecode(response.body);
+      //changing
+      data2 = jsonDecode(response.body);
+      //showing
       data = jsonDecode(response.body);
     });
-    print(data);
     return "success!";
   }
 
@@ -90,17 +98,38 @@ class CourseListState extends State<CourseList> {
             onPressed: () {
               if (searchTerm != null) {
                 if (searchTerm.length != 0) {
-                  print(searchTerm);
-                  // Iterable data3 = data.where((i) => i.name).toList();
-                  // data2 = List.from(data3);
-                  // print(data2);
-                  // data2 = data
-                  //     .where((element) => element.name
-                  //         .toLowerCase()
-                  //         .contains(searchTerm.toLowerCase()))
-                  //     .toList();
+                  var j = 0;
+                  for (var i = 0; i < data3.length; i++) {
+                    if (data3[i]["name"]
+                        .toLowerCase()
+                        .contains(searchTerm.toLowerCase())) {
+                      print("------------------------------------------");
+                      print(data3[i]["name"]);
+                      data2[j] = data3[i];
+                      j++;
+                    }
+                  }
+                  for (var i = j; i < data3.length; i++) {
+                    // data2.remove(data2[i]);
+                  }
+                  print("data2 : changed");
+                  print(data2);
+                } else {
+                  data2 = data3;
+                  print("data2 : changed(empty search)");
+                  print(data2);
                 }
               }
+              setState(() {
+                data = data2;
+              });
+              data2 = data3;
+              print("data3 (original)");
+              print(data3);
+              print("data2 : reset");
+              print(data2);
+              print("data");
+              print(data);
             },
             color: Colors.purple,
           ),
