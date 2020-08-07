@@ -102,41 +102,43 @@ class EventDetailState extends State<EventDetail> {
     TextStyle textStyle = Theme.of(context).textTheme.title;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: Text(
           name,
           style: TextStyle(
-            fontSize: 18.0,
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).primaryColor,
           ),
         ),
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            color: Theme.of(context).primaryColor,
+            onPressed: () {
+              Navigator.pop(context, true);
+            }),
       ),
       body: Builder(
         builder: (context) => Form(
           key: _formKey,
           child: Padding(
-            padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
+            padding: EdgeInsets.only(top: 0, left: 0, right: 0),
             child: ListView(
               children: <Widget>[
                 //Venue Text
                 Container(
-                  margin: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.08, vertical: 8.0),
                   child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(35.0),
-                    ),
                     child: ListTile(
                       leading: CircleAvatar(
                           backgroundColor: Theme.of(context).accentColor,
                           child: Icon(
                             Icons.location_on,
-                            color: Theme.of(context).primaryColor,
+                            color: Colors.black54,
                           )),
                       title: Text(
                         venue,
                         style: TextStyle(
                           fontSize: 20.0,
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.black54,
                         ),
                       ),
                     ),
@@ -145,24 +147,19 @@ class EventDetailState extends State<EventDetail> {
 
                 //date
                 Container(
-                  margin: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.18, vertical: 8.0),
                   child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(35.0),
-                    ),
                     child: ListTile(
                       leading: CircleAvatar(
                           backgroundColor: Theme.of(context).accentColor,
                           child: Icon(
                             Icons.calendar_today,
-                            color: Theme.of(context).primaryColor,
+                            color: Colors.black54,
                           )),
                       title: Text(
                         date,
                         style: TextStyle(
                           fontSize: 20.0,
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.black54,
                         ),
                       ),
                     ),
@@ -171,24 +168,19 @@ class EventDetailState extends State<EventDetail> {
 
                 //Availability
                 Container(
-                  margin: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.28, vertical: 8.0),
                   child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(35.0),
-                    ),
                     child: ListTile(
                       leading: CircleAvatar(
                           backgroundColor: Theme.of(context).accentColor,
                           child: Icon(
                             Icons.people,
-                            color: Theme.of(context).primaryColor,
+                            color: Colors.black54,
                           )),
                       title: Text(
                         available,
                         style: TextStyle(
                           fontSize: 20.0,
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.black54,
                         ),
                       ),
                     ),
@@ -197,35 +189,28 @@ class EventDetailState extends State<EventDetail> {
 
                 //Description
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 8.0),
                   child: Card(
-                    margin: EdgeInsets.symmetric(
-                        horizontal: screenWidth * 0.04, vertical: 8.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
                     child: ListTile(
                       subtitle: Text(
-                        description,
+                        "Description :\n" + description,
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: 18.0,
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.black54,
                         ),
                       ),
                     ),
                   ),
                 ),
 
-                Container(
-                  height: 30,
-                ),
+                Divider(),
 
                 //join
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 8.0),
                   child: Card(
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.transparent,
+                    elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(0.0),
                     ),
@@ -235,17 +220,18 @@ class EventDetailState extends State<EventDetail> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 20.0,
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).primaryColor,
                         ),
                       ),
                     ),
                   ),
                 ),
 
+                Divider(),
                 //Name Field
                 Container(
                   margin: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.18, vertical: 8.0),
+                      horizontal: screenWidth * 0.08, vertical: 8.0),
                   child: TextFormField(
                     controller: nameController,
                     validator: (String value) {
@@ -332,7 +318,7 @@ class EventDetailState extends State<EventDetail> {
                 //Contact Number Field
                 Container(
                   margin: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.18, vertical: 8.0),
+                      horizontal: screenWidth * 0.08, vertical: 8.0),
                   child: Padding(
                     padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
                     child: TextFormField(
@@ -381,7 +367,7 @@ class EventDetailState extends State<EventDetail> {
                 //Heads Field
                 Container(
                   margin: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.27, vertical: 8.0),
+                      horizontal: screenWidth * 0.08, vertical: 8.0),
                   child: Padding(
                     padding: EdgeInsets.only(top: 0.0, bottom: 15.0),
                     child: TextFormField(
@@ -433,7 +419,7 @@ class EventDetailState extends State<EventDetail> {
                     ),
                   ),
                 ),
-
+                Divider(),
                 //Buttons
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),

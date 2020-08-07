@@ -38,25 +38,40 @@ class EventByDateState extends State<EventByDate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Upcoming Events'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.calendar_today),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return Calendar();
-              }));
-            },
+        //backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text(
+            'Upcoming Events',
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
           ),
-        ],
-      ),
-      body:  Container(
-        margin: const EdgeInsets.only(top: 20.0),
-        child : getListView(),
-      )
-    );
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              color: Theme.of(context).primaryColor,
+              onPressed: () {
+                Navigator.pop(context, true);
+              }),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.calendar_today,
+                color: Theme.of(context).primaryColor,
+              ),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Calendar();
+                }));
+              },
+            ),
+          ],
+        ),
+        body: Container(
+          margin: const EdgeInsets.only(top: 20.0),
+          child: getListView(),
+        ));
     throw UnimplementedError();
   }
 
@@ -67,31 +82,31 @@ class EventByDateState extends State<EventByDate> {
       itemBuilder: (BuildContext context, int position) {
         int availableInt = int.parse(data[position]["available"]);
         return Container(
-          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(35.0),
             ),
-            color: Colors.cyan[100],
-            elevation: 2.0,
+            color: Theme.of(context).accentColor,
+            elevation: 1.0,
             child: ListTile(
               leading: CircleAvatar(
-                backgroundColor: availableInt == 0 ? Colors.red : Colors.cyan,
+                backgroundColor: availableInt == 0
+                    ? Colors.red
+                    : Theme.of(context).primaryColor,
                 child: availableInt == 0
                     ? Icon(
                         Icons.event_busy,
                         color: Colors.black,
                       )
                     : Icon(
-                      Icons.event_available,
-                      color: Colors.black,
-                ),
-
+                        Icons.event_available,
+                        color: Colors.black,
+                      ),
               ),
               title: Text(data[position]["name"],
-                  style: TextStyle(color: Colors.black54)),
+                  style: TextStyle(color: Theme.of(context).primaryColor)),
               subtitle: Text(data[position]["date"],
-                  style: TextStyle(color: Colors.cyan[900])),
+                  style: TextStyle(color: Colors.black54)),
               onTap: () {
                 debugPrint("Event clicked");
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
