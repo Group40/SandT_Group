@@ -298,15 +298,18 @@ class CourseDetailState extends State<CourseDetail> {
                   ),
                 ),
 
+                //Like section
                 Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       (course != null && course['likedUsers'] != null)
                           ? Text(
-                              course['likedUsers'].length.toString(),
+                              "This course have " +
+                                  course['likedUsers'].length.toString() +
+                                  " likes!",
                               style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                                  fontSize: 20, color: Colors.black54),
                             )
                           : Text(
                               '0',
@@ -320,7 +323,9 @@ class CourseDetailState extends State<CourseDetail> {
                         onPressed: likeOrUnlike,
                         icon: Icon(
                           Icons.thumb_up,
-                          color: isLiked ? Colors.purple : Colors.black,
+                          color: isLiked
+                              ? Theme.of(context).primaryColor
+                              : Colors.black54,
                           size: 30,
                         ),
                       ),
@@ -328,6 +333,7 @@ class CourseDetailState extends State<CourseDetail> {
                   ),
                 ),
 
+                //Comment field
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: TextFormField(
