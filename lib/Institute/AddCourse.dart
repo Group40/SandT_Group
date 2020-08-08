@@ -35,7 +35,8 @@ class AddCourseState extends State<AddCourse> {
       'location': locationController.text,
       'description': descriptionController.text,
       'url': urlController.text,
-      'likedUsers': []
+      'likedUsers': [],
+      'commentedUsers': []
     });
     print(body);
     return await http.post(url, body: body, headers: {

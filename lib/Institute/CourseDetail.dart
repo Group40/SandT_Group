@@ -19,7 +19,10 @@ class CourseDetail extends StatefulWidget {
 class CourseDetailState extends State<CourseDetail> {
   CourseDetailState(String text);
 
+  var _formKey = GlobalKey<FormState>();
+
   var isLiked = false;
+  var isCommented = false;
   var course;
   String name = '';
   String id = '';
@@ -29,6 +32,10 @@ class CourseDetailState extends State<CourseDetail> {
   String location = '';
   String description = '';
   String url = '';
+
+  String comment = '';
+  String commentData = '';
+  String commentDataOld = '';
   var likedUsers = {};
   String uid = getToken();
 
@@ -47,19 +54,8 @@ class CourseDetailState extends State<CourseDetail> {
       location = course['location'];
       description = course['description'];
       url = course['url'];
-      // likedUsers = course['likedUsers'];
-      // likedUsers = jsonDecode(response.body)['likedUsers'];
+      comment = '';
     });
-    print(course['likedUsers']);
-    // print(jsonDecode(response.body)['likedUsers']);
-    // likedUsers.forEach((element) {
-    //   if (element == uid) {
-    //     setState(() {
-    //       isLiked = true;
-    //     });
-    //   }
-    // });
-    // print(likedUsers);
     if (course['likedUsers'] != null) {
       for (var i = 0; i < course['likedUsers'].length; i++) {
         if (course['likedUsers'][i] == uid) {
@@ -68,6 +64,69 @@ class CourseDetailState extends State<CourseDetail> {
           });
         }
       }
+    }
+    if (course['commentedUsers'] != null) {
+      for (var i = 0; i < course['commentedUsers'].length; i++) {
+        if (course['commentedUsers'][i].contains(uid, 10)) {
+          String str = course['commentedUsers'][i];
+          const start = "} UserComment={";
+          const end = "}";
+          final startIndex = str.indexOf(start);
+          final endIndex = str.indexOf(end, startIndex + start.length);
+          print(str.substring(startIndex + start.length, endIndex));
+          setState(() {
+            isCommented = true;
+            comment = str.substring(startIndex + start.length, endIndex);
+            commentDataOld = str;
+          });
+        }
+      }
+    }
+  }
+
+  TextEditingController commentController = TextEditingController();
+
+  void addComment() async {
+    commentData = 'UserToken={' +
+        getToken() +
+        '} UserName={' +
+        getUsername() +
+        '} UserComment={' +
+        commentController.text +
+        '}';
+    if (course['commentedUsers'] == null) {
+      print("commentedUsers = null");
+    } else if (isCommented == true) {
+      course['commentedUsers'].remove(commentDataOld);
+      course['commentedUsers'].add(commentData);
+    } else {
+      course['commentedUsers'].add(commentData);
+      setState(() {
+        isCommented = true;
+      });
+    }
+
+    try {
+      var body = jsonEncode({
+        'id': id,
+        'name': name,
+        'ageGroupMin': ageGroupMin,
+        'ageGroupMax': ageGroupMax,
+        'price': price,
+        'location': location,
+        'description': description,
+        'url': url,
+        'likedUsers': course['likedUsers'],
+        'commentedUsers': course['commentedUsers']
+      });
+      return await http.post(url2, body: body, headers: {
+        "Accept": "application/json",
+        "content-type": "application/json"
+      }).then((dynamic res) {
+        print(res.toString());
+      });
+    } catch (err) {
+      print(err);
     }
   }
 
@@ -97,7 +156,8 @@ class CourseDetailState extends State<CourseDetail> {
         'location': location,
         'description': description,
         'url': url,
-        'likedUsers': course['likedUsers']
+        'likedUsers': course['likedUsers'],
+        'commentedUsers': course['commentedUsers']
       });
       return await http.post(url2, body: body, headers: {
         "Accept": "application/json",
@@ -144,6 +204,7 @@ class CourseDetailState extends State<CourseDetail> {
       ),
       body: Builder(
         builder: (context) => Form(
+          key: _formKey,
           child: Padding(
             padding: EdgeInsets.only(left: 10.0, right: 10.0),
             child: ListView(
@@ -254,6 +315,54 @@ class CourseDetailState extends State<CourseDetail> {
                           Icons.thumb_up,
                           color: isLiked ? Colors.purple : Colors.black,
                           size: 30,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                  child: TextFormField(
+                    controller: commentController..text = comment,
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'comment section cannot be empty';
+                      }
+                      return null;
+                    },
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    onChanged: (value) {
+                      comment = value;
+                      debugPrint('Something changed in Text Field');
+                    },
+                    decoration: InputDecoration(
+                        labelText: 'Add a comment here',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        )),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: RaisedButton(
+                          color: Theme.of(context).accentColor,
+                          textColor: Theme.of(context).primaryColor,
+                          child: Text(
+                            'Add a comment',
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              if (_formKey.currentState.validate()) {
+                                addComment();
+                              }
+                            });
+                          },
                         ),
                       ),
                     ],

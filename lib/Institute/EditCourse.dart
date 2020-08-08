@@ -67,7 +67,8 @@ class EditCourseState extends State<EditCourse> {
       'location': locationController.text,
       'description': descriptionController.text,
       'url': urlController.text,
-      'likedUsers': course['likedUsers']
+      'likedUsers': course['likedUsers'],
+      'commentedUsers': course['commentedUsers']
     });
     return await http.post(url2, body: body, headers: {
       "Accept": "application/json",
