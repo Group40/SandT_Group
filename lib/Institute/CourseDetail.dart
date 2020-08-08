@@ -67,8 +67,15 @@ class CourseDetailState extends State<CourseDetail> {
     }
     if (course['commentedUsers'] != null) {
       for (var i = 0; i < course['commentedUsers'].length; i++) {
-        if (course['commentedUsers'][i].contains(uid, 10)) {
-          String str = course['commentedUsers'][i];
+        String str = course['commentedUsers'][i];
+        const startToken = "UserToken.u99D5,hq={";
+        const endToken = "}=EndUserToken.sK98,Tf1 UserName.f*j2I],9={";
+        final startIndexToken = str.indexOf(startToken);
+        final endIndexToken =
+            str.indexOf(endToken, startIndexToken + startToken.length);
+        if (course['commentedUsers'][i].contains(uid, 10) &&
+            str.substring(startIndexToken + startToken.length, endIndexToken) ==
+                uid) {
           const start = "}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={";
           const end = "}=EndUserComment.p9&5vGf,";
           final startIndex = str.indexOf(start);
@@ -412,14 +419,13 @@ class CourseDetailState extends State<CourseDetail> {
                                 i < course['commentedUsers'].length;
                                 i++)
                               Padding(
-                                padding:
-                                    EdgeInsets.only(top: 15.0, bottom: 15.0),
+                                padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
                                 child: Row(
                                   children: <Widget>[
                                     Expanded(
                                       child: Card(
                                         color: Theme.of(context).accentColor,
-                                        elevation: 2.0,
+                                        elevation: 0.0,
                                         child: ListTile(
                                           leading: CircleAvatar(
                                             backgroundColor: Colors.transparent,
