@@ -4,6 +4,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
+var url2 = "http://10.0.2.2:8080/updateCourse";
+
 class CourseDetail extends StatefulWidget {
   final String text;
 
@@ -16,6 +18,7 @@ class CourseDetail extends StatefulWidget {
 class CourseDetailState extends State<CourseDetail> {
   CourseDetailState(String text);
 
+  var isLiked = false;
   var course;
   String name = '';
   String id = '';
@@ -25,6 +28,8 @@ class CourseDetailState extends State<CourseDetail> {
   String location = '';
   String description = '';
   String url = '';
+  var likedUsers = {};
+  String uid = 'uid';
 
   Future<String> getData() async {
     http.Response response = await http.get(
@@ -41,7 +46,69 @@ class CourseDetailState extends State<CourseDetail> {
       location = course['location'];
       description = course['description'];
       url = course['url'];
+      // likedUsers = course['likedUsers'];
+      // likedUsers = jsonDecode(response.body)['likedUsers'];
     });
+    print(course['likedUsers']);
+    // print(jsonDecode(response.body)['likedUsers']);
+    // likedUsers.forEach((element) {
+    //   if (element == uid) {
+    //     setState(() {
+    //       isLiked = true;
+    //     });
+    //   }
+    // });
+    // print(likedUsers);
+    if (course['likedUsers'] != null) {
+      for (var i = 0; i < course['likedUsers'].length; i++) {
+        if (course['likedUsers'][i] == uid) {
+          setState(() {
+            isLiked = true;
+          });
+        }
+      }
+    }
+  }
+
+  void likeOrUnlike() async {
+    if (likedUsers == null) {
+      likedUsers[0] = uid;
+      setState(() {
+        isLiked = true;
+      });
+    } else if (isLiked == true) {
+      likedUsers.remove(uid);
+      setState(() {
+        isLiked = false;
+      });
+    } else {
+      likedUsers[likedUsers.length] = uid;
+      setState(() {
+        isLiked = true;
+      });
+    }
+
+    try {
+      var body = jsonEncode({
+        'id': id,
+        'name': name,
+        'ageGroupMin': ageGroupMin,
+        'ageGroupMax': ageGroupMax,
+        'price': price,
+        'location': location,
+        'description': description,
+        'url': url,
+        'likedUsers': likedUsers
+      });
+      return await http.post(url2, body: body, headers: {
+        "Accept": "application/json",
+        "content-type": "application/json"
+      }).then((dynamic res) {
+        print(res.toString());
+      });
+    } catch (err) {
+      print(err);
+    }
   }
 
   _launchURL() async {
@@ -161,6 +228,36 @@ class CourseDetailState extends State<CourseDetail> {
                         ),
                       ),
                     ),
+                  ),
+                ),
+
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      (course != null && course['likedUsers'] != null)
+                          ? Text(
+                              course['likedUsers'].length.toString(),
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            )
+                          : Text(
+                              '0',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      IconButton(
+                        onPressed: likeOrUnlike,
+                        icon: Icon(
+                          Icons.thumb_up,
+                          color: isLiked ? Colors.purple : Colors.black,
+                          size: 30,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
