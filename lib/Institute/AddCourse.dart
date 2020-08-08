@@ -34,7 +34,8 @@ class AddCourseState extends State<AddCourse> {
       'price': priceController.text,
       'location': locationController.text,
       'description': descriptionController.text,
-      'url': urlController.text
+      'url': urlController.text,
+      'likedUsers': []
     });
     print(body);
     return await http.post(url, body: body, headers: {

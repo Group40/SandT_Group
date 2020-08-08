@@ -71,18 +71,19 @@ class CourseDetailState extends State<CourseDetail> {
   }
 
   void likeOrUnlike() async {
-    if (likedUsers == null) {
-      likedUsers[0] = uid;
+    if (course['likedUsers'] == null) {
+      course['likedUsers'][0] = uid;
       setState(() {
         isLiked = true;
       });
     } else if (isLiked == true) {
-      likedUsers.remove(uid);
+      course['likedUsers'].remove(uid);
+      print(course['likedUsers']);
       setState(() {
         isLiked = false;
       });
     } else {
-      likedUsers[likedUsers.length] = uid;
+      course['likedUsers'].add(uid);
       setState(() {
         isLiked = true;
       });
@@ -98,7 +99,7 @@ class CourseDetailState extends State<CourseDetail> {
         'location': location,
         'description': description,
         'url': url,
-        'likedUsers': likedUsers
+        'likedUsers': course['likedUsers']
       });
       return await http.post(url2, body: body, headers: {
         "Accept": "application/json",
