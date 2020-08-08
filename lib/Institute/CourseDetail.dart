@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
 
 var url2 = "http://10.0.2.2:8080/updateCourse";
 
@@ -29,7 +30,7 @@ class CourseDetailState extends State<CourseDetail> {
   String description = '';
   String url = '';
   var likedUsers = {};
-  String uid = 'uid';
+  String uid = getToken();
 
   Future<String> getData() async {
     http.Response response = await http.get(
@@ -72,10 +73,7 @@ class CourseDetailState extends State<CourseDetail> {
 
   void likeOrUnlike() async {
     if (course['likedUsers'] == null) {
-      course['likedUsers'][0] = uid;
-      setState(() {
-        isLiked = true;
-      });
+      print("likedUsers = null");
     } else if (isLiked == true) {
       course['likedUsers'].remove(uid);
       print(course['likedUsers']);
