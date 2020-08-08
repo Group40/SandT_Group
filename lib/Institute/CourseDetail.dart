@@ -69,8 +69,8 @@ class CourseDetailState extends State<CourseDetail> {
       for (var i = 0; i < course['commentedUsers'].length; i++) {
         if (course['commentedUsers'][i].contains(uid, 10)) {
           String str = course['commentedUsers'][i];
-          const start = "} UserComment={";
-          const end = "}";
+          const start = "}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={";
+          const end = "}=EndUserComment.p9&5vGf,";
           final startIndex = str.indexOf(start);
           final endIndex = str.indexOf(end, startIndex + start.length);
           print(str.substring(startIndex + start.length, endIndex));
@@ -87,13 +87,13 @@ class CourseDetailState extends State<CourseDetail> {
   TextEditingController commentController = TextEditingController();
 
   void addComment() async {
-    commentData = 'UserToken={' +
+    commentData = 'UserToken.u99D5,hq={' +
         getToken() +
-        '} UserName={' +
+        '}=EndUserToken.sK98,Tf1 UserName.f*j2I],9={' +
         getUsername() +
-        '} UserComment={' +
+        '}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={' +
         commentController.text +
-        '}';
+        '}=EndUserComment.p9&5vGf,';
     if (course['commentedUsers'] == null) {
       print("commentedUsers = null");
     } else if (isCommented == true) {
@@ -378,7 +378,7 @@ class CourseDetailState extends State<CourseDetail> {
                           color: Theme.of(context).primaryColor,
                           textColor: Theme.of(context).accentColor,
                           child: Text(
-                            'More Information',
+                            'Visit for More Information',
                           ),
                           onPressed: () {
                             _launchURL();
@@ -387,6 +387,92 @@ class CourseDetailState extends State<CourseDetail> {
                       ),
                     ],
                   ),
+                ),
+
+                //Comment section
+                Divider(),
+                Text(
+                  "Comment Section",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey),
+                ),
+                Divider(),
+                Container(
+                  child: (course == null ||
+                          course['commentedUsers'].length == 0)
+                      ? Center(
+                          child: Text("No comments available for this Course",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor)))
+                      : Column(
+                          children: [
+                            for (var i = 0;
+                                i < course['commentedUsers'].length;
+                                i++)
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: 15.0, bottom: 15.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Card(
+                                        color: Theme.of(context).accentColor,
+                                        elevation: 2.0,
+                                        child: ListTile(
+                                          leading: CircleAvatar(
+                                            backgroundColor: Colors.transparent,
+                                            child: Icon(
+                                              Icons.person,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
+                                          ),
+                                          //Title
+                                          title: Text(
+                                              ((course['commentedUsers'][i]).substring(
+                                                  ((course['commentedUsers'][i])
+                                                          .indexOf(
+                                                              '}=EndUserToken.sK98,Tf1 UserName.f*j2I],9={')) +
+                                                      ('}=EndUserToken.sK98,Tf1 UserName.f*j2I],9={')
+                                                          .length,
+                                                  ((course['commentedUsers'][i]).indexOf(
+                                                      ('}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={'),
+                                                      ((course['commentedUsers']
+                                                                  [i])
+                                                              .indexOf(
+                                                                  '}=EndUserToken.sK98,Tf1 UserName.f*j2I],9={')) +
+                                                          ('}=EndUserToken.sK98,Tf1 UserName.f*j2I],9={')
+                                                              .length)))),
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColor)),
+                                          subtitle: Text(
+                                              ((course['commentedUsers'][i]).substring(
+                                                  ((course['commentedUsers'][i])
+                                                          .indexOf(
+                                                              "}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={")) +
+                                                      ("}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={")
+                                                          .length,
+                                                  ((course['commentedUsers'][i]).indexOf(
+                                                      ("}=EndUserComment.p9&5vGf,"),
+                                                      ((course['commentedUsers']
+                                                                  [i])
+                                                              .indexOf(
+                                                                  "}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={")) +
+                                                          ("}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={")
+                                                              .length)))),
+                                              style: TextStyle(
+                                                  color: Colors.black54)),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                          ],
+                        ),
                 ),
               ],
             ),
