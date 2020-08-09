@@ -68,10 +68,16 @@ class EventByDateState extends State<EventByDate> {
             ),
           ],
         ),
-        body: Container(
-          margin: const EdgeInsets.only(top: 20.0),
-          child: getListView(),
-        ));
+        body: (data == null)
+            ? Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Theme.of(context).primaryColor,
+                ),
+              )
+            : Container(
+                margin: const EdgeInsets.only(top: 20.0),
+                child: getListView(),
+              ));
     throw UnimplementedError();
   }
 

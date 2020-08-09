@@ -62,9 +62,15 @@ class EventBookingState extends State<EventBooking> {
             ),
           ],
         ),
-        body: Container(
-          child: getListView(),
-        )
+        body: (data == null)
+            ? Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Theme.of(context).primaryColor,
+                ),
+              )
+            : Container(
+                child: getListView(),
+              )
 //
         );
     throw UnimplementedError();

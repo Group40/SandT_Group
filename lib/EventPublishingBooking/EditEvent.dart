@@ -134,109 +134,187 @@ class EditEventState extends State<EditEvent> {
             }),
         //Optional back button ends
       ),
-      body: Builder(
-        builder: (context) => Form(
-          key: _formKey,
-          child: Padding(
-            padding:
-                EdgeInsets.only(top: 0.0, left: 10.0, right: 10.0, bottom: 5),
-            child: ListView(
-              children: <Widget>[
-                //Buttons
-                Padding(
-                  padding: EdgeInsets.only(top: 0, bottom: 15.0),
-                  child: Row(
+      body: (event == null)
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+            )
+          : Builder(
+              builder: (context) => Form(
+                key: _formKey,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      top: 0.0, left: 10.0, right: 10.0, bottom: 5),
+                  child: ListView(
                     children: <Widget>[
-                      //Request Button
-                      Expanded(
-                        child: RaisedButton(
-                          color: Theme.of(context).accentColor,
-                          textColor: Theme.of(context).primaryColor,
-                          child: Text(
-                            'Request List',
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return RequestList(text: id);
-                              }));
-                            });
-                          },
+                      //Buttons
+                      Padding(
+                        padding: EdgeInsets.only(top: 0, bottom: 15.0),
+                        child: Row(
+                          children: <Widget>[
+                            //Request Button
+                            Expanded(
+                              child: RaisedButton(
+                                color: Theme.of(context).accentColor,
+                                textColor: Theme.of(context).primaryColor,
+                                child: Text(
+                                  'Request List',
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return RequestList(text: id);
+                                    }));
+                                  });
+                                },
+                              ),
+                            ),
+
+                            //Confirm Button
+                            Expanded(
+                              child: RaisedButton(
+                                color: Theme.of(context).accentColor,
+                                textColor: Theme.of(context).primaryColor,
+                                child: Text(
+                                  'Confirmed List',
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return ConfirmedList(text: id);
+                                    }));
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
-                      //Confirm Button
-                      Expanded(
-                        child: RaisedButton(
-                          color: Theme.of(context).accentColor,
-                          textColor: Theme.of(context).primaryColor,
-                          child: Text(
-                            'Confirmed List',
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return ConfirmedList(text: id);
-                              }));
-                            });
-                          },
+                      //Capacity and Availability
+                      Padding(
+                        padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                        child: Row(
+                          children: <Widget>[
+                            //Capacity
+                            Expanded(
+                              child: Text(
+                                'Capacity : ' + headCount,
+                                textScaleFactor: 1.5,
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 5.0,
+                            ),
+
+                            //Availability
+                            Expanded(
+                              child: Text(
+                                'Availabile : ' + available,
+                                textScaleFactor: 1.5,
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 5.0,
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
 
-                //Capacity and Availability
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: Row(
-                    children: <Widget>[
-                      //Capacity
-                      Expanded(
-                        child: Text(
-                          'Capacity : ' + headCount,
-                          textScaleFactor: 1.5,
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 5.0,
-                      ),
-
-                      //Availability
-                      Expanded(
-                        child: Text(
-                          'Availabile : ' + available,
-                          textScaleFactor: 1.5,
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 5.0,
-                      ),
-                    ],
-                  ),
-                ),
-
-                //Date Field
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: Row(
-                    children: <Widget>[
                       //Date Field
-                      Expanded(
+                      Padding(
+                        padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                        child: Row(
+                          children: <Widget>[
+                            //Date Field
+                            Expanded(
+                              child: TextFormField(
+                                enabled: false,
+                                controller: dateController..text = date,
+                                validator: (String value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the date';
+                                  }
+                                  return null;
+                                },
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                onChanged: (value) {
+                                  debugPrint('Something changed in Text Field');
+                                },
+                                decoration: InputDecoration(
+                                    labelText: 'Date',
+                                    labelStyle: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    disabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context).accentColor,
+                                          width: 0.0),
+                                      borderRadius: BorderRadius.circular(35.0),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    )),
+                              ),
+                            ),
+                            Container(
+                              width: 5.0,
+                            ),
+
+                            //Calendar Button
+                            Expanded(
+                              child: ButtonTheme(
+                                child: RaisedButton(
+                                  color: Theme.of(context).accentColor,
+                                  child: Text(
+                                    'Change the date',
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2001),
+                                      lastDate: DateTime(2222),
+                                    ).then((inputDate) => {
+                                          setState(() {
+                                            if (inputDate != null) {
+                                              _dateTime = inputDate;
+                                              date = _dateTime
+                                                  .toString()
+                                                  .substring(0, 10);
+                                            }
+                                          }),
+                                        });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      //Name Field
+                      Padding(
+                        padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                         child: TextFormField(
-                          enabled: false,
-                          controller: dateController..text = date,
+                          controller: nameController..text = name,
                           validator: (String value) {
                             if (value.isEmpty) {
-                              return 'Please enter the date';
+                              return 'Please enter the Name';
                             }
                             return null;
                           },
@@ -247,195 +325,123 @@ class EditEventState extends State<EditEvent> {
                             debugPrint('Something changed in Text Field');
                           },
                           decoration: InputDecoration(
-                              labelText: 'Date',
+                              labelText: 'Name',
                               labelStyle: TextStyle(
                                 color: Theme.of(context).primaryColor,
                               ),
-                              disabledBorder: OutlineInputBorder(
+                              enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Theme.of(context).accentColor,
-                                    width: 0.0),
-                                borderRadius: BorderRadius.circular(35.0),
+                                    color: Theme.of(context).primaryColor,
+                                    width: 2.0),
+                                borderRadius: BorderRadius.circular(0.0),
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5.0),
                               )),
                         ),
                       ),
-                      Container(
-                        width: 5.0,
-                      ),
 
-                      //Calendar Button
-                      Expanded(
-                        child: ButtonTheme(
-                          child: RaisedButton(
-                            color: Theme.of(context).accentColor,
-                            child: Text(
-                              'Change the date',
-                              style: TextStyle(
+                      //Venue Field
+                      Padding(
+                        padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                        child: TextFormField(
+                          controller: venueController..text = venue,
+                          validator: (String value) {
+                            if (value.isEmpty) {
+                              return 'Please enter the venue';
+                            }
+                            return null;
+                          },
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          onChanged: (value) {
+                            debugPrint('Something changed in Text Field');
+                          },
+                          decoration: InputDecoration(
+                              labelText: 'Venue',
+                              labelStyle: TextStyle(
                                 color: Theme.of(context).primaryColor,
                               ),
-                            ),
-                            onPressed: () {
-                              showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2001),
-                                lastDate: DateTime(2222),
-                              ).then((inputDate) => {
-                                    setState(() {
-                                      if (inputDate != null) {
-                                        _dateTime = inputDate;
-                                        date = _dateTime
-                                            .toString()
-                                            .substring(0, 10);
-                                      }
-                                    }),
-                                  });
-                            },
-                          ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 2.0),
+                                borderRadius: BorderRadius.circular(0.0),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              )),
                         ),
                       ),
-                    ],
-                  ),
-                ),
 
-                //Name Field
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: TextFormField(
-                    controller: nameController..text = name,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'Please enter the Name';
-                      }
-                      return null;
-                    },
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    onChanged: (value) {
-                      debugPrint('Something changed in Text Field');
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'Name',
-                        labelStyle: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor,
-                              width: 2.0),
-                          borderRadius: BorderRadius.circular(0.0),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        )),
-                  ),
-                ),
-
-                //Venue Field
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: TextFormField(
-                    controller: venueController..text = venue,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'Please enter the venue';
-                      }
-                      return null;
-                    },
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    onChanged: (value) {
-                      debugPrint('Something changed in Text Field');
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'Venue',
-                        labelStyle: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor,
-                              width: 2.0),
-                          borderRadius: BorderRadius.circular(0.0),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        )),
-                  ),
-                ),
-
-                //Description Field
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: TextFormField(
-                    maxLines: null,
-                    controller: descriptionController..text = description,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'Please enter the description';
-                      }
-                      return null;
-                    },
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    onChanged: (value) {
-                      debugPrint('Something changed in Text Field');
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'Description',
-                        labelStyle: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor,
-                              width: 2.0),
-                          borderRadius: BorderRadius.circular(0.0),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        )),
-                  ),
-                ),
-
-                //Edit Button
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        width: 5.0,
-                      ),
-                      Expanded(
-                        child: RaisedButton(
-                          color: Theme.of(context).accentColor,
-                          textColor: Theme.of(context).primaryColor,
-                          child: Text(
-                            'Edit',
-                            textScaleFactor: 1.5,
-                          ),
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              showSnackBar(context);
-                              debugPrint('Add button clicked');
+                      //Description Field
+                      Padding(
+                        padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                        child: TextFormField(
+                          maxLines: null,
+                          controller: descriptionController..text = description,
+                          validator: (String value) {
+                            if (value.isEmpty) {
+                              return 'Please enter the description';
                             }
+                            return null;
                           },
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          onChanged: (value) {
+                            debugPrint('Something changed in Text Field');
+                          },
+                          decoration: InputDecoration(
+                              labelText: 'Description',
+                              labelStyle: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 2.0),
+                                borderRadius: BorderRadius.circular(0.0),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              )),
+                        ),
+                      ),
+
+                      //Edit Button
+                      Padding(
+                        padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: 5.0,
+                            ),
+                            Expanded(
+                              child: RaisedButton(
+                                color: Theme.of(context).accentColor,
+                                textColor: Theme.of(context).primaryColor,
+                                child: Text(
+                                  'Edit',
+                                  textScaleFactor: 1.5,
+                                ),
+                                onPressed: () {
+                                  if (_formKey.currentState.validate()) {
+                                    showSnackBar(context);
+                                    debugPrint('Add button clicked');
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
     throw UnimplementedError();
   }

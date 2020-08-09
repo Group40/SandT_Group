@@ -118,7 +118,13 @@ class EventByDateAdminState extends State<EventByDateAdmin> {
           ),
         ],
       ),
-      body: getListView(),
+      body: (data == null)
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+            )
+          : getListView(),
       floatingActionButton: FloatingActionButton(
         foregroundColor: Theme.of(context).accentColor,
         backgroundColor: Theme.of(context).primaryColor,

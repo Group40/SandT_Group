@@ -42,7 +42,14 @@ class UserNotificationState extends State<UserNotification> {
         ),
         iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
       ),
-      body: getListView(),
+
+      body: (data == null)
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+            )
+          : getListView(),
     );
 
     throw UnimplementedError();

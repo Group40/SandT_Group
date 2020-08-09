@@ -138,25 +138,31 @@ class CalendarState extends State<Calendar> {
         appBar: new AppBar(
           title: new Text("Event Calendar"),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(
-                  top: 40.0,
-                  bottom: 16.0,
-                  left: 16.0,
-                  right: 16.0,
+        body: (data == null)
+            ? Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Theme.of(context).primaryColor,
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.0),
-                child: _calendarCarouselNoHeader,
-              ), //
-            ],
-          ),
-        ));
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 40.0,
+                        bottom: 16.0,
+                        left: 16.0,
+                        right: 16.0,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: _calendarCarouselNoHeader,
+                    ), //
+                  ],
+                ),
+              ));
   }
 }

@@ -85,7 +85,7 @@ class _AppDrawerState extends State<AppDrawer> {
             },
           ),
           Menu(
-            icon: Icons.event,
+            icon: Icons.school,
             title: "Courses",
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {

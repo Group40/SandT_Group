@@ -209,288 +209,300 @@ class CourseDetailState extends State<CourseDetail> {
           ),
         ),
       ),
-      body: Builder(
-        builder: (context) => Form(
-          key: _formKey,
-          child: Padding(
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: ListView(
-              children: <Widget>[
-                //Location Text
-                Container(
-                  child: Card(
-                    child: ListTile(
-                      leading: CircleAvatar(
-                          backgroundColor: Theme.of(context).accentColor,
-                          child: Icon(
-                            Icons.location_on,
-                            color: Colors.black54,
-                          )),
-                      title: Text(
-                        location,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                //Age
-                Container(
-                  child: Card(
-                    child: ListTile(
-                      leading: CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          child: Icon(
-                            Icons.assignment_ind,
-                            color: Colors.black54,
-                          )),
-                      title: Text(
-                        "From age " + ageGroupMin + " to " + ageGroupMax,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                //Price
-                Container(
-                  child: Card(
-                    child: ListTile(
-                      leading: CircleAvatar(
-                          backgroundColor: Theme.of(context).accentColor,
-                          child: Icon(
-                            Icons.monetization_on,
-                            color: Colors.black54,
-                          )),
-                      title: Text(
-                        price,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                //Description
-                Container(
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: ListTile(
-                      subtitle: Text(
-                        "Description :\n" + description,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                //Like section
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+      body: (course == null)
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+            )
+          : Builder(
+              builder: (context) => Form(
+                key: _formKey,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: ListView(
                     children: <Widget>[
-                      (course != null && course['likedUsers'] != null)
-                          ? Text(
-                              "This course have " +
-                                  course['likedUsers'].length.toString() +
-                                  " likes!",
+                      //Location Text
+                      Container(
+                        child: Card(
+                          child: ListTile(
+                            leading: CircleAvatar(
+                                backgroundColor: Theme.of(context).accentColor,
+                                child: Icon(
+                                  Icons.location_on,
+                                  color: Colors.black54,
+                                )),
+                            title: Text(
+                              location,
                               style: TextStyle(
-                                  fontSize: 20, color: Colors.black54),
-                            )
-                          : Text(
-                              '0',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      IconButton(
-                        onPressed: likeOrUnlike,
-                        icon: Icon(
-                          Icons.thumb_up,
-                          color: isLiked
-                              ? Theme.of(context).primaryColor
-                              : Colors.black54,
-                          size: 30,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                //Comment field
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: TextFormField(
-                    controller: commentController..text = comment,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'comment section cannot be empty';
-                      }
-                      return null;
-                    },
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    onChanged: (value) {
-                      comment = value;
-                      debugPrint('Something changed in Text Field');
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'Add a comment here',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        )),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: RaisedButton(
-                          color: Theme.of(context).accentColor,
-                          textColor: Theme.of(context).primaryColor,
-                          child: Text(
-                            'Add a comment',
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              if (_formKey.currentState.validate()) {
-                                addComment();
-                              }
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Theme.of(context).accentColor,
-                          child: Text(
-                            'Visit for More Information',
-                          ),
-                          onPressed: () {
-                            _launchURL();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                //Comment section
-                Divider(),
-                Text(
-                  "Comment Section",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey),
-                ),
-                Divider(),
-                Container(
-                  child: (course == null ||
-                          course['commentedUsers'].length == 0)
-                      ? Center(
-                          child: Text("No comments available for this Course",
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor)))
-                      : Column(
-                          children: [
-                            for (var i = 0;
-                                i < course['commentedUsers'].length;
-                                i++)
-                              Padding(
-                                padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Card(
-                                        color: Theme.of(context).accentColor,
-                                        elevation: 0.0,
-                                        child: ListTile(
-                                          leading: CircleAvatar(
-                                            backgroundColor: Colors.transparent,
-                                            child: Icon(
-                                              Icons.person,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                            ),
-                                          ),
-                                          //Title
-                                          title: Text(
-                                              ((course['commentedUsers'][i]).substring(
-                                                  ((course['commentedUsers'][i])
-                                                          .indexOf(
-                                                              '}=EndUserToken.sK98,Tf1 UserName.f*j2I],9={')) +
-                                                      ('}=EndUserToken.sK98,Tf1 UserName.f*j2I],9={')
-                                                          .length,
-                                                  ((course['commentedUsers'][i]).indexOf(
-                                                      ('}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={'),
-                                                      ((course['commentedUsers']
-                                                                  [i])
-                                                              .indexOf(
-                                                                  '}=EndUserToken.sK98,Tf1 UserName.f*j2I],9={')) +
-                                                          ('}=EndUserToken.sK98,Tf1 UserName.f*j2I],9={')
-                                                              .length)))),
-                                              style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor)),
-                                          subtitle: Text(
-                                              ((course['commentedUsers'][i]).substring(
-                                                  ((course['commentedUsers'][i])
-                                                          .indexOf(
-                                                              "}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={")) +
-                                                      ("}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={")
-                                                          .length,
-                                                  ((course['commentedUsers'][i]).indexOf(
-                                                      ("}=EndUserComment.p9&5vGf,"),
-                                                      ((course['commentedUsers']
-                                                                  [i])
-                                                              .indexOf(
-                                                                  "}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={")) +
-                                                          ("}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={")
-                                                              .length)))),
-                                              style: TextStyle(
-                                                  color: Colors.black54)),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                fontSize: 20.0,
+                                color: Colors.black54,
                               ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      //Age
+                      Container(
+                        child: Card(
+                          child: ListTile(
+                            leading: CircleAvatar(
+                                backgroundColor: Colors.transparent,
+                                child: Icon(
+                                  Icons.assignment_ind,
+                                  color: Colors.black54,
+                                )),
+                            title: Text(
+                              "From age " + ageGroupMin + " to " + ageGroupMax,
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      //Price
+                      Container(
+                        child: Card(
+                          child: ListTile(
+                            leading: CircleAvatar(
+                                backgroundColor: Theme.of(context).accentColor,
+                                child: Icon(
+                                  Icons.monetization_on,
+                                  color: Colors.black54,
+                                )),
+                            title: Text(
+                              price,
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      //Description
+                      Container(
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          child: ListTile(
+                            subtitle: Text(
+                              "Description :\n" + description,
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      //Like section
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            (course != null && course['likedUsers'] != null)
+                                ? Text(
+                                    "This course have " +
+                                        course['likedUsers'].length.toString() +
+                                        " likes!",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.black54),
+                                  )
+                                : Text(
+                                    '0',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            IconButton(
+                              onPressed: likeOrUnlike,
+                              icon: Icon(
+                                Icons.thumb_up,
+                                color: isLiked
+                                    ? Theme.of(context).primaryColor
+                                    : Colors.black54,
+                                size: 30,
+                              ),
+                            ),
                           ],
                         ),
+                      ),
+
+                      //Comment field
+                      Padding(
+                        padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                        child: TextFormField(
+                          controller: commentController..text = comment,
+                          validator: (String value) {
+                            if (value.isEmpty) {
+                              return 'comment section cannot be empty';
+                            }
+                            return null;
+                          },
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          onChanged: (value) {
+                            comment = value;
+                            debugPrint('Something changed in Text Field');
+                          },
+                          decoration: InputDecoration(
+                              labelText: 'Add a comment here',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              )),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: RaisedButton(
+                                color: Theme.of(context).accentColor,
+                                textColor: Theme.of(context).primaryColor,
+                                child: Text(
+                                  'Add a comment',
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    if (_formKey.currentState.validate()) {
+                                      addComment();
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: RaisedButton(
+                                color: Theme.of(context).primaryColor,
+                                textColor: Theme.of(context).accentColor,
+                                child: Text(
+                                  'Visit for More Information',
+                                ),
+                                onPressed: () {
+                                  _launchURL();
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      //Comment section
+                      Divider(),
+                      Text(
+                        "Comment Section",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey),
+                      ),
+                      Divider(),
+                      Container(
+                        child: (course == null ||
+                                course['commentedUsers'].length == 0)
+                            ? Center(
+                                child: Text(
+                                    "No comments available for this Course",
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor)))
+                            : Column(
+                                children: [
+                                  for (var i = 0;
+                                      i < course['commentedUsers'].length;
+                                      i++)
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 0.0, bottom: 0.0),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Card(
+                                              color:
+                                                  Theme.of(context).accentColor,
+                                              elevation: 0.0,
+                                              child: ListTile(
+                                                leading: CircleAvatar(
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  child: Icon(
+                                                    Icons.person,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                  ),
+                                                ),
+                                                //Title
+                                                title: Text(
+                                                    ((course['commentedUsers'][i]).substring(
+                                                        ((course['commentedUsers'][i])
+                                                                .indexOf(
+                                                                    '}=EndUserToken.sK98,Tf1 UserName.f*j2I],9={')) +
+                                                            ('}=EndUserToken.sK98,Tf1 UserName.f*j2I],9={')
+                                                                .length,
+                                                        ((course['commentedUsers'][i]).indexOf(
+                                                            ('}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={'),
+                                                            ((course['commentedUsers']
+                                                                        [i])
+                                                                    .indexOf(
+                                                                        '}=EndUserToken.sK98,Tf1 UserName.f*j2I],9={')) +
+                                                                ('}=EndUserToken.sK98,Tf1 UserName.f*j2I],9={')
+                                                                    .length)))),
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor)),
+                                                subtitle: Text(
+                                                    ((course['commentedUsers'][i]).substring(
+                                                        ((course['commentedUsers']
+                                                                    [i])
+                                                                .indexOf(
+                                                                    "}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={")) +
+                                                            ("}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={")
+                                                                .length,
+                                                        ((course['commentedUsers'][i]).indexOf(
+                                                            ("}=EndUserComment.p9&5vGf,"),
+                                                            ((course['commentedUsers']
+                                                                        [i])
+                                                                    .indexOf(
+                                                                        "}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={")) +
+                                                                ("}=EndUserName.iH8,g7f1 UserComment.j&gVpk,4={")
+                                                                    .length)))),
+                                                    style: TextStyle(
+                                                        color: Colors.black54)),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                ],
+                              ),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
     throw UnimplementedError();
   }

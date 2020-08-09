@@ -142,7 +142,13 @@ class CourseListState extends State<CourseList> {
             ),
           ],
         ),
-        body: filterModal(),
+        body: (data == null)
+            ? Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Theme.of(context).primaryColor,
+                ),
+              )
+            : filterModal(),
       );
     } else {
       return Scaffold(
@@ -186,7 +192,13 @@ class CourseListState extends State<CourseList> {
             ),
           ],
         ),
-        body: getListView(),
+        body: (data == null)
+            ? Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Theme.of(context).primaryColor,
+                ),
+              )
+            : getListView(),
       );
     }
 

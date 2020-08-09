@@ -239,7 +239,13 @@ class RequestListState extends State<RequestList> {
             }),
         //Optional back button ends
       ),
-      body: getListView(),
+      body: (requestData == null)
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+            )
+          : getListView(),
     );
     throw UnimplementedError();
   }
