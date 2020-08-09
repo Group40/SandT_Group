@@ -89,13 +89,13 @@ class EditEventState extends State<EditEvent> {
 
   void showSnackBar(BuildContext context) {
     var snackBar = SnackBar(
-      backgroundColor: Colors.black54,
+      backgroundColor: Theme.of(context).accentColor,
       content: Text(
         'Are you sure?',
-        style: TextStyle(fontSize: 20, color: Colors.white70),
+        style: TextStyle(fontSize: 20, color: Colors.black54),
       ),
       action: SnackBarAction(
-          textColor: Colors.cyan,
+          textColor: Theme.of(context).primaryColor,
           label: "YES",
           onPressed: () {
             update();
@@ -115,7 +115,13 @@ class EditEventState extends State<EditEvent> {
     TextStyle textStyle = Theme.of(context).textTheme.title;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit this event"),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          "Edit this Event",
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+        iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         //Optional back button
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -144,14 +150,10 @@ class EditEventState extends State<EditEvent> {
                       //Request Button
                       Expanded(
                         child: RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Theme.of(context).accentColor,
+                          color: Theme.of(context).accentColor,
+                          textColor: Theme.of(context).primaryColor,
                           child: Text(
                             'Request List',
-                            textScaleFactor: 1.5,
-                            style: TextStyle(
-                              color: Theme.of(context).accentColor,
-                            ),
                           ),
                           onPressed: () {
                             setState(() {
@@ -168,13 +170,9 @@ class EditEventState extends State<EditEvent> {
                       Expanded(
                         child: RaisedButton(
                           color: Theme.of(context).accentColor,
-                          textColor: Theme.of(context).primaryColorLight,
+                          textColor: Theme.of(context).primaryColor,
                           child: Text(
                             'Confirmed List',
-                            textScaleFactor: 1.5,
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
                           ),
                           onPressed: () {
                             setState(() {
@@ -226,40 +224,6 @@ class EditEventState extends State<EditEvent> {
                   ),
                 ),
 
-                //Name Field
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: TextFormField(
-                    controller: nameController..text = name,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'Please enter the Name';
-                      }
-                      return null;
-                    },
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    onChanged: (value) {
-                      debugPrint('Something changed in Text Field');
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'Name',
-                        labelStyle: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor,
-                              width: 2.0),
-                          borderRadius: BorderRadius.circular(35.0),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        )),
-                  ),
-                ),
-
                 //Date Field
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -289,8 +253,8 @@ class EditEventState extends State<EditEvent> {
                               ),
                               disabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2.0),
+                                    color: Theme.of(context).accentColor,
+                                    width: 0.0),
                                 borderRadius: BorderRadius.circular(35.0),
                               ),
                               border: OutlineInputBorder(
@@ -308,7 +272,7 @@ class EditEventState extends State<EditEvent> {
                           child: RaisedButton(
                             color: Theme.of(context).accentColor,
                             child: Text(
-                              'Take a date',
+                              'Change the date',
                               style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                               ),
@@ -334,6 +298,40 @@ class EditEventState extends State<EditEvent> {
                         ),
                       ),
                     ],
+                  ),
+                ),
+
+                //Name Field
+                Padding(
+                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                  child: TextFormField(
+                    controller: nameController..text = name,
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Please enter the Name';
+                      }
+                      return null;
+                    },
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    onChanged: (value) {
+                      debugPrint('Something changed in Text Field');
+                    },
+                    decoration: InputDecoration(
+                        labelText: 'Name',
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0),
+                          borderRadius: BorderRadius.circular(0.0),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        )),
                   ),
                 ),
 
@@ -363,7 +361,7 @@ class EditEventState extends State<EditEvent> {
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
                               width: 2.0),
-                          borderRadius: BorderRadius.circular(35.0),
+                          borderRadius: BorderRadius.circular(0.0),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
@@ -398,7 +396,7 @@ class EditEventState extends State<EditEvent> {
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
                               width: 2.0),
-                          borderRadius: BorderRadius.circular(35.0),
+                          borderRadius: BorderRadius.circular(0.0),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
@@ -416,8 +414,8 @@ class EditEventState extends State<EditEvent> {
                       ),
                       Expanded(
                         child: RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Theme.of(context).accentColor,
+                          color: Theme.of(context).accentColor,
+                          textColor: Theme.of(context).primaryColor,
                           child: Text(
                             'Edit',
                             textScaleFactor: 1.5,

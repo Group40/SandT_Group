@@ -37,13 +37,13 @@ class AdminNotificationState extends State<AdminNotification> {
 
   void showSnackBar(BuildContext context, String id) {
     var snackBar = SnackBar(
-      backgroundColor: Colors.black54,
+      backgroundColor: Theme.of(context).accentColor,
       content: Text(
         'Notification will be deleted from the user view too?',
-        style: TextStyle(fontSize: 20, color: Colors.white70),
+        style: TextStyle(color: Colors.black54),
       ),
       action: SnackBarAction(
-          textColor: Colors.cyan,
+          textColor: Theme.of(context).primaryColor,
           label: "I understand",
           onPressed: () {
             delete(id);

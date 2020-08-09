@@ -63,13 +63,13 @@ class AddCourseState extends State<AddCourse> {
 
   void showSnackBar(BuildContext context) {
     var snackBar = SnackBar(
-      backgroundColor: Colors.black54,
+      backgroundColor: Theme.of(context).accentColor,
       content: Text(
         'Are you sure?',
-        style: TextStyle(fontSize: 20, color: Colors.white70),
+        style: TextStyle(fontSize: 20, color: Colors.black54),
       ),
       action: SnackBarAction(
-          textColor: Colors.cyan,
+          textColor: Theme.of(context).primaryColor,
           label: "YES",
           onPressed: () {
             send();
@@ -85,7 +85,13 @@ class AddCourseState extends State<AddCourse> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add a new Course'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          "Notification Log",
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+        iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         //Optional back button
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -445,8 +451,8 @@ class AddCourseState extends State<AddCourse> {
                       //Add Button
                       Expanded(
                         child: RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Theme.of(context).accentColor,
+                          color: Theme.of(context).accentColor,
+                          textColor: Theme.of(context).primaryColor,
                           child: Text(
                             'Add',
                             textScaleFactor: 1.5,

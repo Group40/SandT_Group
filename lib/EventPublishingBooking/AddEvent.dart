@@ -60,13 +60,13 @@ class AddEventState extends State<AddEvent> {
 
   void showSnackBar(BuildContext context) {
     var snackBar = SnackBar(
-      backgroundColor: Colors.black54,
+      backgroundColor: Theme.of(context).accentColor,
       content: Text(
         'Are you sure?',
-        style: TextStyle(fontSize: 20, color: Colors.white70),
+        style: TextStyle(fontSize: 20, color: Colors.black54),
       ),
       action: SnackBarAction(
-          textColor: Colors.cyan,
+          textColor: Theme.of(context).primaryColor,
           label: "YES",
           onPressed: () {
             send();
@@ -82,7 +82,13 @@ class AddEventState extends State<AddEvent> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add a Event'),
+        backgroundColor: Colors.transparent,
+        elevation: 1,
+        title: Text(
+          "Add a new Event",
+          style: TextStyle(color: Theme.of(context).accentColor),
+        ),
+        iconTheme: new IconThemeData(color: Theme.of(context).accentColor),
         //Optional back button
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -102,48 +108,6 @@ class AddEventState extends State<AddEvent> {
             padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
             child: ListView(
               children: <Widget>[
-                //Name Field
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: TextFormField(
-                    controller: nameController,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'Please enter a Title';
-                      }
-                      return null;
-                    },
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    onChanged: (value) {
-                      debugPrint('Something changed in Text Field');
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'Title',
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.only(top: 0),
-                          // add padding to adjust icon
-                          child: Icon(
-                            Icons.perm_identity,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        labelStyle: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor,
-                              width: 2.0),
-                          borderRadius: BorderRadius.circular(35.0),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(35.0),
-                        )),
-                  ),
-                ),
-
                 //Date Field
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -182,8 +146,8 @@ class AddEventState extends State<AddEvent> {
                               ),
                               disabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2.0),
+                                    color: Theme.of(context).accentColor,
+                                    width: 0.0),
                                 borderRadius: BorderRadius.circular(35.0),
                               ),
                               border: OutlineInputBorder(
@@ -225,6 +189,47 @@ class AddEventState extends State<AddEvent> {
                         ),
                       ),
                     ],
+                  ),
+                ),
+
+                //Name Field
+                Padding(
+                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                  child: TextFormField(
+                    controller: nameController,
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Please enter a Title';
+                      }
+                      return null;
+                    },
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    onChanged: (value) {
+                      debugPrint('Something changed in Text Field');
+                    },
+                    decoration: InputDecoration(
+                        labelText: 'Title',
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.only(top: 0),
+                          // add padding to adjust icon
+                          child: Icon(
+                            Icons.perm_identity,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor, width: 2),
+                          borderRadius: BorderRadius.circular(35.0),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(35.0),
+                        )),
                   ),
                 ),
 
@@ -384,8 +389,8 @@ class AddEventState extends State<AddEvent> {
                       //Add Button
                       Expanded(
                         child: RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Theme.of(context).accentColor,
+                          color: Theme.of(context).accentColor,
+                          textColor: Theme.of(context).primaryColor,
                           child: Text(
                             'Add',
                             textScaleFactor: 1.5,

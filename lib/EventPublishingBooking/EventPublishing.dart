@@ -69,13 +69,13 @@ class EventPublishingState extends State<EventPublishing> {
 
   void showSnackBar(BuildContext context, String id, String name, String date) {
     var snackBar = SnackBar(
-      backgroundColor: Colors.black54,
+      backgroundColor: Theme.of(context).accentColor,
       content: Text(
         'Permently delete the event?',
-        style: TextStyle(fontSize: 20, color: Colors.white70),
+        style: TextStyle(fontSize: 20, color: Colors.black54),
       ),
       action: SnackBarAction(
-          textColor: Colors.cyan,
+          textColor: Theme.of(context).primaryColor,
           label: "YES",
           onPressed: () {
             delete(id, name, date);
@@ -95,7 +95,13 @@ class EventPublishingState extends State<EventPublishing> {
     return Scaffold(
       //backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Published Events'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          "Published Events",
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+        iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.calendar_today),
@@ -131,19 +137,20 @@ class EventPublishingState extends State<EventPublishing> {
       itemBuilder: (BuildContext context, int position) {
         int availableInt = int.parse(data[position]["available"]);
         return Card(
-          color: Colors.cyan[100],
+          color: Theme.of(context).accentColor,
           elevation: 2.0,
           child: ListTile(
             leading: CircleAvatar(
-              backgroundColor: availableInt == 0 ? Colors.red : Colors.cyan,
+              backgroundColor:
+                  availableInt == 0 ? Colors.red : Colors.transparent,
               child: availableInt == 0
                   ? Icon(
                       Icons.event_busy,
-                      color: Colors.black,
+                      color: Theme.of(context).primaryColor,
                     )
                   : Icon(
                       Icons.event_available,
-                      color: Colors.black,
+                      color: Theme.of(context).primaryColor,
                     ),
             ),
             title: Text(data[position]["name"],

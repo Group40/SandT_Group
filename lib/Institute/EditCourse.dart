@@ -94,13 +94,13 @@ class EditCourseState extends State<EditCourse> {
 
   void showSnackBar(BuildContext context) {
     var snackBar = SnackBar(
-      backgroundColor: Colors.black54,
+      backgroundColor: Theme.of(context).accentColor,
       content: Text(
         'Are you sure?',
-        style: TextStyle(fontSize: 20, color: Colors.white70),
+        style: TextStyle(fontSize: 20, color: Colors.black54),
       ),
       action: SnackBarAction(
-          textColor: Colors.cyan,
+          textColor: Theme.of(context).primaryColor,
           label: "YES",
           onPressed: () {
             update();
@@ -120,7 +120,13 @@ class EditCourseState extends State<EditCourse> {
     TextStyle textStyle = Theme.of(context).textTheme.title;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit this event"),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          "Edit this Course",
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+        iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         //Optional back button
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -398,8 +404,8 @@ class EditCourseState extends State<EditCourse> {
                       ),
                       Expanded(
                         child: RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Theme.of(context).accentColor,
+                          color: Theme.of(context).accentColor,
+                          textColor: Theme.of(context).primaryColor,
                           child: Text(
                             'Edit',
                             textScaleFactor: 1.5,

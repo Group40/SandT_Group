@@ -55,13 +55,13 @@ class AdminCourseState extends State<AdminCourse> {
 
   void showSnackBar(BuildContext context, String id, String name) {
     var snackBar = SnackBar(
-      backgroundColor: Colors.black54,
+      backgroundColor: Theme.of(context).accentColor,
       content: Text(
         'Permently delete the course?',
-        style: TextStyle(fontSize: 20, color: Colors.white70),
+        style: TextStyle(fontSize: 20, color: Colors.black54),
       ),
       action: SnackBarAction(
-          textColor: Colors.cyan,
+          textColor: Theme.of(context).primaryColor,
           label: "YES",
           onPressed: () {
             delete(id, name);
@@ -81,7 +81,13 @@ class AdminCourseState extends State<AdminCourse> {
     return Scaffold(
       //backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Published Courses'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          "Published Courses",
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+        iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
       ),
       body: getListView(),
       floatingActionButton: FloatingActionButton(
@@ -106,19 +112,23 @@ class AdminCourseState extends State<AdminCourse> {
       itemCount: data == null ? 0 : data.length,
       itemBuilder: (BuildContext context, int position) {
         return Card(
-          color: Colors.cyan[100],
+          color: Theme.of(context).accentColor,
           elevation: 2.0,
           child: ListTile(
             leading: CircleAvatar(
-              backgroundColor: Colors.cyan,
+              backgroundColor: Colors.transparent,
               child: Icon(
                 Icons.edit,
-                color: Colors.black,
+                color: Theme.of(context).primaryColor,
               ),
             ),
             title: Text(data[position]["name"],
                 style: TextStyle(color: Colors.black54)),
-            subtitle: Text(data[position]["url"],
+            subtitle: Text(
+                "Age " +
+                    data[position]["ageGroupMin"] +
+                    " to " +
+                    data[position]["ageGroupMax"],
                 style: TextStyle(color: Colors.black54)),
             trailing: IconButton(
                 icon: Icon(
