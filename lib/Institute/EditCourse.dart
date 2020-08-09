@@ -76,7 +76,7 @@ class EditCourseState extends State<EditCourse> {
       'authorType': getrole(),
       'authorMail': getEmail(),
       'name': nameController.text,
-      'nameType': "EditCourse",
+      'nameType': "edited the course",
       'date': DateTime.now().toString()
     });
     return await http.post(url2, body: body, headers: {

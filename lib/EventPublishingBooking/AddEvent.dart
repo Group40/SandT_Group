@@ -41,7 +41,7 @@ class AddEventState extends State<AddEvent> {
       'authorType': getrole(),
       'authorMail': getEmail(),
       'name': nameController.text,
-      'nameType': "AddEvent",
+      'nameType': "added a new event",
       'date': DateTime.now().toString(),
       'eventDate': dateController.text
     });

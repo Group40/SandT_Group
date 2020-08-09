@@ -70,7 +70,7 @@ class EditEventState extends State<EditEvent> {
       'authorType': getrole(),
       'authorMail': getEmail(),
       'name': nameController.text,
-      'nameType': "EditEvent",
+      'nameType': "edited the event",
       'date': DateTime.now().toString(),
       'eventDate': dateController.text
     });

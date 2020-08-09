@@ -45,7 +45,7 @@ class AddCourseState extends State<AddCourse> {
       'authorType': getrole(),
       'authorMail': getEmail(),
       'name': nameController.text,
-      'nameType': "AddCourse",
+      'nameType': "added a new course",
       'date': DateTime.now().toString()
     });
     return await http.post(url, body: body, headers: {

@@ -39,7 +39,7 @@ class AdminCourseState extends State<AdminCourse> {
       'authorType': getrole(),
       'authorMail': getEmail(),
       'name': name,
-      'nameType': "DeleteCourse",
+      'nameType': "deleted the course",
       'date': DateTime.now().toString()
     });
     return http.post(notificationUrl, body: notificationBody, headers: {

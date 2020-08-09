@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/Notification/AdminNotification.dart';
 import 'package:sandtgroup/Photography/MainPage.dart';
 import 'package:sandtgroup/Photography/UploadPics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +8,7 @@ import '../Menu.dart';
 import '../Splash.dart';
 import '../../EventPublishingBooking/EventPublishing.dart';
 import '../../Institute/AdminCourseList.dart';
+import '../../Notification/AdminNotification.dart';
 
 class AdminAppDrawer extends StatefulWidget {
   @override
@@ -57,11 +59,20 @@ class _AdminAppDrawerState extends State<AdminAppDrawer> {
             },
           ),
           Menu(
-            icon: Icons.event,
+            icon: Icons.school,
             title: "Course List",
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return AdminCourse();
+              }));
+            },
+          ),
+          Menu(
+            icon: Icons.notifications_active,
+            title: "Notifications",
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return AdminNotification();
               }));
             },
           ),

@@ -52,7 +52,7 @@ class EventPublishingState extends State<EventPublishing> {
       'authorType': getrole(),
       'authorMail': getEmail(),
       'name': name,
-      'nameType': "DeleteEvent",
+      'nameType': "delete the event",
       'date': DateTime.now().toString(),
       'eventDate': date,
     });
