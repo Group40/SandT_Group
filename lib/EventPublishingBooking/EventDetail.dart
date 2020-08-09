@@ -73,13 +73,13 @@ class EventDetailState extends State<EventDetail> {
 
   void showSnackBar(BuildContext context) {
     var snackBar = SnackBar(
-      backgroundColor: Colors.black54,
+      backgroundColor: Theme.of(context).accentColor,
       content: Text(
         'Are you sure?',
-        style: TextStyle(fontSize: 20, color: Colors.white70),
+        style: TextStyle(fontSize: 20, color: Colors.black54),
       ),
       action: SnackBarAction(
-          textColor: Colors.cyan,
+          textColor: Theme.of(context).primaryColor,
           label: "YES",
           onPressed: () {
             request();
@@ -431,8 +431,8 @@ class EventDetailState extends State<EventDetail> {
                       //Reset Button
                       Expanded(
                         child: RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Theme.of(context).accentColor,
+                          color: Theme.of(context).accentColor,
+                          textColor: Theme.of(context).primaryColor,
                           child: Text(
                             'Reset',
                             textScaleFactor: 1.5,
@@ -451,8 +451,8 @@ class EventDetailState extends State<EventDetail> {
                       //Request Button
                       Expanded(
                         child: RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Theme.of(context).accentColor,
+                          color: Theme.of(context).accentColor,
+                          textColor: Theme.of(context).primaryColor,
                           child: Text(
                             'Request',
                             textScaleFactor: 1.5,

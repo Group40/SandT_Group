@@ -85,17 +85,16 @@ class EventBookingState extends State<EventBooking> {
               elevation: 1.0,
               child: ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: availableInt == 0
-                      ? Colors.red
-                      : Theme.of(context).primaryColor,
+                  backgroundColor:
+                      availableInt == 0 ? Colors.red : Colors.transparent,
                   child: availableInt == 0
                       ? Icon(
                           Icons.event_busy,
-                          color: Colors.black,
+                          color: Theme.of(context).primaryColor,
                         )
                       : Icon(
                           Icons.event_available,
-                          color: Colors.black,
+                          color: Theme.of(context).primaryColor,
                         ),
                 ),
                 title: Text(data[position]["name"],

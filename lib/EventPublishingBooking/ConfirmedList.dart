@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+
 var url = "http://10.0.2.2:8080/addConfirmedEventRequest";
 
 class ConfirmedList extends StatefulWidget {
@@ -9,22 +10,20 @@ class ConfirmedList extends StatefulWidget {
   ConfirmedList({Key key, @required this.text}) : super(key: key);
 
   @override
-  ConfirmedListState createState() =>ConfirmedListState(text);
+  ConfirmedListState createState() => ConfirmedListState(text);
 }
 
 class ConfirmedListState extends State<ConfirmedList> {
-
   ConfirmedListState(String text);
 
   List data;
 
-  Future<String> getData() async{
+  Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/getConfirmedEventRequestsByEventId/"+widget.text),
-        headers: {
-          "Accept": "application/json"
-        }
-    );
+        Uri.encodeFull(
+            "http://10.0.2.2:8080/getConfirmedEventRequestsByEventId/" +
+                widget.text),
+        headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body);
     });
@@ -33,7 +32,7 @@ class ConfirmedListState extends State<ConfirmedList> {
 
   //Call get data
   @override
-  void initState(){
+  void initState() {
     this.getData();
   }
 
@@ -43,30 +42,44 @@ class ConfirmedListState extends State<ConfirmedList> {
     return Scaffold(
       //backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Confirmed Request List"),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          "Confirmed Request List",
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+        iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
       ),
       body: getListView(),
     );
     throw UnimplementedError();
   }
 
-  ListView getListView(){
+  ListView getListView() {
     //TextStyle titleStyle = Theme.of(context).textTheme.subhead;
     return ListView.builder(
       itemCount: data == null ? 0 : data.length,
-      itemBuilder: (BuildContext context, int position){
+      itemBuilder: (BuildContext context, int position) {
         return Card(
-          color: Colors.cyan[100],
+          color: Theme.of(context).accentColor,
           elevation: 2.0,
-          child : Column(
+          child: Column(
             children: <Widget>[
               ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: Colors.cyan,
+                  backgroundColor: Theme.of(context).accentColor,
                   child: Icon(Icons.people),
                 ),
-                title: Text("Name : "+data[position]["name"],style: TextStyle(color: Colors.black54)),
-                subtitle: Text("Contact Number : "+data[position]["number"]+"\nEmail : "+data[position]["email"]+"\nHeads : "+data[position]["heads"],style: TextStyle(color: Colors.cyan[900])),
+                title: Text("Name : " + data[position]["name"],
+                    style: TextStyle(color: Colors.black54)),
+                subtitle: Text(
+                    "Contact Number : " +
+                        data[position]["number"] +
+                        "\nEmail : " +
+                        data[position]["email"] +
+                        "\nHeads : " +
+                        data[position]["heads"],
+                    style: TextStyle(color: Colors.black54)),
               ),
             ],
           ),

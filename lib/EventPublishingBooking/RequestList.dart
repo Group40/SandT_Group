@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import './EditEvent.dart';
+
 var url = "http://10.0.2.2:8080/addConfirmedEventRequest";
 
 class RequestList extends StatefulWidget {
@@ -10,24 +11,21 @@ class RequestList extends StatefulWidget {
   RequestList({Key key, @required this.text}) : super(key: key);
 
   @override
-  RequestListState createState() =>RequestListState(text);
+  RequestListState createState() => RequestListState(text);
 }
 
 class RequestListState extends State<RequestList> {
-
   RequestListState(String text);
 
   List requestData;
   var eventData;
-  String availableString ='';
+  String availableString = '';
 
-  Future<String> getData() async{
+  Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/getEventRequestsByEventId/"+widget.text),
-        headers: {
-          "Accept": "application/json"
-        }
-    );
+        Uri.encodeFull(
+            "http://10.0.2.2:8080/getEventRequestsByEventId/" + widget.text),
+        headers: {"Accept": "application/json"});
     this.setState(() {
       requestData = jsonDecode(response.body);
     });
@@ -45,7 +43,7 @@ class RequestListState extends State<RequestList> {
   //Delete From Request Collection
   void deleteRequest(String id) async {
     final http.Response response = await http.delete(
-      'http://10.0.2.2:8080/deleteEventRequest/'+id,
+      'http://10.0.2.2:8080/deleteEventRequest/' + id,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -70,10 +68,12 @@ class RequestListState extends State<RequestList> {
       'headCount': eventData["headCount"],
       'available': available
     });
-    return await http.post("http://10.0.2.2:8080/updateEvent", body: body, headers: {
-      "Accept": "application/json",
-      "content-type": "application/json"
-    }).then((dynamic res) {
+    return await http.post("http://10.0.2.2:8080/updateEvent",
+        body: body,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json"
+        }).then((dynamic res) {
       print(res.toString());
     });
   }
@@ -82,13 +82,13 @@ class RequestListState extends State<RequestList> {
   void confirmRequest(int position) async {
     debugPrint('funtion called');
     var body = jsonEncode({
-      'eventId':requestData[position]["eventId"],
-      'eventName':  requestData[position]["eventName"],
-      'eventDate':  requestData[position]["eventDate"],
+      'eventId': requestData[position]["eventId"],
+      'eventName': requestData[position]["eventName"],
+      'eventDate': requestData[position]["eventDate"],
       'name': requestData[position]["name"],
-      'number':  requestData[position]["number"],
+      'number': requestData[position]["number"],
       'email': requestData[position]["email"],
-      'heads':  requestData[position]["heads"],
+      'heads': requestData[position]["heads"],
     });
     print(body);
     return await http.post(url, body: body, headers: {
@@ -125,36 +125,34 @@ class RequestListState extends State<RequestList> {
   }
 
   //Confirm SnackBar
-  void showSnackBarConfirm(BuildContext context, String id, int position){
+  void showSnackBarConfirm(BuildContext context, String id, int position) {
     int heads = int.parse(requestData[position]["heads"]);
     int available = int.parse(availableString);
     available = available - heads;
-    if(available<0){
+    if (available < 0) {
       //Out of Capacity : Error
       var snackBar = SnackBar(
-        backgroundColor: Colors.black54,
-        content:  Text (
+        backgroundColor: Theme.of(context).accentColor,
+        content: Text(
           'Are you sure?',
-          style: TextStyle(fontSize: 20, color: Colors.white70),
+          style: TextStyle(fontSize: 20, color: Colors.black54),
         ),
         action: SnackBarAction(
-            textColor: Colors.cyan,
+            textColor: Theme.of(context).primaryColor,
             label: "YES",
             onPressed: () {
               //Error
               deleteRequest(id);
               //Pop up error message
               errorPopUp();
-            }
-        ),
+            }),
       );
       Scaffold.of(context).showSnackBar(snackBar);
-    }
-    else if(available==0){
+    } else if (available == 0) {
       //OKAY : All are booking from now on
       var snackBar = SnackBar(
         backgroundColor: Colors.black54,
-        content:  Text (
+        content: Text(
           'Are you sure?',
           style: TextStyle(fontSize: 20, color: Colors.white70),
         ),
@@ -167,16 +165,14 @@ class RequestListState extends State<RequestList> {
               deleteRequest(id);
               reduceAvailable(position);
               //Make event Unavailable here
-            }
-        ),
+            }),
       );
       Scaffold.of(context).showSnackBar(snackBar);
-    }
-    else{
+    } else {
       //Okay : Normal confirmation Scenario
       var snackBar = SnackBar(
         backgroundColor: Colors.black54,
-        content:  Text (
+        content: Text(
           'Are you sure?',
           style: TextStyle(fontSize: 20, color: Colors.white70),
         ),
@@ -188,18 +184,17 @@ class RequestListState extends State<RequestList> {
               confirmRequest(position);
               deleteRequest(id);
               reduceAvailable(position);
-            }
-        ),
+            }),
       );
       Scaffold.of(context).showSnackBar(snackBar);
     }
   }
 
   //Reject SnackBar
-  void showSnackBarReject(BuildContext context, String id){
+  void showSnackBarReject(BuildContext context, String id) {
     var snackBar = SnackBar(
       backgroundColor: Colors.black54,
-      content:  Text (
+      content: Text(
         'WARNING!\nRequests are not recoverable after rejection!',
         style: TextStyle(fontSize: 20, color: Colors.white70),
       ),
@@ -208,15 +203,14 @@ class RequestListState extends State<RequestList> {
           label: "OKAY",
           onPressed: () {
             deleteRequest(id);
-          }
-      ),
+          }),
     );
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
   //Call get data
   @override
-  void initState(){
+  void initState() {
     this.getData();
   }
 
@@ -226,7 +220,13 @@ class RequestListState extends State<RequestList> {
     return Scaffold(
       //backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Request List"),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          "Request List",
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+        iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         //Optional back button
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -244,34 +244,45 @@ class RequestListState extends State<RequestList> {
     throw UnimplementedError();
   }
 
-  ListView getListView(){
+  ListView getListView() {
     //TextStyle titleStyle = Theme.of(context).textTheme.subhead;
     return ListView.builder(
       itemCount: requestData == null ? 0 : requestData.length,
-      itemBuilder: (BuildContext context, int position){
+      itemBuilder: (BuildContext context, int position) {
         return Card(
-          color: Colors.cyan[100],
+          color: Theme.of(context).accentColor,
           elevation: 2.0,
-          child : Column(
+          child: Column(
             children: <Widget>[
               ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: Colors.cyan,
+                  backgroundColor: Theme.of(context).accentColor,
                   child: Icon(Icons.people),
                 ),
-                title: Text("Name : "+requestData[position]["name"],style: TextStyle(color: Colors.black54)),
-                subtitle: Text("Contact Number : "+requestData[position]["number"]+"\nEmail : "+requestData[position]["email"]+"\nHeads : "+requestData[position]["heads"],style: TextStyle(color: Colors.cyan[900])),
+                title: Text("Name : " + requestData[position]["name"],
+                    style: TextStyle(color: Colors.black54)),
+                subtitle: Text(
+                    "Contact Number : " +
+                        requestData[position]["number"] +
+                        "\nEmail : " +
+                        requestData[position]["email"] +
+                        "\nHeads : " +
+                        requestData[position]["heads"],
+                    style: TextStyle(color: Colors.black54)),
               ),
               ButtonBar(
                 children: <Widget>[
                   FlatButton(
-                    child: const Text('CONFIRM',style: TextStyle(color: Colors.blue)),
+                    child: const Text('CONFIRM',
+                        style: TextStyle(color: Colors.blue)),
                     onPressed: () {
-                      showSnackBarConfirm(context, requestData[position]["id"], position);
+                      showSnackBarConfirm(
+                          context, requestData[position]["id"], position);
                     },
                   ),
                   FlatButton(
-                    child: const Text('REJECT',style: TextStyle(color: Colors.red)),
+                    child: const Text('REJECT',
+                        style: TextStyle(color: Colors.red)),
                     onPressed: () {
                       showSnackBarReject(context, requestData[position]["id"]);
                     },

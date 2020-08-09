@@ -75,16 +75,18 @@ class CalendarState extends State<Calendar> {
     _calendarCarouselNoHeader = CalendarCarousel<Event>(
       //Today
       todayBorderColor: Colors.green,
-      todayTextStyle: TextStyle(color: Colors.blue),
+      todayTextStyle: TextStyle(color: Theme.of(context).primaryColor),
       todayButtonColor: Colors.yellow,
       selectedDayTextStyle: TextStyle(color: Colors.yellow),
       minSelectedDate: _currentDate.subtract(Duration(days: 360)),
       maxSelectedDate: _currentDate.add(Duration(days: 360)),
-      prevDaysTextStyle: TextStyle(fontSize: 16, color: Colors.cyan),
+      prevDaysTextStyle:
+          TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),
       //inactiveDaysTextStyle: TextStyle(color: Colors.cyan, fontSize: 16),
 
       showHeader: true,
-      headerTextStyle: TextStyle(fontSize: 35, color: Colors.cyan),
+      headerTextStyle:
+          TextStyle(fontSize: 35, color: Theme.of(context).primaryColor),
       //Header
       weekDayBackgroundColor: Colors.white,
       weekdayTextStyle: TextStyle(fontSize: 20, color: Colors.black),
@@ -94,8 +96,10 @@ class CalendarState extends State<Calendar> {
       daysHaveCircularBorder: false,
       showOnlyCurrentMonthDate: false,
       dayButtonColor: Colors.transparent,
-      daysTextStyle: TextStyle(fontSize: 20, color: Colors.cyan),
-      weekendTextStyle: TextStyle(fontSize: 20, color: Colors.cyan),
+      daysTextStyle:
+          TextStyle(fontSize: 20, color: Theme.of(context).primaryColor),
+      weekendTextStyle:
+          TextStyle(fontSize: 20, color: Theme.of(context).primaryColor),
       thisMonthDayBorderColor: Colors.grey,
       markedDatesMap: _markedDateMap,
       height: 440.0,
@@ -115,7 +119,7 @@ class CalendarState extends State<Calendar> {
       onDayPressed: (DateTime date, List<Event> events) {
         this.setState(() => _currentDate2 = date);
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return EventByDate(date: date.toString().substring(0,10));
+          return EventByDate(date: date.toString().substring(0, 10));
         }));
       },
       onCalendarChanged: (DateTime date) {
