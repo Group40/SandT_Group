@@ -92,18 +92,6 @@ class CourseListState extends State<CourseList> {
     return "success!";
   }
 
-  void delete(String id) async {
-    final http.Response response = await http.delete(
-      'http://10.0.2.2:8080/deleteCourse/' + id,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    );
-    setState(() {
-      initState();
-    });
-  }
-
   //Call get data
   @override
   void initState() {

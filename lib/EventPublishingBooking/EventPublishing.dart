@@ -6,6 +6,9 @@ import 'dart:io';
 import './CalendarAdmin.dart';
 import './EditEvent.dart';
 import './AddEvent.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
+
+var notificationUrl = "http://10.0.2.2:8080/addNotification";
 
 class EventPublishing extends StatefulWidget {
   @override
@@ -25,7 +28,7 @@ class EventPublishingState extends State<EventPublishing> {
     return "success!";
   }
 
-  void delete(String id) async {
+  void delete(String id, String name, String date) async {
     final http.Response response = await http.delete(
       'http://10.0.2.2:8080/deleteEvent/' + id,
       headers: <String, String>{
@@ -44,12 +47,27 @@ class EventPublishingState extends State<EventPublishing> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-    setState(() {
-      initState();
+    var notificationBody = jsonEncode({
+      'authorName': getUsername(),
+      'authorType': getrole(),
+      'authorMail': getEmail(),
+      'name': name,
+      'nameType': "DeleteEvent",
+      'date': DateTime.now().toString(),
+      'eventDate': date,
+    });
+    return http.post(notificationUrl, body: notificationBody, headers: {
+      "Accept": "application/json",
+      "content-type": "application/json"
+    }).then((dynamic res) {
+      print(res.toString());
+      setState(() {
+        initState();
+      });
     });
   }
 
-  void showSnackBar(BuildContext context, String id) {
+  void showSnackBar(BuildContext context, String id, String name, String date) {
     var snackBar = SnackBar(
       backgroundColor: Colors.black54,
       content: Text(
@@ -60,7 +78,7 @@ class EventPublishingState extends State<EventPublishing> {
           textColor: Colors.cyan,
           label: "YES",
           onPressed: () {
-            delete(id);
+            delete(id, name, date);
           }),
     );
     Scaffold.of(context).showSnackBar(snackBar);
@@ -124,9 +142,9 @@ class EventPublishingState extends State<EventPublishing> {
                       color: Colors.black,
                     )
                   : Icon(
-                    Icons.event_available,
-                    color: Colors.black,
-              ),
+                      Icons.event_available,
+                      color: Colors.black,
+                    ),
             ),
             title: Text(data[position]["name"],
                 style: TextStyle(color: Colors.black54)),
@@ -139,7 +157,8 @@ class EventPublishingState extends State<EventPublishing> {
                 ),
                 tooltip: 'Delete this event',
                 onPressed: () {
-                  showSnackBar(context, data[position]["id"]);
+                  showSnackBar(context, data[position]["id"],
+                      data[position]["name"], data[position]["date"]);
                 }),
             onTap: () {
               debugPrint("Event clicked");

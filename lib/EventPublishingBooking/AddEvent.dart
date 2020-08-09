@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import './EventPublishing.dart';
 import 'package:flutter/services.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
 
 var url = "http://10.0.2.2:8080/addEvent";
+var notificationUrl = "http://10.0.2.2:8080/addNotification";
 
 class AddEvent extends StatefulWidget {
   @override
@@ -34,11 +36,25 @@ class AddEventState extends State<AddEvent> {
       'headCount': headCountController.text,
       'available': headCountController.text
     });
+    var notificationBody = jsonEncode({
+      'authorName': getUsername(),
+      'authorType': getrole(),
+      'authorMail': getEmail(),
+      'name': nameController.text,
+      'nameType': "AddEvent",
+      'date': DateTime.now().toString(),
+      'eventDate': dateController.text
+    });
     return await http.post(url, body: body, headers: {
       "Accept": "application/json",
       "content-type": "application/json"
     }).then((dynamic res) {
-      print(res.toString());
+      return http.post(notificationUrl, body: notificationBody, headers: {
+        "Accept": "application/json",
+        "content-type": "application/json"
+      }).then((dynamic res) {
+        print(res.toString());
+      });
     });
   }
 
@@ -119,8 +135,7 @@ class AddEventState extends State<AddEvent> {
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 2.0
-                          ),
+                              width: 2.0),
                           borderRadius: BorderRadius.circular(35.0),
                         ),
                         border: OutlineInputBorder(
@@ -168,8 +183,7 @@ class AddEventState extends State<AddEvent> {
                               disabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Theme.of(context).primaryColor,
-                                    width: 2.0
-                                ),
+                                    width: 2.0),
                                 borderRadius: BorderRadius.circular(35.0),
                               ),
                               border: OutlineInputBorder(
@@ -247,8 +261,7 @@ class AddEventState extends State<AddEvent> {
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 2.0
-                          ),
+                              width: 2.0),
                           borderRadius: BorderRadius.circular(35.0),
                         ),
                         border: OutlineInputBorder(
@@ -291,8 +304,7 @@ class AddEventState extends State<AddEvent> {
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 2.0
-                          ),
+                              width: 2.0),
                           borderRadius: BorderRadius.circular(35.0),
                         ),
                         border: OutlineInputBorder(
@@ -338,8 +350,7 @@ class AddEventState extends State<AddEvent> {
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 2.0
-                          ),
+                              width: 2.0),
                           borderRadius: BorderRadius.circular(35.0),
                         ),
                         border: OutlineInputBorder(

@@ -5,6 +5,9 @@ import 'dart:convert';
 import 'dart:io';
 import './EditCourse.dart';
 import './AddCourse.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
+
+var notificationUrl = "http://10.0.2.2:8080/addNotification";
 
 class AdminCourse extends StatefulWidget {
   @override
@@ -24,19 +27,33 @@ class AdminCourseState extends State<AdminCourse> {
     return "success!";
   }
 
-  void delete(String id) async {
+  void delete(String id, String name) async {
     final http.Response response = await http.delete(
       'http://10.0.2.2:8080/deleteCourse/' + id,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-    setState(() {
-      initState();
+    var notificationBody = jsonEncode({
+      'authorName': getUsername(),
+      'authorType': getrole(),
+      'authorMail': getEmail(),
+      'name': name,
+      'nameType': "DeleteCourse",
+      'date': DateTime.now().toString()
+    });
+    return http.post(notificationUrl, body: notificationBody, headers: {
+      "Accept": "application/json",
+      "content-type": "application/json"
+    }).then((dynamic res) {
+      print(res.toString());
+      setState(() {
+        initState();
+      });
     });
   }
 
-  void showSnackBar(BuildContext context, String id) {
+  void showSnackBar(BuildContext context, String id, String name) {
     var snackBar = SnackBar(
       backgroundColor: Colors.black54,
       content: Text(
@@ -47,7 +64,7 @@ class AdminCourseState extends State<AdminCourse> {
           textColor: Colors.cyan,
           label: "YES",
           onPressed: () {
-            delete(id);
+            delete(id, name);
           }),
     );
     Scaffold.of(context).showSnackBar(snackBar);
@@ -110,7 +127,8 @@ class AdminCourseState extends State<AdminCourse> {
                 ),
                 tooltip: 'Delete this course',
                 onPressed: () {
-                  showSnackBar(context, data[position]["id"]);
+                  showSnackBar(
+                      context, data[position]["id"], data[position]["name"]);
                 }),
             onTap: () {
               debugPrint("Course clicked");

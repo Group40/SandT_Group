@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:sandtgroup/FirstScreen/Splash.dart';
 import 'package:sandtgroup/Institute/AdminCourseList.dart';
 import './AdminCourseList.dart';
 
 var url2 = "http://10.0.2.2:8080/updateCourse";
+var notificationUrl = "http://10.0.2.2:8080/addNotification";
 
 class EditCourse extends StatefulWidget {
   final String text;
@@ -70,11 +71,24 @@ class EditCourseState extends State<EditCourse> {
       'likedUsers': course['likedUsers'],
       'commentedUsers': course['commentedUsers']
     });
+    var notificationBody = jsonEncode({
+      'authorName': getUsername(),
+      'authorType': getrole(),
+      'authorMail': getEmail(),
+      'name': nameController.text,
+      'nameType': "EditCourse",
+      'date': DateTime.now().toString()
+    });
     return await http.post(url2, body: body, headers: {
       "Accept": "application/json",
       "content-type": "application/json"
     }).then((dynamic res) {
-      print(res.toString());
+      return http.post(notificationUrl, body: notificationBody, headers: {
+        "Accept": "application/json",
+        "content-type": "application/json"
+      }).then((dynamic res) {
+        print(res.toString());
+      });
     });
   }
 

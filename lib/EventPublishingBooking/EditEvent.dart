@@ -5,8 +5,10 @@ import 'dart:convert';
 import './EventPublishing.dart';
 import './RequestList.dart';
 import './ConfirmedList.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
 
 var url = "http://10.0.2.2:8080/updateEvent";
+var notificationUrl = "http://10.0.2.2:8080/addNotification";
 
 class EditEvent extends StatefulWidget {
   final String text;
@@ -63,11 +65,25 @@ class EditEventState extends State<EditEvent> {
       'headCount': headCount,
       'available': available
     });
+    var notificationBody = jsonEncode({
+      'authorName': getUsername(),
+      'authorType': getrole(),
+      'authorMail': getEmail(),
+      'name': nameController.text,
+      'nameType': "EditEvent",
+      'date': DateTime.now().toString(),
+      'eventDate': dateController.text
+    });
     return await http.post(url, body: body, headers: {
       "Accept": "application/json",
       "content-type": "application/json"
     }).then((dynamic res) {
-      print(res.toString());
+      return http.post(notificationUrl, body: notificationBody, headers: {
+        "Accept": "application/json",
+        "content-type": "application/json"
+      }).then((dynamic res) {
+        print(res.toString());
+      });
     });
   }
 
@@ -116,10 +132,10 @@ class EditEventState extends State<EditEvent> {
         builder: (context) => Form(
           key: _formKey,
           child: Padding(
-            padding: EdgeInsets.only(top: 0.0, left: 10.0, right: 10.0, bottom: 5),
+            padding:
+                EdgeInsets.only(top: 0.0, left: 10.0, right: 10.0, bottom: 5),
             child: ListView(
               children: <Widget>[
-
                 //Buttons
                 Padding(
                   padding: EdgeInsets.only(top: 0, bottom: 15.0),
@@ -141,8 +157,8 @@ class EditEventState extends State<EditEvent> {
                             setState(() {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
-                                    return RequestList(text: id);
-                                  }));
+                                return RequestList(text: id);
+                              }));
                             });
                           },
                         ),
@@ -151,7 +167,7 @@ class EditEventState extends State<EditEvent> {
                       //Confirm Button
                       Expanded(
                         child: RaisedButton(
-                          color:Theme.of(context).accentColor,
+                          color: Theme.of(context).accentColor,
                           textColor: Theme.of(context).primaryColorLight,
                           child: Text(
                             'Confirmed List',
@@ -164,8 +180,8 @@ class EditEventState extends State<EditEvent> {
                             setState(() {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
-                                    return ConfirmedList(text: id);
-                                  }));
+                                return ConfirmedList(text: id);
+                              }));
                             });
                           },
                         ),
@@ -179,11 +195,10 @@ class EditEventState extends State<EditEvent> {
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: Row(
                     children: <Widget>[
-
                       //Capacity
                       Expanded(
                         child: Text(
-                          'Capacity : '+headCount,
+                          'Capacity : ' + headCount,
                           textScaleFactor: 1.5,
                           style: TextStyle(
                             color: Theme.of(context).primaryColor,
@@ -197,7 +212,7 @@ class EditEventState extends State<EditEvent> {
                       //Availability
                       Expanded(
                         child: Text(
-                          'Availabile : '+available,
+                          'Availabile : ' + available,
                           textScaleFactor: 1.5,
                           style: TextStyle(
                             color: Theme.of(context).primaryColor,
@@ -207,7 +222,6 @@ class EditEventState extends State<EditEvent> {
                       Container(
                         width: 5.0,
                       ),
-
                     ],
                   ),
                 ),
@@ -237,8 +251,7 @@ class EditEventState extends State<EditEvent> {
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 2.0
-                          ),
+                              width: 2.0),
                           borderRadius: BorderRadius.circular(35.0),
                         ),
                         border: OutlineInputBorder(
@@ -252,7 +265,6 @@ class EditEventState extends State<EditEvent> {
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: Row(
                     children: <Widget>[
-
                       //Date Field
                       Expanded(
                         child: TextFormField(
@@ -278,8 +290,7 @@ class EditEventState extends State<EditEvent> {
                               disabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Theme.of(context).primaryColor,
-                                    width: 2.0
-                                ),
+                                    width: 2.0),
                                 borderRadius: BorderRadius.circular(35.0),
                               ),
                               border: OutlineInputBorder(
@@ -297,7 +308,7 @@ class EditEventState extends State<EditEvent> {
                           child: RaisedButton(
                             color: Theme.of(context).accentColor,
                             child: Text(
-                                'Take a date',
+                              'Take a date',
                               style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                               ),
@@ -309,18 +320,19 @@ class EditEventState extends State<EditEvent> {
                                 firstDate: DateTime(2001),
                                 lastDate: DateTime(2222),
                               ).then((inputDate) => {
-                                setState((){
-                                  if(inputDate != null){
-                                    _dateTime = inputDate;
-                                    date = _dateTime.toString().substring(0,10);
-                                  }
-                                }),
-                              });
+                                    setState(() {
+                                      if (inputDate != null) {
+                                        _dateTime = inputDate;
+                                        date = _dateTime
+                                            .toString()
+                                            .substring(0, 10);
+                                      }
+                                    }),
+                                  });
                             },
                           ),
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -350,8 +362,7 @@ class EditEventState extends State<EditEvent> {
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 2.0
-                          ),
+                              width: 2.0),
                           borderRadius: BorderRadius.circular(35.0),
                         ),
                         border: OutlineInputBorder(
@@ -386,8 +397,7 @@ class EditEventState extends State<EditEvent> {
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 2.0
-                          ),
+                              width: 2.0),
                           borderRadius: BorderRadius.circular(35.0),
                         ),
                         border: OutlineInputBorder(
@@ -423,8 +433,6 @@ class EditEventState extends State<EditEvent> {
                     ],
                   ),
                 ),
-
-
               ],
             ),
           ),

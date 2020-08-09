@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import './AdminCourseList.dart';
 import 'package:flutter/services.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
 
 var url = "http://10.0.2.2:8080/addCourse";
+var notificationUrl = "http://10.0.2.2:8080/addNotification";
 
 class AddCourse extends StatefulWidget {
   @override
@@ -38,12 +40,24 @@ class AddCourseState extends State<AddCourse> {
       'likedUsers': [],
       'commentedUsers': []
     });
-    print(body);
+    var notificationBody = jsonEncode({
+      'authorName': getUsername(),
+      'authorType': getrole(),
+      'authorMail': getEmail(),
+      'name': nameController.text,
+      'nameType': "AddCourse",
+      'date': DateTime.now().toString()
+    });
     return await http.post(url, body: body, headers: {
       "Accept": "application/json",
       "content-type": "application/json"
     }).then((dynamic res) {
-      print(res.toString());
+      return http.post(notificationUrl, body: notificationBody, headers: {
+        "Accept": "application/json",
+        "content-type": "application/json"
+      }).then((dynamic res) {
+        print(res.toString());
+      });
     });
   }
 
