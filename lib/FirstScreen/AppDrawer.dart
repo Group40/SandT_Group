@@ -8,6 +8,7 @@ import 'Profile.dart';
 import 'Splash.dart';
 import '../EventPublishingBooking/EventBooking.dart';
 import '../Institute/CourseList.dart';
+import '../Notification/UserNotification.dart';
 
 class AppDrawer extends StatefulWidget {
   @override
@@ -46,6 +47,15 @@ class _AppDrawerState extends State<AppDrawer> {
                 size: 80,
               ),
             ),
+          ),
+          Menu(
+            icon: Icons.notifications_active,
+            title: "Notifications",
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return UserNotification();
+              }));
+            },
           ),
           Menu(
             icon: Icons.person,
