@@ -23,6 +23,35 @@ class AdminNotificationState extends State<AdminNotification> {
     return "success!";
   }
 
+  void delete(String id) async {
+    final http.Response response = await http.delete(
+      'http://10.0.2.2:8080/deleteNotification/' + id,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    setState(() {
+      initState();
+    });
+  }
+
+  void showSnackBar(BuildContext context, String id) {
+    var snackBar = SnackBar(
+      backgroundColor: Colors.black54,
+      content: Text(
+        'Notification will be deleted from the user view too?',
+        style: TextStyle(fontSize: 20, color: Colors.white70),
+      ),
+      action: SnackBarAction(
+          textColor: Colors.cyan,
+          label: "I understand",
+          onPressed: () {
+            delete(id);
+          }),
+    );
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
+
   //Call get data
   @override
   void initState() {
@@ -139,6 +168,15 @@ class AdminNotificationState extends State<AdminNotification> {
                             " at " +
                             data[position]["date"].substring(11, 20),
                         style: TextStyle(color: Colors.black54)),
+            trailing: IconButton(
+                icon: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
+                tooltip: 'Delete this Notification',
+                onPressed: () {
+                  showSnackBar(context, data[position]["id"]);
+                }),
           ),
         );
       },
