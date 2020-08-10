@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>224476496940-9uaopfb2bmjd1o6nd4nv31h7fatn43ga.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.224476496940-9uaopfb2bmjd1o6nd4nv31h7fatn43ga</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>224476496940-6n72onrpr64e97ba1rb8eoeu23ovbl86.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCuH8rRT3SoMMFfqO2uZLGbOSN_bf_ut1c</string>
+	<key>GCM_SENDER_ID</key>
+	<string>224476496940</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.smartherd.sandtgroup</string>
+	<key>PROJECT_ID</key>
+	<string>sandt-22e61</string>
+	<key>STORAGE_BUCKET</key>
+	<string>sandt-22e61.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:224476496940:ios:680e75917ab428c7e6fd89</string>
+	<key>DATABASE_URL</key>
+	<string>https://sandt-22e61.firebaseio.com</string>
+</dict>
+</plist>

@@ -3,7 +3,7 @@ import 'package:sandtgroup/FirstScreen/Splash.dart';
 import 'package:sandtgroup/SignUpLogIn/AuthScreen.dart';
 
 import './ArticleHandling/ArticleHandling.dart';
-import './DiscussionForum/DiscussionForum.dart';
+import 'DiscussionForum/DiscussionForum.dart';
 import './EventPublishingBooking/EventBooking.dart';
 import './EventPublishingBooking/EventPublishing.dart';
 import './UserManagementAdmin/UserManagementAdmin.dart';

@@ -32,6 +32,10 @@ dependencies:
   shared_preferences: ^0.5.8
   shimmer: ^1.1.1
   image_picker: ^0.6.7+4
+  cloud_firestore: ^0.13.7
+  intl: ^0.16.1
+  popup_menu: ^1.0.5
+  datetime_picker_formfield: ^1.0.0
 
 
 dev_dependencies:

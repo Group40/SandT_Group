@@ -119,8 +119,7 @@ class AddEventState extends State<AddEvent> {
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 2.0
-                          ),
+                              width: 2.0),
                           borderRadius: BorderRadius.circular(35.0),
                         ),
                         border: OutlineInputBorder(
@@ -168,8 +167,7 @@ class AddEventState extends State<AddEvent> {
                               disabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Theme.of(context).primaryColor,
-                                    width: 2.0
-                                ),
+                                    width: 2.0),
                                 borderRadius: BorderRadius.circular(35.0),
                               ),
                               border: OutlineInputBorder(
@@ -247,8 +245,7 @@ class AddEventState extends State<AddEvent> {
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 2.0
-                          ),
+                              width: 2.0),
                           borderRadius: BorderRadius.circular(35.0),
                         ),
                         border: OutlineInputBorder(
@@ -291,8 +288,7 @@ class AddEventState extends State<AddEvent> {
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 2.0
-                          ),
+                              width: 2.0),
                           borderRadius: BorderRadius.circular(35.0),
                         ),
                         border: OutlineInputBorder(
@@ -338,8 +334,7 @@ class AddEventState extends State<AddEvent> {
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 2.0
-                          ),
+                              width: 2.0),
                           borderRadius: BorderRadius.circular(35.0),
                         ),
                         border: OutlineInputBorder(

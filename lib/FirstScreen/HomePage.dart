@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/DiscussionForum/UserViewForums.dart';
 import 'package:sandtgroup/EventPublishingBooking/EventBooking.dart';
 import 'package:sandtgroup/FirstScreen/Profile.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
@@ -122,6 +123,15 @@ class _AppDrawerState extends State<AppDrawer> {
               Navigator.of(context).pop();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => ViewPhoto()));
+            },
+          ),
+          Menu(
+            icon: Icons.people,
+            title: "Discussion",
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UserViewForums()));
             },
           ),
           Divider(
