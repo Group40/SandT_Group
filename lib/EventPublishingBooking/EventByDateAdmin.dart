@@ -5,6 +5,9 @@ import 'dart:convert';
 import './CalendarAdmin.dart';
 import './EditEvent.dart';
 import './AddEvent.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
+
+var notificationUrl = "http://10.0.2.2:8080/addNotification";
 
 class EventByDateAdmin extends StatefulWidget {
   final String date;
@@ -30,7 +33,7 @@ class EventByDateAdminState extends State<EventByDateAdmin> {
     return "success!";
   }
 
-  void delete(String id) async {
+  void delete(String id, String name, String date) async {
     final http.Response response = await http.delete(
       'http://10.0.2.2:8080/deleteEvent/' + id,
       headers: <String, String>{
@@ -49,23 +52,38 @@ class EventByDateAdminState extends State<EventByDateAdmin> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-    setState(() {
-      initState();
+    var notificationBody = jsonEncode({
+      'authorName': getUsername(),
+      'authorType': getrole(),
+      'authorMail': getEmail(),
+      'name': name,
+      'nameType': "delete the event",
+      'date': DateTime.now().toString(),
+      'eventDate': date,
+    });
+    return http.post(notificationUrl, body: notificationBody, headers: {
+      "Accept": "application/json",
+      "content-type": "application/json"
+    }).then((dynamic res) {
+      print(res.toString());
+      setState(() {
+        initState();
+      });
     });
   }
 
-  void showSnackBar(BuildContext context, String id) {
+  void showSnackBar(BuildContext context, String id, String name, String date) {
     var snackBar = SnackBar(
-      backgroundColor: Colors.black54,
+      backgroundColor: Theme.of(context).accentColor,
       content: Text(
         'Permently delete the event?',
-        style: TextStyle(fontSize: 20, color: Colors.white70),
+        style: TextStyle(fontSize: 20, color: Colors.black54),
       ),
       action: SnackBarAction(
-          textColor: Colors.cyan,
+          textColor: Theme.of(context).primaryColor,
           label: "YES",
           onPressed: () {
-            delete(id);
+            delete(id, name, date);
           }),
     );
     Scaffold.of(context).showSnackBar(snackBar);
@@ -82,7 +100,13 @@ class EventByDateAdminState extends State<EventByDateAdmin> {
     return Scaffold(
       //backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Published Events'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          "Published Events",
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+        iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.calendar_today),
@@ -94,7 +118,13 @@ class EventByDateAdminState extends State<EventByDateAdmin> {
           ),
         ],
       ),
-      body: getListView(),
+      body: (data == null)
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+            )
+          : getListView(),
       floatingActionButton: FloatingActionButton(
         foregroundColor: Theme.of(context).accentColor,
         backgroundColor: Theme.of(context).primaryColor,
@@ -118,25 +148,26 @@ class EventByDateAdminState extends State<EventByDateAdmin> {
       itemBuilder: (BuildContext context, int position) {
         int availableInt = int.parse(data[position]["available"]);
         return Card(
-          color: Colors.cyan[100],
+          color: Theme.of(context).accentColor,
           elevation: 2.0,
           child: ListTile(
             leading: CircleAvatar(
-              backgroundColor: availableInt == 0 ? Colors.red : Colors.cyan,
+              backgroundColor:
+                  availableInt == 0 ? Colors.red : Colors.transparent,
               child: availableInt == 0
                   ? Icon(
                       Icons.event_busy,
-                      color: Colors.black,
+                      color: Theme.of(context).primaryColor,
                     )
                   : Icon(
                       Icons.event_available,
-                      color: Colors.black,
+                      color: Theme.of(context).primaryColor,
                     ),
             ),
             title: Text(data[position]["name"],
                 style: TextStyle(color: Colors.black54)),
             subtitle: Text(data[position]["date"],
-                style: TextStyle(color: Colors.cyan[900])),
+                style: TextStyle(color: Colors.black54)),
             trailing: IconButton(
                 icon: Icon(
                   Icons.delete,
@@ -144,7 +175,8 @@ class EventByDateAdminState extends State<EventByDateAdmin> {
                 ),
                 tooltip: 'Delete this event',
                 onPressed: () {
-                  showSnackBar(context, data[position]["id"]);
+                  showSnackBar(context, data[position]["id"],
+                      data[position]["name"], data[position]["date"]);
                 }),
             onTap: () {
               debugPrint("Event clicked");

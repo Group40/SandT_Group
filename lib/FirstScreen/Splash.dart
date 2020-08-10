@@ -4,6 +4,7 @@ import 'package:sandtgroup/SignUpLogIn/AuthScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+import 'Admin/AdminHomepage.dart';
 import 'HomePage.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,10 +17,10 @@ String _id;
 String _fname;
 String _lname;
 String _email;
+String _tokentype;
+int _role;
 
 class _SplashScreenState extends State<SplashScreen> {
-  
-
 /*
   @override
   void initState() {
@@ -74,14 +75,24 @@ class _SplashScreenState extends State<SplashScreen> {
       _fname = extractedUserData['username'];
       _lname = extractedUserData['lname'];
       _email = extractedUserData['email'];
+      _role = extractedUserData['role'];
+      _tokentype = extractedUserData['tokentype'];
 
       return true;
     }
   }
 
   void _navigationHome() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (BuildContext context) => HomePage())); //HomePage()
+    if (getrole() == 3) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => AdminHomePage()));
+    } else if (getrole() == 2) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+    } else {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+    }
   }
 
   void _navigationLog() {
@@ -112,7 +123,7 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 
 String getUsername() {
-  String username = _fname + _lname;
+  String username = _fname + " " + _lname;
   return username;
 }
 
@@ -122,4 +133,12 @@ String getEmail() {
 
 String getToken() {
   return _token;
+}
+
+String getTokentype() {
+  return _tokentype;
+}
+
+int getrole() {
+  return _role;
 }

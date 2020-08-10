@@ -2,27 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'Search.dart';
 import 'package:sandtgroup/FirstScreen/HomePage.dart';
-import 'package:sandtgroup/FirstScreen/Splash.dart';
-import 'package:sandtgroup/Photography/UploadPics.dart';
-//import 'package:flutter_advanced_networkimage/provider.dart';
 
-class ViewPhoto extends StatefulWidget {
+String searchtxt;
+
+class PicGallery extends StatefulWidget {
   @override
-  ViewPhotoState createState() => ViewPhotoState();
+  PicGalleryState createState() => PicGalleryState();
 }
 
-class ViewPhotoState extends State<ViewPhoto> {
+class PicGalleryState extends State<PicGallery> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   ScrollController _scrollController = new ScrollController();
   List list = List();
   List<String> picsurl = new List();
-  List<String> picstitle = new List();
-  List<String> picsdetail = new List();
-  List<String> picsid = new List();
-  String email = getEmail();
   bool isLoading = true;
-  int pagesize = 3;
+  int pagesize = 9;
   int pageno = 0;
   bool isLoadmorePic = true;
 
@@ -35,31 +31,21 @@ class ViewPhotoState extends State<ViewPhoto> {
   @override
   void initState() {
     super.initState();
-    getMyPic();
-
+    getPicGallery();
     _scrollController.addListener(() {
       if ((_scrollController.position.pixels ==
               _scrollController.position.maxScrollExtent) &&
           isLoadmorePic == true) {
-        getMyPic();
+        getPicGallery();
       }
     });
   }
-/*
-  void fetchtow() {
-    getMyPic();
-    setState(() {
-      pageno++;
-    });
-    getMyPic();
-  }*/
 
-  Future<String> getMyPic() async {
+  Future<String> getPicGallery() async {
     await Future.delayed(Duration(milliseconds: 3000));
     try {
       http.Response response = await http.get(
-          Uri.encodeFull("http://10.0.2.2:8080/getMypicslist/" +
-              email +
+          Uri.encodeFull("http://10.0.2.2:8080/viewGallery/" +
               "?pageSize=" +
               pagesize.toString() +
               "&pageNo=" +
@@ -74,9 +60,6 @@ class ViewPhotoState extends State<ViewPhoto> {
           pageno++;
           for (int i = 0; i < list.length; i++) {
             picsurl.add(json.decode(response.body)[i]['photourl']);
-            picstitle.add(json.decode(response.body)[i]['picTitle']);
-            picsdetail.add(json.decode(response.body)[i]['picDetails']);
-            picsid.add(json.decode(response.body)[i]['uploadPhotoId']);
           }
           isLoading = false;
         });
@@ -84,8 +67,39 @@ class ViewPhotoState extends State<ViewPhoto> {
           setState(() {
             isLoadmorePic = false;
           });
-          list.clear();
         }
+        list.clear();
+      } else {
+        _showNetErrorDialog("Somjething went wrong ");
+        return null;
+      }
+    } on TimeoutException catch (_) {
+      _showNetErrorDialog("Internet Connection Problem");
+      throw Exception('Failed to load');
+    }
+  }
+
+  Future<String> getPicdata(String url) async {
+    String dataurl = 'http://10.0.2.2:8080/viewPicsdata';
+    var uri = Uri.parse(dataurl);
+    var request = new http.MultipartRequest("POST", uri);
+    request.fields['url'] = url;
+    var body = {'url': url};
+
+    try {
+      final response =
+          await request.send().timeout(const Duration(seconds: 60));
+
+      if (response.statusCode == 200) {
+        response.stream.transform(utf8.decoder).listen((value) {
+          list = (json.decode(value) as List);
+          viewpic(url, list[0]['picTitle'], list[0]['picDetails'],
+              list[0]['ownername'], "id");
+          setState(() {
+            isLoading = false;
+          });
+          list.clear();
+        });
       } else {
         _showNetErrorDialog("Somjething went wrong ");
         return null;
@@ -102,13 +116,15 @@ class ViewPhotoState extends State<ViewPhoto> {
         key: _scaffoldKey,
         //backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text('My Album'),
+          title: Text('Astro Photography'),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.file_upload),
+              icon: Icon(Icons.search),
               onPressed: () {
+                showSearch(context: context, delegate: DataSerch());
+                /*
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UploadPics()));
+                    MaterialPageRoute(builder: (context) => UploadPics()));*/
               },
             ),
           ],
@@ -127,17 +143,17 @@ class ViewPhotoState extends State<ViewPhoto> {
                     controller: _scrollController,
                     itemCount: picsurl.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2),
+                        crossAxisCount: 3),
                     itemBuilder: (context, index) {
                       Future.delayed(Duration(milliseconds: 3000));
-                      return createPicBox(picstitle[index], picsurl[index],
-                          picsdetail[index], picsid[index]);
+                      return createPicBox(picsurl[index]);
                     });
               }
             }));
   }
 
-  void viewpic(String url, String title, String details, String id) {
+  void viewpic(
+      String url, String title, String details, String name, String id) {
     _scaffoldKey.currentState.showBottomSheet<void>((BuildContext context) {
       return DecoratedBox(
         decoration: BoxDecoration(color: Colors.black87),
@@ -147,7 +163,7 @@ class ViewPhotoState extends State<ViewPhoto> {
               child: Stack(
                 children: <Widget>[
                   Positioned(
-                      top: 25,
+                      top: 10,
                       right: 10,
                       child: IconButton(
                         onPressed: () {
@@ -161,7 +177,7 @@ class ViewPhotoState extends State<ViewPhoto> {
                       )),
                 ],
               ),
-              height: 80,
+              height: 50,
               width: 50,
             ),
             SingleChildScrollView(
@@ -169,16 +185,10 @@ class ViewPhotoState extends State<ViewPhoto> {
                 shrinkWrap: true,
                 primary: false,
                 crossAxisCount: 1,
-                children: <Widget>[
-                  Container(
-                      color: url == null ? Colors.green[100] : null,
-                      decoration: new BoxDecoration(
-                          image: new DecorationImage(
-                              image: new NetworkImage(url), fit: BoxFit.cover)))
-                ],
+                children: <Widget>[getpic(url)],
               ),
             ),
-            SizedBox(height: 25.0),
+            SizedBox(height: 10.0),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
@@ -188,6 +198,18 @@ class ViewPhotoState extends State<ViewPhoto> {
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(2),
+              child: Text(
+                "Captured by " + name,
+                style: TextStyle(
+                  fontSize: 13.0,
+                  color: Colors.redAccent,
+                  //fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.end,
               ),
             ),
             Padding(
@@ -206,11 +228,13 @@ class ViewPhotoState extends State<ViewPhoto> {
     });
   }
 
-  GestureDetector createPicBox(
-      String title, String url, String detail, String id) {
+  GestureDetector createPicBox(String url) {
     return GestureDetector(
         onTap: () {
-          viewpic(url, title, detail, id);
+          getPicdata(url);
+          setState(() {
+            isLoading = true;
+          });
         },
         child: getpic(url));
   }
@@ -221,7 +245,7 @@ class ViewPhotoState extends State<ViewPhoto> {
       child: Container(
           decoration: new BoxDecoration(
               image: new DecorationImage(
-                  image: new NetworkImage(url), fit: BoxFit.cover))),
+                  image: new NetworkImage(url), fit: BoxFit.contain))),
     );
   }
 
@@ -244,4 +268,79 @@ class ViewPhotoState extends State<ViewPhoto> {
       ),
     );
   }
+}
+
+class DataSerch extends SearchDelegate<String> {
+  final suggest = [
+    "sun",
+    "moon",
+    "mars",
+    "test",
+    "title",
+    "star",
+  ];
+  final recent = [];
+  PicGallery picGallery;
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        
+         icon: query == "" ? Icon(null) : Icon(Icons.search),
+        onPressed: () {
+          query == "" ? seachDone(context) : showResults(context);
+        })
+          
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+       icon: query == "" ? Icon(Icons.undo) : Icon(Icons.close),
+        onPressed: () {
+          query == "" ? seachDone(context) : query = "";
+        });
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    searchtxt = query;
+    return SeachPic();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final suggestionList = query.isEmpty
+        ? recent.where((element) => element.startsWith(query)).toList()
+        : suggest.where((element) => element.startsWith(query)).toList();
+
+    return ListView.builder(
+        itemBuilder: (context, index) => ListTile(
+            onTap: () {
+              query = suggestionList[index];
+              showResults(context);
+            },
+            leading: Icon(Icons.find_in_page),
+            title: RichText(
+                text: TextSpan(
+                    text: suggestionList[index].substring(0, query.length),
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                    children: [
+                  TextSpan(
+                      text: suggestionList[index].substring(query.length),
+                      style: TextStyle(color: Colors.grey))
+                ]))),
+        itemCount: suggestionList.length);
+  }
+}
+
+String setTxt() {
+  return searchtxt;
+}
+
+void seachDone(BuildContext context) {
+  Navigator.pop(context);
+  PicGallery();
 }

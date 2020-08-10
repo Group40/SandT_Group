@@ -1,43 +1,14 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:sandtgroup/DiscussionForum/UserViewForums.dart';
-import 'package:sandtgroup/EventPublishingBooking/EventBooking.dart';
-import 'package:sandtgroup/FirstScreen/Profile.dart';
-import 'package:sandtgroup/FirstScreen/Splash.dart';
-import 'package:sandtgroup/Photography/ViewPhoto.dart';
-import 'package:sandtgroup/main.dart';
-//import '../FirstSceen/Profile.dart';
-
+import 'package:sandtgroup/Photography/MainPage.dart';
+import 'package:sandtgroup/Photography/UploadPics.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../main.dart';
 import 'Menu.dart';
-=======
-import 'AppDrawer.dart';
->>>>>>> c7a68ba3f26629fe992bccb172de54f39902ecb8
-
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => new _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  var _scaffoldKey = new GlobalKey<ScaffoldState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-        key: _scaffoldKey,
-        drawer: new AppDrawer(),
-        appBar: new AppBar(
-          title: new Text(
-            "S & T",
-            style: TextStyle(
-                color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-<<<<<<< HEAD
-        ],
-      ),*/
-    );
-  }
-}
+import 'Profile.dart';
+import 'Splash.dart';
+import '../EventPublishingBooking/EventBooking.dart';
+import '../Institute/CourseList.dart';
+import '../Notification/UserNotification.dart';
 
 class AppDrawer extends StatefulWidget {
   @override
@@ -49,8 +20,6 @@ class _AppDrawerState extends State<AppDrawer> {
   Widget build(BuildContext context) {
     return new Drawer(
         child: Container(
-      //color: Colors.cyan,
-
       child: new ListView(
         children: <Widget>[
           new UserAccountsDrawerHeader(
@@ -80,6 +49,15 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
           ),
           Menu(
+            icon: Icons.notifications_active,
+            title: "Notifications",
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return UserNotification();
+              }));
+            },
+          ),
+          Menu(
             icon: Icons.person,
             title: "Profile",
             onTap: () {
@@ -98,50 +76,52 @@ class _AppDrawerState extends State<AppDrawer> {
             },
           ),
           Menu(
-            icon: Icons.home,
-            title: "Piyumal",
+            icon: Icons.event,
+            title: "Upcoming Event",
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => EventBooking()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return EventBooking();
+              }));
             },
           ),
           Menu(
-            icon: Icons.home,
+            icon: Icons.school,
+            title: "Courses",
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return CourseList();
+              }));
+            },
+          ),
+          Menu(
+            icon: Icons.image,
             title: "Photography",
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ViewPhoto()));
-            },
-          ),
-          Menu(
-            icon: Icons.people,
-            title: "Discussion",
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => UserViewForums()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MainPage()));
             },
           ),
           Divider(
-            height: 64,
+            height: 65,
             thickness: 0.8,
             color: Colors.black.withOpacity(0.3),
             indent: 32,
             endIndent: 32,
           ),
           Menu(
-            icon: Icons.settings,
-            title: "Setting",
-=======
-        ),
-        body: Center(
-          child: Text(
-            "User Home Page ",
-            style: TextStyle(fontSize: 25),
->>>>>>> c7a68ba3f26629fe992bccb172de54f39902ecb8
+            icon: Icons.clear_all,
+            title: "Log Out",
+            onTap: () async {
+              Navigator.of(context).pop();
+              final pref = await SharedPreferences.getInstance();
+              await pref.clear();
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => SplashScreen()));
+            },
           ),
-        ));
+        ],
+      ),
+    ));
   }
 }

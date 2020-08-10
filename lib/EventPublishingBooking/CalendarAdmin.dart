@@ -57,7 +57,7 @@ class CalendarAdminState extends State<CalendarAdmin> {
   static Widget _eventIcon = new Container(
     decoration: new BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: Colors.cyan, width: 5.0)),
+        border: Border.all(color: Colors.blue, width: 5.0)),
     child: new Icon(
       Icons.event,
       color: Colors.black,
@@ -75,16 +75,18 @@ class CalendarAdminState extends State<CalendarAdmin> {
     _calendarCarouselNoHeader = CalendarCarousel<Event>(
       //Today
       todayBorderColor: Colors.green,
-      todayTextStyle: TextStyle(color: Colors.blue),
+      todayTextStyle: TextStyle(color: Theme.of(context).primaryColor),
       todayButtonColor: Colors.yellow,
       selectedDayTextStyle: TextStyle(color: Colors.yellow),
       minSelectedDate: _currentDate.subtract(Duration(days: 360)),
       maxSelectedDate: _currentDate.add(Duration(days: 360)),
-      prevDaysTextStyle: TextStyle(fontSize: 16, color: Colors.cyan),
+      prevDaysTextStyle:
+          TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),
       //inactiveDaysTextStyle: TextStyle(color: Colors.cyan, fontSize: 16),
 
       showHeader: true,
-      headerTextStyle: TextStyle(fontSize: 35, color: Colors.cyan),
+      headerTextStyle:
+          TextStyle(fontSize: 35, color: Theme.of(context).primaryColor),
       //Header
       weekDayBackgroundColor: Colors.white,
       weekdayTextStyle: TextStyle(fontSize: 20, color: Colors.black),
@@ -94,8 +96,10 @@ class CalendarAdminState extends State<CalendarAdmin> {
       daysHaveCircularBorder: false,
       showOnlyCurrentMonthDate: false,
       dayButtonColor: Colors.transparent,
-      daysTextStyle: TextStyle(fontSize: 20, color: Colors.cyan),
-      weekendTextStyle: TextStyle(fontSize: 20, color: Colors.cyan),
+      daysTextStyle:
+          TextStyle(fontSize: 20, color: Theme.of(context).primaryColor),
+      weekendTextStyle:
+          TextStyle(fontSize: 20, color: Theme.of(context).primaryColor),
       thisMonthDayBorderColor: Colors.grey,
       markedDatesMap: _markedDateMap,
       height: 440.0,
@@ -115,7 +119,7 @@ class CalendarAdminState extends State<CalendarAdmin> {
       onDayPressed: (DateTime date, List<Event> events) {
         this.setState(() => _currentDate2 = date);
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return EventByDateAdmin(date: date.toString().substring(0,10));
+          return EventByDateAdmin(date: date.toString().substring(0, 10));
         }));
       },
       onCalendarChanged: (DateTime date) {
@@ -130,29 +134,41 @@ class CalendarAdminState extends State<CalendarAdmin> {
     );
 
     return new Scaffold(
-      //backgroundColor: Colors.black38,
-        appBar: new AppBar(
-          title: new Text("Event Calendar"),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(
-                  top: 40.0,
-                  bottom: 16.0,
-                  left: 16.0,
-                  right: 16.0,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.0),
-                child: _calendarCarouselNoHeader,
-              ), //
-            ],
+        //backgroundColor: Colors.black38,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text(
+            "Event Calendar",
+            style: TextStyle(color: Theme.of(context).primaryColor),
           ),
-        ));
+          iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
+        ),
+        body: (data == null)
+            ? Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Theme.of(context).primaryColor,
+                ),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 40.0,
+                        bottom: 16.0,
+                        left: 16.0,
+                        right: 16.0,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: _calendarCarouselNoHeader,
+                    ), //
+                  ],
+                ),
+              ));
   }
 }

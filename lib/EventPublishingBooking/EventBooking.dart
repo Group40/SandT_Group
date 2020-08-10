@@ -32,72 +32,92 @@ class EventBookingState extends State<EventBooking> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Upcoming Events'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.calendar_today),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return Calendar();
-              }));
-            },
+        //backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text(
+            'Upcoming Events',
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
           ),
-        ],
-      ),
-      body: Container(
-        margin: const EdgeInsets.only(top: 20.0),
-        child : getListView(),
-      )
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              color: Theme.of(context).primaryColor,
+              onPressed: () {
+                Navigator.pop(context, true);
+              }),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.calendar_today,
+                color: Theme.of(context).primaryColor,
+              ),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Calendar();
+                }));
+              },
+            ),
+          ],
+        ),
+        body: (data == null)
+            ? Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Theme.of(context).primaryColor,
+                ),
+              )
+            : Container(
+                child: getListView(),
+              )
 //
-    );
+        );
     throw UnimplementedError();
   }
 
   ListView getListView() {
     //TextStyle titleStyle = Theme.of(context).textTheme.subhead;
     return ListView.builder(
-      itemCount: data == null ? 0 : data.length,
-      itemBuilder: (BuildContext context, int position) {
-        int availableInt = int.parse(data[position]["available"]);
-        return Container(
-          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(35.0),
-            ),
-            color: Colors.cyan[200],
-            elevation: 5.0,
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundColor: availableInt == 0 ? Colors.red : Colors.cyan,
-                child: availableInt == 0
-                    ? Icon(
-                      Icons.event_busy,
-                      color: Colors.black,
-                    )
-                    : Icon(
-                      Icons.event_available,
-                      color: Colors.black,
-                ),
+        itemCount: data == null ? 0 : data.length,
+        itemBuilder: (BuildContext context, int position) {
+          int availableInt = int.parse(data[position]["available"]);
+          return Container(
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(35.0),
               ),
-              title: Text(data[position]["name"],
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.black)),
-              subtitle: Text(data[position]["date"],
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.cyan[900])),
-              onTap: () {
-                debugPrint("Event clicked");
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return EventDetail(text: data[position]["id"]);
-                }));
-              },
+              color: Theme.of(context).accentColor,
+              elevation: 1.0,
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundColor:
+                      availableInt == 0 ? Colors.red : Colors.transparent,
+                  child: availableInt == 0
+                      ? Icon(
+                          Icons.event_busy,
+                          color: Theme.of(context).primaryColor,
+                        )
+                      : Icon(
+                          Icons.event_available,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                ),
+                title: Text(data[position]["name"],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Theme.of(context).primaryColor)),
+                subtitle: Text(data[position]["date"],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black54)),
+                onTap: () {
+                  debugPrint("Event clicked");
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return EventDetail(text: data[position]["id"]);
+                  }));
+                },
+              ),
             ),
-          ),
-        );
-      }
-    );
+          );
+        });
   }
 }
