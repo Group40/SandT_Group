@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 import 'Admin/AdminHomepage.dart';
+import 'Crew/CrewHomePage.dart';
 import 'HomePage.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -58,6 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey('userData')) {
       ////////temp fun for developing time
+      /*
       final userData = json.encode(
         {
           'token': "Sandun",
@@ -66,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen> {
           'email': "Sandun@email.com",
         },
       );
-      prefs.setString('userData', userData);
+      prefs.setString('userData', userData);*/
       return false;
     } else {
       final extractedUserData =
@@ -88,7 +90,7 @@ class _SplashScreenState extends State<SplashScreen> {
           builder: (BuildContext context) => AdminHomePage()));
     } else if (getrole() == 2) {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+          MaterialPageRoute(builder: (BuildContext context) => CrewHomePage()));
     } else {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (BuildContext context) => HomePage()));
