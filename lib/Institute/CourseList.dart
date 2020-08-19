@@ -113,7 +113,7 @@ class CourseListState extends State<CourseList> {
               });
             },
             decoration: InputDecoration(
-                hintText: "Search Destination",
+                hintText: "Search Course",
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none),

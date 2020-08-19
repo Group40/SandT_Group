@@ -16,6 +16,7 @@ class AdminCourse extends StatefulWidget {
 
 class AdminCourseState extends State<AdminCourse> {
   List data;
+  String searchTerm;
 
   Future<String> getData() async {
     http.Response response = await http.get(
@@ -24,6 +25,20 @@ class AdminCourseState extends State<AdminCourse> {
     this.setState(() {
       data = jsonDecode(response.body);
     });
+    if (searchTerm != null) {
+      if (searchTerm.length != 0) {
+        var j = 0;
+        for (var i = 0; i < data.length; i++) {
+          if (data[i]["name"]
+              .toLowerCase()
+              .contains(searchTerm.toLowerCase())) {
+            data[j] = data[i];
+            j++;
+          }
+        }
+        data.length = j;
+      }
+    }
     return "success!";
   }
 
@@ -83,11 +98,32 @@ class AdminCourseState extends State<AdminCourse> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
-          "Published Courses",
-          style: TextStyle(color: Theme.of(context).primaryColor),
+        title: TextField(
+          onChanged: (value) {
+            setState(() {
+              searchTerm = value;
+            });
+          },
+          decoration: InputDecoration(
+              hintText: "Search Course",
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none),
+              filled: true,
+              fillColor: Colors.black12,
+              isDense: true,
+              contentPadding: EdgeInsets.all(8)),
         ),
         iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              getData();
+            },
+            color: Theme.of(context).primaryColor,
+          ),
+        ],
       ),
       body: getListView(),
       floatingActionButton: FloatingActionButton(
