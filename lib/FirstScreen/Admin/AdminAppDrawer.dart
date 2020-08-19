@@ -68,8 +68,8 @@ class _AdminAppDrawerState extends State<AdminAppDrawer> {
             },
           ),
           Menu(
-            icon: Icons.notifications_active,
-            title: "Notifications",
+            icon: Icons.report,
+            title: "Activity Report",
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return AdminNotification();

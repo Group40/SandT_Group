@@ -4,12 +4,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 
-class AdminNotification extends StatefulWidget {
+class CrewNotification extends StatefulWidget {
   @override
-  AdminNotificationState createState() => AdminNotificationState();
+  CrewNotificationState createState() => CrewNotificationState();
 }
 
-class AdminNotificationState extends State<AdminNotification> {
+class CrewNotificationState extends State<CrewNotification> {
   List data;
 
   Future<String> getData() async {
@@ -21,35 +21,6 @@ class AdminNotificationState extends State<AdminNotification> {
     });
 
     return "success!";
-  }
-
-  void delete(String id) async {
-    final http.Response response = await http.delete(
-      'http://10.0.2.2:8080/deleteNotification/' + id,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    );
-    setState(() {
-      initState();
-    });
-  }
-
-  void showSnackBar(BuildContext context, String id) {
-    var snackBar = SnackBar(
-      backgroundColor: Theme.of(context).accentColor,
-      content: Text(
-        'Notification will be deleted from the user view too?',
-        style: TextStyle(color: Colors.black54),
-      ),
-      action: SnackBarAction(
-          textColor: Theme.of(context).primaryColor,
-          label: "I understand",
-          onPressed: () {
-            delete(id);
-          }),
-    );
-    Scaffold.of(context).showSnackBar(snackBar);
   }
 
   //Call get data
@@ -168,15 +139,6 @@ class AdminNotificationState extends State<AdminNotification> {
                             " at " +
                             data[position]["date"].substring(11, 20),
                         style: TextStyle(color: Colors.black54)),
-            trailing: IconButton(
-                icon: Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                ),
-                tooltip: 'Delete this activity',
-                onPressed: () {
-                  showSnackBar(context, data[position]["id"]);
-                }),
           ),
         );
       },
