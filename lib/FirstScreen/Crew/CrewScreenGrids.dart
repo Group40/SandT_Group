@@ -13,7 +13,6 @@ class CrewScreenGrids extends StatelessWidget {
   Item item6 = new Item("S & T Optics", Icons.shopping_basket, MainPage());
   Item item7 = new Item("Home Screen", Icons.home, MainPage());
 
-
   @override
   Widget build(BuildContext context) {
     List<Item> iconlist = [
@@ -27,7 +26,7 @@ class CrewScreenGrids extends StatelessWidget {
     ];
     return Flexible(
       child: ListView(
-          padding: EdgeInsets.all(8),
+          padding: EdgeInsets.all(10),
           children: iconlist.map((data) {
             return Container(
               child: GestureDetector(
@@ -35,10 +34,11 @@ class CrewScreenGrids extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => data.page)),
                 child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.grey[300],
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Card(
+                      color: Colors.grey[400],
                       child: ListTile(
                         leading: Icon(data.icon),
                         title: Text(
@@ -46,7 +46,7 @@ class CrewScreenGrids extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w800,
                           ),
                         ),
                         dense: false,

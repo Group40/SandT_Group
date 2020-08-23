@@ -29,7 +29,7 @@ class AdminScreenGrids extends StatelessWidget {
     ];
     return Flexible(
       child: ListView(
-          padding: EdgeInsets.all(8),
+          padding: EdgeInsets.all(10),
           children: iconlist.map((data) {
             return Container(
               child: GestureDetector(
@@ -37,10 +37,11 @@ class AdminScreenGrids extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => data.page)),
                 child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.grey[300],
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Card(
+                      color: Colors.white,
                       child: ListTile(
                         leading: Icon(data.icon),
                         title: Text(
