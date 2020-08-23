@@ -1,4 +1,6 @@
 //User Home Page
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
@@ -36,11 +38,11 @@ class _HomePageState extends State<HomePage> {
       }).timeout(const Duration(seconds: 40));
 
       if (response.statusCode == 200) {
-        imglist = ['assets/image/logo.jpg'];
-        //imglist = (json.decode(response.body) as List);
+        //imglist = ['assets/image/logo.jpg'];
+        imglist = (json.decode(response.body) as List);
         setState(() {
           isLoading = false;
-          //networkImg = true;
+          networkImg = true;
         });
       } else {
         imglist = ['assets/image/logo.jpg'];

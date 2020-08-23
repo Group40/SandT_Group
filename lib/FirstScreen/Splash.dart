@@ -70,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (responseData['message'] == "Admin Member") {
           _role = 3;
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) => HomePage()));
+              builder: (BuildContext context) => AdminHomePage()));
         } else if (responseData['message'] == "Crew Member") {
           _role = 2;
           Navigator.of(context).pushReplacement(MaterialPageRoute(
