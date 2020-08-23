@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sandtgroup/Notification/AdminNotification.dart';
-import 'package:sandtgroup/Photography/MainPage.dart';
-import 'package:sandtgroup/Photography/UploadPics.dart';
+import 'package:sandtgroup/Photography/AdminFun/MainPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../main.dart';
 import '../Menu.dart';
 import '../Splash.dart';
 import '../../EventPublishingBooking/EventPublishing.dart';
@@ -64,6 +62,15 @@ class _AdminAppDrawerState extends State<AdminAppDrawer> {
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return AdminCourse();
+              }));
+            },
+          ),
+          Menu(
+            icon: Icons.school,
+            title: "Photography",
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return MainPage();
               }));
             },
           ),

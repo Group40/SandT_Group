@@ -16,7 +16,7 @@ class _CrewHomePageState extends State<CrewHomePage> {
         drawer: new CrewAppDrawer(),
         appBar: new AppBar(
           title: new Text(
-            "Admin",
+            "Crew Member",
             style: TextStyle(
                 color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
           ),

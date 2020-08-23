@@ -35,6 +35,7 @@ dependencies:
   font_awesome_flutter: ^8.8.1
   email_validator: ^1.0.5
   url_launcher: ^5.5.0
+  carousel_slider: ^2.2.1
 
 
 
@@ -58,6 +59,12 @@ flutter:
   uses-material-design: true
   assets:
     - assets/image/
+    - assets/icons/youtube.png
+    - assets/icons/course.png
+    - assets/icons/pics.png
+    - assets/icons/store.png
+    - assets/icons/calendar.jpg
+    - assets/icons/magazine.jpg
     - assets/
 
 

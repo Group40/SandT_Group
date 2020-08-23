@@ -1,12 +1,17 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:sandtgroup/SignUpLogIn/AuthScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import 'Admin/AdminHomepage.dart';
 import 'Crew/CrewHomePage.dart';
 import 'HomePage.dart';
+
+var crewurl = getUrl() + "/auth/checkrole?email=" + getEmail();
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -47,11 +52,45 @@ class _SplashScreenState extends State<SplashScreen> {
 
     _tryAutoLogin().then((status) {
       if (status) {
-        _navigationHome();
+        _checkrole();
       } else {
         _navigationLog();
       }
     });
+  }
+
+  void _checkrole() async {
+    try {
+      final response = await http.get(crewurl, headers: {
+        "Accept": "application/json",
+        "content-type": "application/json"
+      }).timeout(const Duration(seconds: 60));
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        if (responseData['message'] == "Admin Member") {
+          _role = 3;
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (BuildContext context) => HomePage()));
+        } else if (responseData['message'] == "Crew Member") {
+          _role = 2;
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (BuildContext context) => CrewHomePage()));
+        } else if (responseData['message'] == "Member") {
+          _role = 1;
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+        } else {
+          _role = 0;
+          _showRespondDialog("Can not recognize as a member", "Error");
+        }
+      } else {
+        _role = 0;
+        _showRespondDialog("Can not recognize as a member", "Error");
+      }
+    } on TimeoutException catch (_) {
+      _role = 0;
+      _showRespondDialog("Internet Connection Error", "Error");
+    }
   }
 
   Future<bool> _tryAutoLogin() async {
@@ -77,7 +116,7 @@ class _SplashScreenState extends State<SplashScreen> {
       _fname = extractedUserData['username'];
       _lname = extractedUserData['lname'];
       _email = extractedUserData['email'];
-      _role = extractedUserData['role'];
+      //_role = extractedUserData['role'];
       _tokentype = extractedUserData['tokentype'];
 
       return true;
@@ -86,11 +125,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _navigationHome() {
     if (getrole() == 3) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) => AdminHomePage()));
+      /*Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => AdminHomePage()));*/
     } else if (getrole() == 2) {
+      /*
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (BuildContext context) => CrewHomePage()));
+          MaterialPageRoute(builder: (BuildContext context) => CrewHomePage()));*/
     } else {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (BuildContext context) => HomePage()));
@@ -122,6 +162,25 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
+
+  void _showRespondDialog(String message, String title) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Exit'),
+            onPressed: () {
+              _role = 0;
+              exitFromApp();
+            },
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 String getUsername() {
@@ -143,4 +202,12 @@ String getTokentype() {
 
 int getrole() {
   return _role;
+}
+
+String getUrl() {
+  return "http://10.0.2.2:8080";
+}
+
+exitFromApp() {
+  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
 }
