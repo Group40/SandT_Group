@@ -5,6 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 import '../Menu.dart';
 import '../Splash.dart';
+import '../../EventPublishingBooking/EventPublishing.dart';
+import '../../Institute/AdminCourseList.dart';
+import '../../Notification/CrewNotification.dart';
 
 class CrewAppDrawer extends StatefulWidget {
   @override
@@ -56,11 +59,29 @@ class _CrewAppDrawerState extends State<CrewAppDrawer> {
           ),
           Menu(
             icon: Icons.event,
-            title: "Event",
+            title: "Publish Events",
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => UploadPics()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return EventPublishing();
+              }));
+            },
+          ),
+          Menu(
+            icon: Icons.school,
+            title: "Course List",
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return AdminCourse();
+              }));
+            },
+          ),
+          Menu(
+            icon: Icons.report,
+            title: "Activity Report",
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return CrewNotification();
+              }));
             },
           ),
           Menu(
