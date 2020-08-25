@@ -8,6 +8,7 @@ import 'package:intl/intl.dart' show DateFormat;
 import 'dart:async';
 import 'dart:convert';
 import './EventByDateAdmin.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
 
 class CalendarAdmin extends StatefulWidget {
   //optional
@@ -28,7 +29,7 @@ class CalendarAdminState extends State<CalendarAdmin> {
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllEvents"),
+        Uri.encodeFull(getUrl() + "/findAllEvents"),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body);

@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
 
 class CrewNotification extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class CrewNotificationState extends State<CrewNotification> {
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllNotifications"),
+        Uri.encodeFull(getUrl() + "/findAllNotifications"),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body).reversed.toList();

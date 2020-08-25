@@ -3,8 +3,9 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import './EditEvent.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
 
-var url = "http://10.0.2.2:8080/addConfirmedEventRequest";
+var url = getUrl() + "/addConfirmedEventRequest";
 
 class RequestList extends StatefulWidget {
   final String text;
@@ -23,14 +24,13 @@ class RequestListState extends State<RequestList> {
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull(
-            "http://10.0.2.2:8080/getEventRequestsByEventId/" + widget.text),
+        Uri.encodeFull(getUrl() + "/getEventRequestsByEventId/" + widget.text),
         headers: {"Accept": "application/json"});
     this.setState(() {
       requestData = jsonDecode(response.body);
     });
     http.Response response2 = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllEvents/" + widget.text),
+        Uri.encodeFull(getUrl() + "/findAllEvents/" + widget.text),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -43,7 +43,7 @@ class RequestListState extends State<RequestList> {
   //Delete From Request Collection
   void deleteRequest(String id) async {
     final http.Response response = await http.delete(
-      'http://10.0.2.2:8080/deleteEventRequest/' + id,
+      getUrl() + '/deleteEventRequest/' + id,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -68,12 +68,10 @@ class RequestListState extends State<RequestList> {
       'headCount': eventData["headCount"],
       'available': available
     });
-    return await http.post("http://10.0.2.2:8080/updateEvent",
-        body: body,
-        headers: {
-          "Accept": "application/json",
-          "content-type": "application/json"
-        }).then((dynamic res) {
+    return await http.post(getUrl() + "/updateEvent", body: body, headers: {
+      "Accept": "application/json",
+      "content-type": "application/json"
+    }).then((dynamic res) {
       print(res.toString());
     });
   }

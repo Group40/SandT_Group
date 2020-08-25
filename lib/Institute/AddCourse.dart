@@ -6,8 +6,8 @@ import './AdminCourseList.dart';
 import 'package:flutter/services.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 
-var url = "http://10.0.2.2:8080/addCourse";
-var notificationUrl = "http://10.0.2.2:8080/addNotification";
+var url = getUrl() + "/addCourse";
+var notificationUrl = getUrl() + "/addNotification";
 
 class AddCourse extends StatefulWidget {
   @override

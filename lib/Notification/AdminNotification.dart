@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
 
 class AdminNotification extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class AdminNotificationState extends State<AdminNotification> {
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllNotifications"),
+        Uri.encodeFull(getUrl() + "/findAllNotifications"),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body).reversed.toList();
@@ -25,7 +26,7 @@ class AdminNotificationState extends State<AdminNotification> {
 
   void delete(String id) async {
     final http.Response response = await http.delete(
-      'http://10.0.2.2:8080/deleteNotification/' + id,
+      getUrl() + '/deleteNotification/' + id,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

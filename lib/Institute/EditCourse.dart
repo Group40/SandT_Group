@@ -6,8 +6,8 @@ import 'package:sandtgroup/FirstScreen/Splash.dart';
 import 'package:sandtgroup/Institute/AdminCourseList.dart';
 import './AdminCourseList.dart';
 
-var url2 = "http://10.0.2.2:8080/updateCourse";
-var notificationUrl = "http://10.0.2.2:8080/addNotification";
+var url2 = getUrl() + "/updateCourse";
+var notificationUrl = getUrl() + "/addNotification";
 
 class EditCourse extends StatefulWidget {
   final String text;
@@ -33,7 +33,7 @@ class EditCourseState extends State<EditCourse> {
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllCourses/" + widget.text),
+        Uri.encodeFull(getUrl() + "/findAllCourses/" + widget.text),
         headers: {"Accept": "application/json"});
 
     this.setState(() {

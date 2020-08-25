@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
 
-var url = "http://10.0.2.2:8080/addConfirmedEventRequest";
+var url = getUrl() + "/addConfirmedEventRequest";
 
 class ConfirmedList extends StatefulWidget {
   final String text;
@@ -21,8 +22,7 @@ class ConfirmedListState extends State<ConfirmedList> {
   Future<String> getData() async {
     http.Response response = await http.get(
         Uri.encodeFull(
-            "http://10.0.2.2:8080/getConfirmedEventRequestsByEventId/" +
-                widget.text),
+            getUrl() + "/getConfirmedEventRequestsByEventId/" + widget.text),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body);

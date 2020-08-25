@@ -6,8 +6,8 @@ import './EventPublishing.dart';
 import 'package:flutter/services.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 
-var url = "http://10.0.2.2:8080/addEvent";
-var notificationUrl = "http://10.0.2.2:8080/addNotification";
+var url = getUrl() + "/addEvent";
+var notificationUrl = getUrl() + "/addNotification";
 
 class AddEvent extends StatefulWidget {
   @override

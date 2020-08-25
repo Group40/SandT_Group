@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import './EventDetail.dart';
 import './Calendar.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
 
 class EventByDate extends StatefulWidget {
   final String date;
@@ -21,7 +22,7 @@ class EventByDateState extends State<EventByDate> {
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findEventsByDate/" + widget.date),
+        Uri.encodeFull(getUrl() + "/findEventsByDate/" + widget.date),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body);

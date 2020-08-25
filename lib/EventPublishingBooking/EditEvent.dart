@@ -7,8 +7,8 @@ import './RequestList.dart';
 import './ConfirmedList.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 
-var url = "http://10.0.2.2:8080/updateEvent";
-var notificationUrl = "http://10.0.2.2:8080/addNotification";
+var url = getUrl() + "/updateEvent";
+var notificationUrl = getUrl() + "/addNotification";
 
 class EditEvent extends StatefulWidget {
   final String text;
@@ -34,7 +34,7 @@ class EditEventState extends State<EditEvent> {
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllEvents/" + widget.text),
+        Uri.encodeFull(getUrl() + "/findAllEvents/" + widget.text),
         headers: {"Accept": "application/json"});
 
     this.setState(() {

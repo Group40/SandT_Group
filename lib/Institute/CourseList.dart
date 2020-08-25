@@ -5,6 +5,7 @@ import 'dart:convert';
 import './CourseDetail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
 
 class CourseList extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class CourseListState extends State<CourseList> {
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllCourses"),
+        Uri.encodeFull(getUrl() + "/findAllCourses"),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body);

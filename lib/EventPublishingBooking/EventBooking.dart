@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import './EventDetail.dart';
 import './Calendar.dart';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
 
 class EventBooking extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class EventBookingState extends State<EventBooking> {
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllEvents"),
+        Uri.encodeFull(getUrl() + "/findAllEvents"),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body);
