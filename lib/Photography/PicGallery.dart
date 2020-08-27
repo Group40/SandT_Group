@@ -20,7 +20,7 @@ class PicGalleryState extends State<PicGallery> {
   List list = List();
   List<String> picsurl = new List();
   bool isLoading = true;
-  int pagesize = 9;
+  int pagesize = 7;
   int pageno = 0;
   bool isLoadmorePic = true;
 

@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
+import 'package:sandtgroup/Photography/AdminFun/ReviewPic.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../PicGallery.dart';
@@ -89,8 +90,13 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
       if (response.statusCode == 200) {
         setState(() {
           _btnstateconfirm = false;
+          
         });
-
+        Navigator.of(context).pop();
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) {
+          return ReviewPic();
+        }));
       } else {
         _showNetErrorDialog("Somjething went wrong ");
         return null;
@@ -115,9 +121,11 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
         setState(() {
           _btnstatedelete = false;
         });
-         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-            return PicGallery();
-          }));
+        Navigator.of(context).pop();
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) {
+          return PicGallery();
+        }));
       } else {
         _showNetErrorDialog("Somjething went wrong ");
         return null;
@@ -142,6 +150,11 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
         setState(() {
           _btnstatedelete = false;
         });
+        Navigator.of(context).pop();
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) {
+          return ReviewPic();
+        }));
       } else {
         _showNetErrorDialog("Somjething went wrong ");
         return null;
@@ -161,6 +174,10 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
       children: <Widget>[
         new Container(
             child: AppBar(
+          title: Text(
+            'Review Upload Photos',
+            style: TextStyle(color: Colors.black),
+          ),
           backgroundColor: Colors.white.withOpacity(1),
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back, color: Colors.black),
@@ -353,9 +370,11 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
             child: Text('Yes'),
             onPressed: () {
               setState(() {
+                _btnstatedelete = true;
                 if (isdelete) {
                   deletePic();
                 } else {
+
                   unreviewePic();
                 }
               });
@@ -432,9 +451,9 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
               _showBtnMsg("Are You Sure",
                   "Do You really want to unreview this image ?", false);
             }
-            setState(() {
-              _btnstatedelete = true;
-            });
+            // setState(() {
+            //   _btnstatedelete = true;
+            // });
           },
           padding: EdgeInsets.all(15.0),
           shape: RoundedRectangleBorder(
@@ -477,9 +496,9 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
               _showBtnMsg("Are You Sure",
                   "Do You really want to delete this image ?", true);
             }
-            setState(() {
-              _btnstatedelete = true;
-            });
+            // setState(() {
+            //   _btnstatedelete = true;
+            // });
           },
           padding: EdgeInsets.all(15.0),
           shape: RoundedRectangleBorder(

@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
+import 'package:sandtgroup/Photography/MyUploads.dart';
 import 'package:shimmer/shimmer.dart';
 
 class PicViewScreen extends StatefulWidget {
@@ -47,7 +48,7 @@ class _PicViewScreenState extends State<PicViewScreen> {
           title = list[0]['picTitle'];
           detail = list[0]['picDetails'];
           ownername = list[0]['ownername'];
-          picid = list[0]['ownername'];
+          picid = list[0]['uploadPhotoId'];
           // viewpic(
           //   url,
           //   list[0]['picTitle'],
@@ -70,7 +71,8 @@ class _PicViewScreenState extends State<PicViewScreen> {
   }
 
   Future<String> deletePic() async {
-    String senturl = getUrl() + '/deletepic/' + picid;
+    String owneremail = getEmail();
+    String senturl =getUrl() + '/deletepicuser/' + picid + '?email=' + owneremail;
     try {
       final response = await http.delete(
         senturl,
@@ -83,6 +85,11 @@ class _PicViewScreenState extends State<PicViewScreen> {
         setState(() {
           _btnstatedelete = false;
         });
+        Navigator.of(context).pop();
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) {
+          return MyUploads();
+        }));
       } else {
         _showNetErrorDialog("Somjething went wrong ");
         return null;
@@ -270,7 +277,9 @@ class _PicViewScreenState extends State<PicViewScreen> {
           FlatButton(
             child: Text('Yes'),
             onPressed: () {
+              
               setState(() {
+                _btnstatedelete = true;
                 deletePic();
               });
               Navigator.of(ctx).pop();
@@ -292,9 +301,7 @@ class _PicViewScreenState extends State<PicViewScreen> {
               _showBtnMsg(
                   "Are You Sure", "Do You really want to delete this image ?");
             }
-            setState(() {
-              _btnstatedelete = true;
-            });
+            
           },
           padding: EdgeInsets.all(15.0),
           shape: RoundedRectangleBorder(

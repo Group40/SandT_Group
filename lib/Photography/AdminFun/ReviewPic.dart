@@ -18,7 +18,7 @@ class ReviewPicState extends State<ReviewPic> {
   List list = List();
   List<String> picsurl = new List();
   bool isLoading = true;
-  int pagesize = 6;
+  int pagesize = 12;
   int pageno = 0;
   bool isLoadmorePic = true;
 
@@ -81,6 +81,15 @@ class ReviewPicState extends State<ReviewPic> {
     }
   }
 
+  int getlenth() {
+    if (isLoadmorePic) {
+      return (picsurl.length + 1);
+    }
+    else{
+      return (picsurl.length);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -102,39 +111,38 @@ class ReviewPicState extends State<ReviewPic> {
                 );
               } else {
                 return Container(
-                  child: GridView.builder(
-                      controller: _scrollController,
-                      itemCount: picsurl.length + 1,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: width / (height / 1.4),
-                          crossAxisSpacing: 3,
-                          mainAxisSpacing: 5,
-                          crossAxisCount: 3),
-                      itemBuilder: (context, index) {
-                        Future.delayed(Duration(milliseconds: 3000));
-                        if (index == picsurl.length) {
-                          //show loading indicator at last index
-                          if (isLoadmorePic == true) {
-                            return Center(
-                              child: Shimmer.fromColors(
-                                  period: Duration(milliseconds: 800),
-                                  direction: ShimmerDirection.ltr,
-                                  child: Container(
-                                    height: height / 1.4,
-                                    width: MediaQuery.of(context).size.width,
-                                    color: Colors.grey[300],
-                                  ),
-                                  baseColor: Colors.grey[400],
-                                  highlightColor: Colors.grey[100]),
-                              // CircularProgressIndicator(
-                              //   backgroundColor: Colors.black,
-                              // ),
-                            );
+                    child: GridView.builder(
+                        controller: _scrollController,
+                        itemCount:  getlenth(),//picsurl.length + 1,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: width / (height / 1.4),
+                            crossAxisSpacing: 3,
+                            mainAxisSpacing: 5,
+                            crossAxisCount: 3),
+                        itemBuilder: (context, index) {
+                          Future.delayed(Duration(milliseconds: 3000));
+                          if (index == picsurl.length) {
+                            //show loading indicator at last index
+                            if (isLoadmorePic == true) {
+                              return Center(
+                                child: Shimmer.fromColors(
+                                    period: Duration(milliseconds: 800),
+                                    direction: ShimmerDirection.ltr,
+                                    child: Container(
+                                      height: height / 1.4,
+                                      width: MediaQuery.of(context).size.width,
+                                      color: Colors.grey[300],
+                                    ),
+                                    baseColor: Colors.grey[400],
+                                    highlightColor: Colors.grey[100]),
+                                // CircularProgressIndicator(
+                                //   backgroundColor: Colors.black,
+                                // ),
+                              );
+                            }
                           }
-                        }
-                        return createPicBox(picsurl[index]);
-                      }),
-                );
+                          return createPicBox(picsurl[index]);
+                        }));
               }
             }));
   }

@@ -22,7 +22,6 @@ class PicPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: new AppDrawer(),
       appBar: AppBar(
         title: Text('Astro Photography Admin '),
       ),
