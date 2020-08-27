@@ -6,10 +6,9 @@ import 'package:http/http.dart' as http;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:async/async.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sandtgroup/FirstScreen/HomePage.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 
-var url = "http://10.0.2.2:8080/photouploading/uploadpic";
+var url = getUrl() + "/photouploading/uploadpic";
 
 class UploadPics extends StatefulWidget {
   @override
@@ -305,8 +304,7 @@ class UploadPicsState extends State<UploadPics> {
                 _state = 0;
               });
               Navigator.of(ctx).pop();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.of(ctx).pop();
             },
           )
         ],

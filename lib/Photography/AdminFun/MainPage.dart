@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sandtgroup/FirstScreen/AppDrawer.dart';
+import 'package:sandtgroup/Photography/MyUploads.dart';
 import 'package:sandtgroup/Photography/PicGallery.dart';
 import 'package:sandtgroup/Photography/UploadPics.dart';
-import 'package:sandtgroup/Photography/ViewPhoto.dart';
+
+import 'ReviewPic.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -22,7 +24,7 @@ class PicPage extends StatelessWidget {
     return Scaffold(
       drawer: new AppDrawer(),
       appBar: AppBar(
-        title: Text('Gallery Admin'),
+        title: Text('Astro Photography Admin '),
       ),
       body: Center(
         child: Container(
@@ -31,6 +33,16 @@ class PicPage extends StatelessWidget {
           color: Colors.white,
           child: Column(
             children: <Widget>[
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Admin Panel",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               UploadButton(),
               ViewMyPicButton(),
               GalleryButton(),
@@ -59,7 +71,7 @@ class ReviewButton extends StatelessWidget {
         elevation: 6.0,
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return UploadPics();
+            return ReviewPic();
           }));
         },
       ),
@@ -107,7 +119,7 @@ class ViewMyPicButton extends StatelessWidget {
         elevation: 6.0,
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return ViewPhoto();
+            return MyUploads();
           }));
         },
       ),

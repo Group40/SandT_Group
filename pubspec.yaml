@@ -59,6 +59,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/image/
+    - assets/loading/image.gif
     - assets/icons/youtube.png
     - assets/icons/course.png
     - assets/icons/pics.png

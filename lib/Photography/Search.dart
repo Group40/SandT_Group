@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:sandtgroup/FirstScreen/Splash.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'AdminFun/ViewScreenAdmin.dart';
 import 'PicGallery.dart';
+import 'PicViewScreen.dart';
 
 class SeachPic extends StatefulWidget {
   @override
@@ -47,7 +50,8 @@ class SeachPicState extends State<SeachPic> {
     } else {
       try {
         http.Response response = await http.get(
-            Uri.encodeFull("http://10.0.2.2:8080/serchPic/" +
+            Uri.encodeFull(getUrl() +
+                "/serchPic/" +
                 txt +
                 "?pageSize=" +
                 pagesize.toString() +
@@ -83,38 +87,10 @@ class SeachPicState extends State<SeachPic> {
     }
   }
 
-  Future<String> getPicdata(String url) async {
-    String dataurl = 'http://10.0.2.2:8080/viewPicsdata';
-    var uri = Uri.parse(dataurl);
-    var request = new http.MultipartRequest("POST", uri);
-    request.fields['url'] = url;
-    var body = {'url': url};
-    try {
-      final response =
-          await request.send().timeout(const Duration(seconds: 60));
-
-      if (response.statusCode == 200) {
-        response.stream.transform(utf8.decoder).listen((value) {
-          list = (json.decode(value) as List);
-          viewpic(url, list[0]['picTitle'], list[0]['picDetails'],
-              list[0]['ownername'], "id");
-          setState(() {
-            isLoading = false;
-          });
-          list.clear();
-        });
-      } else {
-        _showNetErrorDialog("Somjething went wrong ");
-        return null;
-      }
-    } on TimeoutException catch (_) {
-      _showNetErrorDialog("Internet Connection Problem");
-      throw Exception('Failed to load');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
         key: _scaffoldKey,
         //backgroundColor: Colors.white,
@@ -140,7 +116,10 @@ class SeachPicState extends State<SeachPic> {
                       controller: _scrollController,
                       itemCount: picsurl.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3),
+                          childAspectRatio: width / (height / 1.4),
+                          crossAxisSpacing: 3,
+                          mainAxisSpacing: 5,
+                          crossAxisCount: 2),
                       itemBuilder: (context, index) {
                         Future.delayed(Duration(milliseconds: 3000));
                         return createPicBox(picsurl[index]);
@@ -150,89 +129,27 @@ class SeachPicState extends State<SeachPic> {
             }));
   }
 
-  void viewpic(
-      String url, String title, String details, String name, String id) {
-    _scaffoldKey.currentState.showBottomSheet<void>((BuildContext context) {
-      return DecoratedBox(
-        decoration: BoxDecoration(color: Colors.black87),
-        child: ListView(
-          children: <Widget>[
-            Container(
-              child: Stack(
-                children: <Widget>[
-                  Positioned(
-                      top: 10,
-                      right: 10,
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        icon: Icon(
-                          Icons.close,
-                          size: 30,
-                          color: Colors.white,
-                        ),
-                      )),
-                ],
-              ),
-              height: 50,
-              width: 50,
-            ),
-            SingleChildScrollView(
-              child: GridView.count(
-                shrinkWrap: true,
-                primary: false,
-                crossAxisCount: 1,
-                children: <Widget>[getpic(url)],
-              ),
-            ),
-            SizedBox(height: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                title.toUpperCase(),
-                style: TextStyle(
-                  fontSize: 25.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(2),
-              child: Text(
-                "Captured by " + name,
-                style: TextStyle(
-                  fontSize: 13.0,
-                  color: Colors.redAccent,
-                  //fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.end,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                details,
-                style: TextStyle(
-                  fontSize: 15.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    });
-  }
-
   GestureDetector createPicBox(String url) {
     return GestureDetector(
         onTap: () {
-          getPicdata(url);
-          setState(() {
-            isLoading = true;
-          });
+          if (getrole() == 1) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PicViewScreen(
+                          picurl: url,
+                          ismypic: false,
+                        )));
+          } else if (getrole() == 2 || getrole() == 3) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ViewScreenAdmin(
+                          picurl: url,
+                          ismypic: false,
+                          isreview: false,
+                        )));
+          }
         },
         child: getpic(url));
   }
@@ -243,7 +160,7 @@ class SeachPicState extends State<SeachPic> {
       child: Container(
           decoration: new BoxDecoration(
               image: new DecorationImage(
-                  image: new NetworkImage(url), fit: BoxFit.contain))),
+                  image: new NetworkImage(url), fit: BoxFit.cover))),
     );
   }
 
@@ -258,8 +175,7 @@ class SeachPicState extends State<SeachPic> {
             child: Text('Go Back'),
             onPressed: () {
               Navigator.of(ctx).pop();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PicGallery()));
+              Navigator.of(ctx).pop();
             },
           ),
         ],

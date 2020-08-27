@@ -11,8 +11,6 @@ import 'Admin/AdminHomepage.dart';
 import 'Crew/CrewHomePage.dart';
 import 'HomePage.dart';
 
-var crewurl = getUrl() + "/auth/checkrole?email=" + getEmail();
-
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -60,6 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _checkrole() async {
+    var crewurl = getUrl() + "/auth/checkrole?email=" + _email;
     try {
       final response = await http.get(crewurl, headers: {
         "Accept": "application/json",
@@ -69,16 +68,40 @@ class _SplashScreenState extends State<SplashScreen> {
         final responseData = json.decode(response.body);
         if (responseData['message'] == "Admin Member") {
           _role = 3;
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) => AdminHomePage()));
+          setState(() {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => AdminHomePage()),
+              (Route<dynamic> route) => false,
+            );
+          });
+
+          // Navigator.of(context).pushReplacement(MaterialPageRoute(
+          //     builder: (BuildContext context) => AdminHomePage()));
         } else if (responseData['message'] == "Crew Member") {
           _role = 2;
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) => CrewHomePage()));
+          setState(() {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => CrewHomePage()),
+              (Route<dynamic> route) => false,
+            );
+          });
+
+          // Navigator.of(context).pushReplacement(MaterialPageRoute(
+          //     builder: (BuildContext context) => CrewHomePage()));
         } else if (responseData['message'] == "Member") {
           _role = 1;
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+          setState(() {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+              (Route<dynamic> route) => false,
+            );
+          });
+
+          // Navigator.of(context).pushReplacement(
+          //     MaterialPageRoute(builder: (BuildContext context) => HomePage()));
         } else {
           _role = 0;
           _showRespondDialog("Can not recognize as a member", "Error");
@@ -110,19 +133,22 @@ class _SplashScreenState extends State<SplashScreen> {
       prefs.setString('userData', userData);*/
       return false;
     } else {
-      final extractedUserData =
-          json.decode(prefs.getString('userData')) as Map<String, Object>;
-      _token = extractedUserData['token'];
-      _fname = extractedUserData['username'];
-      _lname = extractedUserData['lname'];
-      _email = extractedUserData['email'];
-      //_role = extractedUserData['role'];
-      _tokentype = extractedUserData['tokentype'];
+      setState(() {
+        final extractedUserData =
+            json.decode(prefs.getString('userData')) as Map<String, Object>;
+        _token = extractedUserData['token'];
+        _fname = extractedUserData['username'];
+        _lname = extractedUserData['lname'];
+        _email = extractedUserData['email'];
+        //_role = extractedUserData['role'];
+        _tokentype = extractedUserData['tokentype'];
+      });
 
       return true;
     }
   }
 
+/*
   void _navigationHome() {
     if (getrole() == 3) {
       /*Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -135,8 +161,8 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (BuildContext context) => HomePage()));
     }
-  }
-
+  } 
+*/
   void _navigationLog() {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (BuildContext context) => AuthScreen()));
@@ -210,4 +236,9 @@ String getUrl() {
 
 exitFromApp() {
   SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+}
+//YcTHIX1CVX6efNFI//https://lk.one.un.org/vacancies/internships/
+
+void clearEmail() {
+  _email = "";
 }

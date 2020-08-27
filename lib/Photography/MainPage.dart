@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sandtgroup/FirstScreen/AppDrawer.dart';
+import 'package:sandtgroup/Photography/MyUploads.dart';
 import 'package:sandtgroup/Photography/PicGallery.dart';
 import 'package:sandtgroup/Photography/UploadPics.dart';
-import 'package:sandtgroup/Photography/ViewPhoto.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -22,7 +22,7 @@ class PicPage extends StatelessWidget {
     return Scaffold(
       drawer: new AppDrawer(),
       appBar: AppBar(
-        title: Text('Gallery (For Test)'),
+        title: Text('Gallery'),
       ),
       body: Center(
         child: Container(
@@ -82,7 +82,7 @@ class ViewMyPicButton extends StatelessWidget {
         elevation: 6.0,
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return ViewPhoto();
+            return MyUploads();
           }));
         },
       ),

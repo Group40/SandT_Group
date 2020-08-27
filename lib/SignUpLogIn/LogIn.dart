@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
@@ -8,7 +10,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-var url = "http://10.0.2.2:8080/auth/signin";
+var url = getUrl() + "/auth/signin";
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -59,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final res = await http.post(url, body: body, headers: {
         "Accept": "application/json",
         "content-type": "application/json"
-      });
+      }).timeout(const Duration(seconds: 60));
       if (res.statusCode == 200) {
         final responseData = json.decode(res.body);
         _token = responseData['accessToken'];
@@ -76,17 +78,23 @@ class _LoginScreenState extends State<LoginScreen> {
             'username': _fname,
             'lname': _lname,
             'email': _email,
-            'role':_role,
+            'role': _role,
             'tokentype': _tokentype
           },
         );
         prefs.setString('userData', userData);
-         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => SplashScreen()));  //HomePage()
+        setState(() {
+          Future.delayed(Duration(milliseconds: 3000));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (BuildContext context) => SplashScreen()));
+        });
       } else {
         _showErrorDialog("Email or password invalid");
       }
-    } catch (error) {
+    } on TimeoutException catch (_) {
+      _showErrorDialog("Internet Connection Problem");
+    }
+    catch (error) {
       _showErrorDialog('Could not authenticate you. Please try again later.');
     }
     setState(() {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sandtgroup/SignUpLogIn/LogIn.dart';
 
-
 import '../SignUpLogIn/SignUP.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -104,8 +103,11 @@ class _AuthScreenState extends State<AuthScreen> {
                       color: Colors.black,
                       fontSize: 23)),
               onPressed: () {
-                Navigator.push(context,
+                setState(() {
+                  Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LoginScreen()));
+                });
+                
               },
             ),
           ),

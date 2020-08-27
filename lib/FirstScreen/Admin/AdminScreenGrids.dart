@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sandtgroup/EventPublishingBooking/EventBooking.dart';
+import 'package:sandtgroup/FirstScreen/UserScreenManagement/UserScreenManagement.dart';
 import 'package:sandtgroup/Institute/CourseList.dart';
-import 'package:sandtgroup/Photography/MainPage.dart';
+import 'package:sandtgroup/Photography/AdminFun/MainPage.dart';
+import 'package:sandtgroup/UserManagementAdmin/UserManagementAdmin.dart';
 
 class AdminScreenGrids extends StatelessWidget {
   Item item1 =
@@ -11,9 +13,9 @@ class AdminScreenGrids extends StatelessWidget {
   Item item4 = new Item("Youtube", Icons.videocam, MainPage());
   Item item5 = new Item("Magazine", Icons.book, MainPage());
   Item item6 = new Item("S & T Optics", Icons.shopping_basket, MainPage());
-  Item item7 = new Item("Home Screen", Icons.home, MainPage());
+  Item item7 = new Item("Home Screen", Icons.home, UserScreenManagement());
   Item item8 =
-      new Item("User Management", Icons.supervised_user_circle, MainPage());
+      new Item("User Management", Icons.supervised_user_circle, UserManagementAdmin());
 
   @override
   Widget build(BuildContext context) {

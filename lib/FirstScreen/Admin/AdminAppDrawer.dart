@@ -99,6 +99,7 @@ class _AdminAppDrawerState extends State<AdminAppDrawer> {
               Navigator.of(context).pop();
               final pref = await SharedPreferences.getInstance();
               await pref.clear();
+              clearEmail();
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => SplashScreen()));
             },
