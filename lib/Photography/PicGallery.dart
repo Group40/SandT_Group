@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandtgroup/FirstScreen/Splash.dart';
+import 'package:shimmer/shimmer.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'AdminFun/ViewScreenAdmin.dart';
@@ -20,7 +21,7 @@ class PicGalleryState extends State<PicGallery> {
   List list = List();
   List<String> picsurl = new List();
   bool isLoading = true;
-  int pagesize = 7;
+  int pagesize = 6;
   int pageno = 0;
   bool isLoadmorePic = true;
 
@@ -82,6 +83,14 @@ class PicGalleryState extends State<PicGallery> {
     }
   }
 
+  int getlenth() {
+    if (isLoadmorePic) {
+      return (picsurl.length + 1);
+    } else {
+      return (picsurl.length);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -112,13 +121,33 @@ class PicGalleryState extends State<PicGallery> {
               } else {
                 return GridView.builder(
                     controller: _scrollController,
-                    itemCount: picsurl.length,
+                    itemCount: getlenth(), //picsurl.length+1,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: width / (height / 1.4),
                         crossAxisSpacing: 3,
                         mainAxisSpacing: 5,
                         crossAxisCount: 2),
                     itemBuilder: (context, index) {
+                      if (index == picsurl.length) {
+                        //show loading indicator at last index
+                        if (isLoadmorePic == true) {
+                          return Center(
+                            child: Shimmer.fromColors(
+                                period: Duration(milliseconds: 800),
+                                direction: ShimmerDirection.ltr,
+                                child: Container(
+                                  height: height / 1.4,
+                                  width: MediaQuery.of(context).size.width,
+                                  color: Colors.grey[300],
+                                ),
+                                baseColor: Colors.grey[400],
+                                highlightColor: Colors.grey[100]),
+                            // CircularProgressIndicator(
+                            //   backgroundColor: Colors.black,
+                            // ),
+                          );
+                        }
+                      }
                       Future.delayed(Duration(milliseconds: 3000));
                       return createPicBox(picsurl[index]);
                     });

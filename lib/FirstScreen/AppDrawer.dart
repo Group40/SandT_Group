@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sandtgroup/Photography/MainPage.dart';
-import 'package:sandtgroup/Photography/UploadPics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../main.dart';
 import 'Menu.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sandtgroup/EventPublishingBooking/EventBooking.dart';
 import 'package:sandtgroup/Institute/CourseList.dart';
-import 'package:sandtgroup/Photography/MainPage.dart';
+import 'package:sandtgroup/Photography/AdminFun/MainPage.dart';
 
 class CrewScreenGrids extends StatelessWidget {
   Item item1 =

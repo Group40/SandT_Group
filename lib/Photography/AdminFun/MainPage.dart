@@ -64,7 +64,7 @@ class ReviewButton extends StatelessWidget {
       child: RaisedButton(
         color: Colors.blueAccent,
         child: Text(
-          "Review Pic",
+          "Review Upload Photos",
           style: TextStyle(fontSize: 20.0, color: Colors.white),
         ),
         elevation: 6.0,
@@ -88,7 +88,7 @@ class UploadButton extends StatelessWidget {
       child: RaisedButton(
         color: Colors.blueAccent,
         child: Text(
-          "Upload Pic",
+          "Upload New Photo",
           style: TextStyle(fontSize: 20.0, color: Colors.white),
         ),
         elevation: 6.0,
@@ -112,7 +112,7 @@ class ViewMyPicButton extends StatelessWidget {
       child: RaisedButton(
         color: Colors.blueAccent,
         child: Text(
-          "View My Pic",
+          "View My Uploaded",
           style: TextStyle(fontSize: 20.0, color: Colors.white),
         ),
         elevation: 6.0,

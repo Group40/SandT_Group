@@ -83,6 +83,14 @@ class MyUploadsState extends State<MyUploads> {
     }
   }
 
+  int getlenth() {
+    if (isLoadmorePic) {
+      return (picsurl.length + 1);
+    } else {
+      return (picsurl.length);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -111,11 +119,31 @@ class MyUploadsState extends State<MyUploads> {
                     backgroundColor: Colors.black,
                   ),
                 );
+              } else if (getlenth() == 0) {
+                return Column(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(height: 55.0),
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Text(
+                            "Nothing to show",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                );
               } else {
                 return Container(
                   child: GridView.builder(
                       controller: _scrollController,
-                      itemCount: picsurl.length + 1,
+                      itemCount: getlenth(), //picsurl.length + 1,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           childAspectRatio: width / (height / 1.4),
                           crossAxisSpacing: 3,
@@ -150,14 +178,16 @@ class MyUploadsState extends State<MyUploads> {
             }));
   }
 
-  
   GestureDetector createPicBox(String url) {
     return GestureDetector(
         onTap: () {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => PicViewScreen(picurl: url,ismypic: true,)));
+                  builder: (context) => PicViewScreen(
+                        picurl: url,
+                        ismypic: true,
+                      )));
           //getPicdata(url);
           //viewpic(url, "title", "detail", "id");
         },
@@ -169,7 +199,7 @@ class MyUploadsState extends State<MyUploads> {
       padding: const EdgeInsets.all(6.0),
       child: Container(
           decoration: new BoxDecoration(
-            color: Colors.grey,
+              color: Colors.grey,
               image: new DecorationImage(
                   image: new NetworkImage(url), fit: BoxFit.cover))),
     );

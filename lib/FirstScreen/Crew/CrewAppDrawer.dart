@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/FirstScreen/Profile.dart';
 import 'package:sandtgroup/Photography/MainPage.dart';
-import 'package:sandtgroup/Photography/UploadPics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 import '../Menu.dart';
@@ -47,6 +47,15 @@ class _CrewAppDrawerState extends State<CrewAppDrawer> {
                 size: 80,
               ),
             ),
+          ),
+          Menu(
+            icon: Icons.person,
+            title: "Profile",
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Profile()));
+            },
           ),
           Menu(
             icon: Icons.home,

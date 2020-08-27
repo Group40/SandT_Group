@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
+import 'package:sandtgroup/Profile/UpdatePassword.dart';
 import 'package:sandtgroup/SignUpLogIn/AuthScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,16 +18,16 @@ class _ProfileState extends State<Profile> {
         title: new Text(
           "My Profile",
           style: TextStyle(
-              color: Colors.black, fontSize: 22, fontWeight: FontWeight.w400),
+              color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
         ),
       ),
       body: new Stack(
         children: <Widget>[
-          ClipPath(
-            child: Container(
-                color: Theme.of(context).primaryColor.withOpacity(0.9)),
-            clipper: getClipper(),
-          ),
+          // ClipPath(
+          //   child: Container(
+          //       color: Theme.of(context).primaryColor.withOpacity(0.9)),
+          //   clipper: getClipper(),
+          // ),
           Positioned(
               width: MediaQuery.of(context).size.width,
               top: MediaQuery.of(context).size.height / 15,
@@ -34,7 +35,7 @@ class _ProfileState extends State<Profile> {
                 children: <Widget>[
                   Container(
                       child: CircleAvatar(
-                    radius: 65,
+                    radius: 55,
                     child: Icon(
                       Icons.account_circle,
                       color: Colors.white,
@@ -45,12 +46,12 @@ class _ProfileState extends State<Profile> {
                   Text(
                     getUsername(),
                     style: TextStyle(
-                        fontSize: 40.0,
+                        fontSize: 35.0,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Montserrat'),
                   ),
-                  SizedBox(height: 15.0),
+                  SizedBox(height: 5.0),
                   Text(
                     getEmail(),
                     style: TextStyle(
@@ -64,81 +65,88 @@ class _ProfileState extends State<Profile> {
                     height: 50,
                   ),
                   SizedBox(height: 25.0),
-                  Container(
-                      height: 30.0,
-                      width: 200.0,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(20.0),
-                        shadowColor: Colors.greenAccent,
-                        color: Colors.green,
-                        elevation: 7.0,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Center(
-                            child: Text(
-                              'Edit Your Details',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      )),
-                  SizedBox(height: 25.0),
-                  Container(
-                      height: 30.0,
-                      width: 200.0,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(20.0),
-                        shadowColor: Colors.redAccent,
-                        color: Colors.redAccent,
-                        elevation: 7.0,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Center(
-                            child: Text(
-                              'Update You Password',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      )),
-                  SizedBox(height: 25.0),
-                  Container(
-                      height: 30.0,
-                      width: 95.0,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(20.0),
-                        shadowColor: Colors.redAccent,
-                        color: Colors.red,
-                        elevation: 7.0,
-                        child: GestureDetector(
-                          onTap: () async {
-                            Navigator.of(context).pop();
-                            final pref = await SharedPreferences.getInstance();
-                            await pref.clear();
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        AuthScreen()));
-                          },
-                          child: Center(
-                            child: Text(
-                              'Log out',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Montserrat'),
-                            ),
-                          ),
-                        ),
-                      ))
+                  _buildUpdateDetails(),
+                  _buildUpdatePassword(),
+                  SizedBox(height: 10.0),
+                  _buildLogout(),
                 ],
               ))
         ],
+      ),
+    );
+  }
+
+  Widget _buildLogout() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 15.0),
+      width: MediaQuery.of(context).size.width / 1.5,
+      child: RaisedButton(
+          elevation: 5.0,
+          onPressed: () async {
+            Navigator.of(context).pop();
+            final pref = await SharedPreferences.getInstance();
+            await pref.clear();
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (BuildContext context) => AuthScreen()));
+          },
+          padding: EdgeInsets.all(15.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          color: Colors.red,
+          child: setUpButton("Log Out")),
+    );
+  }
+
+  Widget _buildUpdatePassword() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10.0),
+      width: MediaQuery.of(context).size.width / 1.3,
+      child: RaisedButton(
+          elevation: 5.0,
+          onPressed: () {
+            //Navigator.of(context).pop();
+            Navigator.of(context).push(MaterialPageRoute(
+                 builder: (BuildContext context) => UpdatePassword()));
+          },
+          padding: EdgeInsets.all(15.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          color: Colors.blueAccent,
+          child: setUpButton("Update My Password")),
+    );
+  }
+
+  Widget _buildUpdateDetails() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10.0),
+      width: MediaQuery.of(context).size.width / 1.3,
+      child: RaisedButton(
+          elevation: 5.0,
+          onPressed: () {
+            //Navigator.of(context).pop();
+            // Navigator.of(context).pushReplacement(MaterialPageRoute(
+            //     builder: (BuildContext context) => AuthScreen()));
+          },
+          padding: EdgeInsets.all(15.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          color: Colors.green,
+          child: setUpButton("Edit Your Details")),
+    );
+  }
+
+  Widget setUpButton(txt) {
+    return new Text(
+      txt,
+      style: TextStyle(
+        color: Colors.white,
+        letterSpacing: 1.5,
+        fontSize: 20.0,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'OpenSans',
       ),
     );
   }
