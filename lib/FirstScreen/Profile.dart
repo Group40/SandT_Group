@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 import 'package:sandtgroup/Profile/UpdatePassword.dart';
+import 'package:sandtgroup/Profile/UpdateUserData.dart';
 import 'package:sandtgroup/SignUpLogIn/AuthScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -126,8 +127,8 @@ class _ProfileState extends State<Profile> {
           elevation: 5.0,
           onPressed: () {
             //Navigator.of(context).pop();
-            // Navigator.of(context).pushReplacement(MaterialPageRoute(
-            //     builder: (BuildContext context) => AuthScreen()));
+             Navigator.of(context).pushReplacement(MaterialPageRoute(
+                 builder: (BuildContext context) => UpdateUserData()));
           },
           padding: EdgeInsets.all(15.0),
           shape: RoundedRectangleBorder(

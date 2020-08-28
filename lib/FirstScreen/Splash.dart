@@ -209,6 +209,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 }
 
+String getfname() {
+  String username = _fname;
+  return username;
+}
+
+String getlname() {
+  String username = _lname;
+  return username;
+}
+
 String getUsername() {
   String username = _fname + " " + _lname;
   return username;
@@ -231,13 +241,13 @@ int getrole() {
 }
 
 String getUrl() {
-  return "http://10.0.2.2:8080";
+  //return "http://10.0.2.2:8080";
+  return "http://santtest-env.eba-nxhcuuzz.ap-south-1.elasticbeanstalk.com";
 }
 
 exitFromApp() {
   SystemChannels.platform.invokeMethod('SystemNavigator.pop');
 }
-//YcTHIX1CVX6efNFI//https://lk.one.un.org/vacancies/internships/
 
 void clearEmail() {
   _email = "";

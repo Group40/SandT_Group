@@ -18,7 +18,6 @@ class _UpdatePasswordState extends State<UpdatePassword> {
   bool _currentpwvalid = true;
   bool _newpwvalid = true;
   bool _retypepwvalid = true;
-  String _id;
   String _fname;
   String _lname;
   String _email = getEmail();

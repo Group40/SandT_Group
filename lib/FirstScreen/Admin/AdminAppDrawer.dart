@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/FirstScreen/Profile.dart';
 import 'package:sandtgroup/Notification/AdminNotification.dart';
-import 'package:sandtgroup/Photography/AdminFun/MainPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Menu.dart';
 import '../Splash.dart';
@@ -46,6 +46,15 @@ class _AdminAppDrawerState extends State<AdminAppDrawer> {
                 size: 80,
               ),
             ),
+          ),
+          Menu(
+            icon: Icons.person,
+            title: "Profile",
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Profile()));
+            },
           ),
           Menu(
             icon: Icons.event,

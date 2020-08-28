@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-var url = getUrl()+"/auth/signup";
+var url = getUrl() + "/auth/signup";
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -300,8 +300,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: RaisedButton(
           elevation: 5.0,
           onPressed: () {
-            validate();
-            passwordvalidate();
+            setState(() {
+              validate();
+              passwordvalidate();
+            });
+
             if (_fnamevalidate == true &&
                 _lnamevalidate == true &&
                 _passwordvalidate == true &&
