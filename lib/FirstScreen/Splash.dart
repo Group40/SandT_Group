@@ -252,3 +252,10 @@ exitFromApp() {
 void clearEmail() {
   _email = "";
 }
+
+void setlname(String name) {
+  _lname = name;
+}
+void setfname(String name) {
+  _fname = name;
+}

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sandtgroup/FirstScreen/Profile.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -14,12 +15,8 @@ class UpdateUserData extends StatefulWidget {
 }
 
 class _UpdateUserDataState extends State<UpdateUserData> {
-  String _token;
   bool _fnamevalid = true;
   bool _lnamevalid = true;
-  String _id;
-  String _fname;
-  String _lname;
   String _email = getEmail();
   String _tokentype;
   int _role;
@@ -54,10 +51,10 @@ class _UpdateUserDataState extends State<UpdateUserData> {
   }
 
   void updatedata() async {
-    var url = getUrl() + "/auth/signin";
+    var url = getUrl() + "/updateuser/name";
     await Future.delayed(Duration(milliseconds: 3000));
     var body = jsonEncode({
-      'email':_email,
+      'email': _email,
       'username': fnameController.text,
       'lname': lnameController.text,
     });
@@ -70,48 +67,20 @@ class _UpdateUserDataState extends State<UpdateUserData> {
         setState(() {
           _btnstate = 3;
         });
-
-        final pref = await SharedPreferences.getInstance();
-        await pref.clear();
-        Future.delayed(Duration(milliseconds: 3000));
-        final responseData = json.decode(res.body);
-        _token = responseData['accessToken'];
-        _fname = responseData['username'];
-        _lname = responseData['lname'];
-        _email = responseData['email'];
-        _tokentype = responseData['tokenType'];
-        _role = responseData['erole'];
-
-        final prefs = await SharedPreferences.getInstance();
-        final userData = json.encode(
-          {
-            'token': _token,
-            'username': _fname,
-            'lname': _lname,
-            'email': _email,
-            'role': _role,
-            'tokentype': _tokentype
-          },
-        );
-        prefs.setString('userData', userData);
         Navigator.of(context).pop();
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (BuildContext context) => Profile()));
       } else {
         _showErrorDialog("Please try again");
-        setState(() {
-          _btnstate = 0;
-        });
       }
     } on TimeoutException catch (_) {
       _showErrorDialog("Internet Connection Problem");
-      setState(() {
-        _btnstate = 0;
-      });
     } catch (error) {
       _showErrorDialog('Something went wrong. Please try again later.');
-      setState(() {
-        _btnstate = 0;
-      });
     }
+    setState(() {
+      _btnstate = 0;
+    });
   }
 
   Widget _buildConfirmBtn() {
@@ -129,6 +98,9 @@ class _UpdateUserDataState extends State<UpdateUserData> {
               setState(() {
                 _btnstate = 1;
               });
+              setName();
+              updateSavedata();
+              updatedata();
             }
           },
           padding: EdgeInsets.all(15.0),
@@ -287,7 +259,7 @@ class _UpdateUserDataState extends State<UpdateUserData> {
             prefixIcon: Padding(
               padding: EdgeInsets.only(top: 0),
               child: Icon(
-                FontAwesomeIcons.userTie,
+                FontAwesomeIcons.userCircle,
                 color: Colors.black,
               ),
             ),
@@ -313,5 +285,25 @@ class _UpdateUserDataState extends State<UpdateUserData> {
   void _reset() {
     fnameController.text = "";
     lnameController.text = "";
+  }
+
+  void setName() {
+    setlname(lnameController.text);
+    setfname(fnameController.text);
+  }
+
+  Future<void> updateSavedata() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userData = json.encode(
+      {
+        'token': getToken(),
+        'username': fnameController.text,
+        'lname': lnameController.text,
+        'email': _email,
+        'role': getrole(),
+        'tokentype': getTokentype()
+      },
+    );
+    prefs.setString('userData', userData);
   }
 }

@@ -127,7 +127,7 @@ class _ProfileState extends State<Profile> {
           elevation: 5.0,
           onPressed: () {
             //Navigator.of(context).pop();
-             Navigator.of(context).pushReplacement(MaterialPageRoute(
+             Navigator.of(context).push(MaterialPageRoute(
                  builder: (BuildContext context) => UpdateUserData()));
           },
           padding: EdgeInsets.all(15.0),
@@ -135,7 +135,7 @@ class _ProfileState extends State<Profile> {
             borderRadius: BorderRadius.circular(30.0),
           ),
           color: Colors.green,
-          child: setUpButton("Edit Your Details")),
+          child: setUpButton("Edit My Details")),
     );
   }
 
