@@ -3,24 +3,23 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import './CalendarAdmin.dart';
-import './EditEvent.dart';
-import './AddEvent.dart';
+import './EditCourse.dart';
+import './AddCourse.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 
 var notificationUrl = "http://10.0.2.2:8080/addNotification";
 
-class EventPublishing extends StatefulWidget {
+class AdminCourse extends StatefulWidget {
   @override
-  EventPublishingState createState() => EventPublishingState();
+  AdminCourseState createState() => AdminCourseState();
 }
 
-class EventPublishingState extends State<EventPublishing> {
+class AdminCourseState extends State<AdminCourse> {
   List data;
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllEvents"),
+        Uri.encodeFull("http://10.0.2.2:8080/findAllCourses"),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body);
@@ -28,21 +27,9 @@ class EventPublishingState extends State<EventPublishing> {
     return "success!";
   }
 
-  void delete(String id, String name, String date) async {
+  void delete(String id, String name) async {
     final http.Response response = await http.delete(
-      'http://10.0.2.2:8080/deleteEvent/' + id,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    );
-    final http.Response response2 = await http.delete(
-      'http://10.0.2.2:8080/deleteEventRequestByEventId/' + id,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    );
-    final http.Response response3 = await http.delete(
-      'http://10.0.2.2:8080/deleteConfirmedEventRequestByEventId/' + id,
+      'http://10.0.2.2:8080/deleteCourse/' + id,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -52,9 +39,8 @@ class EventPublishingState extends State<EventPublishing> {
       'authorType': getrole(),
       'authorMail': getEmail(),
       'name': name,
-      'nameType': "delete the event",
-      'date': DateTime.now().toString(),
-      'eventDate': date,
+      'nameType': "deleted the course",
+      'date': DateTime.now().toString()
     });
     return http.post(notificationUrl, body: notificationBody, headers: {
       "Accept": "application/json",
@@ -67,18 +53,18 @@ class EventPublishingState extends State<EventPublishing> {
     });
   }
 
-  void showSnackBar(BuildContext context, String id, String name, String date) {
+  void showSnackBar(BuildContext context, String id, String name) {
     var snackBar = SnackBar(
       backgroundColor: Theme.of(context).accentColor,
       content: Text(
-        'Permently delete the event?',
+        'Permently delete the course?',
         style: TextStyle(fontSize: 20, color: Colors.black54),
       ),
       action: SnackBarAction(
           textColor: Theme.of(context).primaryColor,
           label: "YES",
           onPressed: () {
-            delete(id, name, date);
+            delete(id, name);
           }),
     );
     Scaffold.of(context).showSnackBar(snackBar);
@@ -98,35 +84,19 @@ class EventPublishingState extends State<EventPublishing> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          "Published Events",
+          "Published Courses",
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),
         iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.calendar_today),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return CalendarAdmin();
-              }));
-            },
-          ),
-        ],
       ),
-      body: (data == null)
-          ? Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Theme.of(context).primaryColor,
-              ),
-            )
-          : getListView(),
+      body: getListView(),
       floatingActionButton: FloatingActionButton(
         foregroundColor: Theme.of(context).accentColor,
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
           debugPrint("Fab click");
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return AddEvent();
+            return AddCourse();
           }));
         },
         tooltip: 'Add Note',
@@ -141,42 +111,39 @@ class EventPublishingState extends State<EventPublishing> {
     return ListView.builder(
       itemCount: data == null ? 0 : data.length,
       itemBuilder: (BuildContext context, int position) {
-        int availableInt = int.parse(data[position]["available"]);
         return Card(
           color: Theme.of(context).accentColor,
           elevation: 2.0,
           child: ListTile(
             leading: CircleAvatar(
-              backgroundColor:
-                  availableInt == 0 ? Colors.red : Colors.transparent,
-              child: availableInt == 0
-                  ? Icon(
-                      Icons.event_busy,
-                      color: Theme.of(context).primaryColor,
-                    )
-                  : Icon(
-                      Icons.event_available,
-                      color: Theme.of(context).primaryColor,
-                    ),
+              backgroundColor: Colors.transparent,
+              child: Icon(
+                Icons.edit,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
             title: Text(data[position]["name"],
                 style: TextStyle(color: Colors.black54)),
-            subtitle: Text(data[position]["date"],
+            subtitle: Text(
+                "Age " +
+                    data[position]["ageGroupMin"] +
+                    " to " +
+                    data[position]["ageGroupMax"],
                 style: TextStyle(color: Colors.black54)),
             trailing: IconButton(
                 icon: Icon(
                   Icons.delete,
                   color: Colors.red,
                 ),
-                tooltip: 'Delete this event',
+                tooltip: 'Delete this course',
                 onPressed: () {
-                  showSnackBar(context, data[position]["id"],
-                      data[position]["name"], data[position]["date"]);
+                  showSnackBar(
+                      context, data[position]["id"], data[position]["name"]);
                 }),
             onTap: () {
-              debugPrint("Event clicked");
+              debugPrint("Course clicked");
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return EditEvent(text: data[position]["id"]);
+                return EditCourse(text: data[position]["id"]);
               }));
             },
           ),

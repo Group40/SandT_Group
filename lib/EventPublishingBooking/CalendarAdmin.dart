@@ -7,17 +7,17 @@ import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'dart:async';
 import 'dart:convert';
-import './EventByDate.dart';
+import './EventByDateAdmin.dart';
 
-class Calendar extends StatefulWidget {
+class CalendarAdmin extends StatefulWidget {
   //optional
-  Calendar({Key key}) : super(key: key);
+  CalendarAdmin({Key key}) : super(key: key);
 
   @override
-  CalendarState createState() => CalendarState();
+  CalendarAdminState createState() => CalendarAdminState();
 }
 
-class CalendarState extends State<Calendar> {
+class CalendarAdminState extends State<CalendarAdmin> {
   DateTime _currentDate = DateTime.now();
   DateTime _currentDate2 = DateTime.now();
   String _currentMonth = DateFormat.yMMM().format(DateTime.now());
@@ -57,7 +57,7 @@ class CalendarState extends State<Calendar> {
   static Widget _eventIcon = new Container(
     decoration: new BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: Colors.cyan, width: 5.0)),
+        border: Border.all(color: Colors.blue, width: 5.0)),
     child: new Icon(
       Icons.event,
       color: Colors.black,
@@ -119,7 +119,7 @@ class CalendarState extends State<Calendar> {
       onDayPressed: (DateTime date, List<Event> events) {
         this.setState(() => _currentDate2 = date);
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return EventByDate(date: date.toString().substring(0, 10));
+          return EventByDateAdmin(date: date.toString().substring(0, 10));
         }));
       },
       onCalendarChanged: (DateTime date) {
@@ -135,8 +135,14 @@ class CalendarState extends State<Calendar> {
 
     return new Scaffold(
         //backgroundColor: Colors.black38,
-        appBar: new AppBar(
-          title: new Text("Event Calendar"),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text(
+            "Event Calendar",
+            style: TextStyle(color: Theme.of(context).primaryColor),
+          ),
+          iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         ),
         body: (data == null)
             ? Center(

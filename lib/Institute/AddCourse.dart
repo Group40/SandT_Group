@@ -2,48 +2,51 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import './EventPublishing.dart';
+import './AdminCourseList.dart';
 import 'package:flutter/services.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 
-var url = "http://10.0.2.2:8080/addEvent";
+var url = "http://10.0.2.2:8080/addCourse";
 var notificationUrl = "http://10.0.2.2:8080/addNotification";
 
-class AddEvent extends StatefulWidget {
+class AddCourse extends StatefulWidget {
   @override
-  AddEventState createState() => AddEventState();
+  AddCourseState createState() => AddCourseState();
 }
 
-class AddEventState extends State<AddEvent> {
-  DateTime _dateTime = DateTime.now();
+class AddCourseState extends State<AddCourse> {
   var _formKey = GlobalKey<FormState>();
 
   TextEditingController nameController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
-  TextEditingController venueController = TextEditingController();
+  TextEditingController ageGroupMinController = TextEditingController();
+  TextEditingController ageGroupMaxController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController headCountController = TextEditingController();
+  TextEditingController urlController = TextEditingController();
 
-  AddEventState();
+  AddCourseState();
 
   void send() async {
     debugPrint('funtion called');
     var body = jsonEncode({
       'name': nameController.text,
-      'date': dateController.text,
-      'venue': venueController.text,
+      'ageGroupMin': ageGroupMinController.text,
+      'ageGroupMax': ageGroupMaxController.text,
+      'price': priceController.text,
+      'location': locationController.text,
       'description': descriptionController.text,
-      'headCount': headCountController.text,
-      'available': headCountController.text
+      'url': urlController.text,
+      'likedUsers': [],
+      'commentedUsers': []
     });
     var notificationBody = jsonEncode({
       'authorName': getUsername(),
       'authorType': getrole(),
       'authorMail': getEmail(),
       'name': nameController.text,
-      'nameType': "added a new event",
-      'date': DateTime.now().toString(),
-      'eventDate': dateController.text
+      'nameType': "added a new course",
+      'date': DateTime.now().toString()
     });
     return await http.post(url, body: body, headers: {
       "Accept": "application/json",
@@ -83,12 +86,12 @@ class AddEventState extends State<AddEvent> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 1,
+        elevation: 0,
         title: Text(
-          "Add a new Event",
-          style: TextStyle(color: Theme.of(context).accentColor),
+          "Notification Log",
+          style: TextStyle(color: Theme.of(context).primaryColor),
         ),
-        iconTheme: new IconThemeData(color: Theme.of(context).accentColor),
+        iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
         //Optional back button
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -96,7 +99,7 @@ class AddEventState extends State<AddEvent> {
               Navigator.pop(context, true);
               Navigator.pop(context, true);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return EventPublishing();
+                return AdminCourse();
               }));
             }),
         //Optional back button ends
@@ -108,90 +111,6 @@ class AddEventState extends State<AddEvent> {
             padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
             child: ListView(
               children: <Widget>[
-                //Date Field
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: Row(
-                    children: <Widget>[
-                      //Date Field
-                      Expanded(
-                        child: TextFormField(
-                          enabled: false,
-                          controller: dateController
-                            ..text = _dateTime.toString().substring(0, 10),
-                          validator: (String value) {
-                            if (value.isEmpty) {
-                              return 'Please enter the date';
-                            }
-                            return null;
-                          },
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          onChanged: (value) {
-                            debugPrint('Something changed in Text Field');
-                          },
-                          decoration: InputDecoration(
-                              labelText: 'Date',
-                              prefixIcon: Padding(
-                                padding: EdgeInsets.only(top: 0),
-                                // add padding to adjust icon
-                                child: Icon(
-                                  Icons.date_range,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ),
-                              labelStyle: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                              ),
-                              disabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).accentColor,
-                                    width: 0.0),
-                                borderRadius: BorderRadius.circular(35.0),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(35.0),
-                              )),
-                        ),
-                      ),
-                      Container(
-                        width: 5.0,
-                      ),
-
-                      //Calendar Button
-                      Expanded(
-                        child: ButtonTheme(
-                          child: RaisedButton(
-                            color: Theme.of(context).accentColor,
-                            child: Text(
-                              'Take a date',
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            ),
-                            onPressed: () {
-                              showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2001),
-                                lastDate: DateTime(2222),
-                              ).then((date) => {
-                                    setState(() {
-                                      if (date == null) {
-                                        date = DateTime.now();
-                                      }
-                                      _dateTime = date;
-                                    }),
-                                  });
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
                 //Name Field
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -199,7 +118,7 @@ class AddEventState extends State<AddEvent> {
                     controller: nameController,
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return 'Please enter a Title';
+                        return 'Please enter a name for the course';
                       }
                       return null;
                     },
@@ -210,12 +129,12 @@ class AddEventState extends State<AddEvent> {
                       debugPrint('Something changed in Text Field');
                     },
                     decoration: InputDecoration(
-                        labelText: 'Title',
+                        labelText: 'Course Name',
                         prefixIcon: Padding(
                           padding: EdgeInsets.only(top: 0),
                           // add padding to adjust icon
                           child: Icon(
-                            Icons.perm_identity,
+                            Icons.pages,
                             color: Theme.of(context).primaryColor,
                           ),
                         ),
@@ -224,7 +143,8 @@ class AddEventState extends State<AddEvent> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor, width: 2),
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0),
                           borderRadius: BorderRadius.circular(35.0),
                         ),
                         border: OutlineInputBorder(
@@ -233,14 +153,22 @@ class AddEventState extends State<AddEvent> {
                   ),
                 ),
 
-                //Venue Field
+                //Age Group Min Field
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: TextFormField(
-                    controller: venueController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      WhitelistingTextInputFormatter.digitsOnly
+                    ],
+                    controller: ageGroupMinController,
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return 'Please enter the venue';
+                        return 'Please enter an age group';
+                      }
+                      int valueInt = int.parse(value);
+                      if (1 > valueInt) {
+                        return 'Enter a real Age';
                       }
                       return null;
                     },
@@ -251,7 +179,145 @@ class AddEventState extends State<AddEvent> {
                       debugPrint('Something changed in Text Field');
                     },
                     decoration: InputDecoration(
-                        labelText: 'Venue',
+                        labelText: 'From Age',
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.only(top: 0),
+                          // add padding to adjust icon
+                          child: Icon(
+                            Icons.view_agenda,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0),
+                          borderRadius: BorderRadius.circular(35.0),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(35.0),
+                        )),
+                  ),
+                ),
+
+                //Age Group Max Field
+                Padding(
+                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      WhitelistingTextInputFormatter.digitsOnly
+                    ],
+                    controller: ageGroupMaxController,
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Please enter an age group';
+                      }
+                      int valueInt = int.parse(value);
+                      if (1 > valueInt) {
+                        return 'Enter a real Age';
+                      }
+                      return null;
+                    },
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    onChanged: (value) {
+                      debugPrint('Something changed in Text Field');
+                    },
+                    decoration: InputDecoration(
+                        labelText: 'To Age',
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.only(top: 0),
+                          // add padding to adjust icon
+                          child: Icon(
+                            Icons.view_agenda,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0),
+                          borderRadius: BorderRadius.circular(35.0),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(35.0),
+                        )),
+                  ),
+                ),
+
+                //Price Field
+                Padding(
+                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      WhitelistingTextInputFormatter.digitsOnly
+                    ],
+                    controller: priceController,
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Please enter price';
+                      }
+                      return null;
+                    },
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    onChanged: (value) {
+                      debugPrint('Something changed in Text Field');
+                    },
+                    decoration: InputDecoration(
+                        labelText: 'Price',
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.only(top: 0),
+                          // add padding to adjust icon
+                          child: Icon(
+                            Icons.money_off,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 2.0),
+                          borderRadius: BorderRadius.circular(35.0),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(35.0),
+                        )),
+                  ),
+                ),
+
+                //Location Field
+                Padding(
+                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                  child: TextFormField(
+                    controller: locationController,
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Please enter the location';
+                      }
+                      return null;
+                    },
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    onChanged: (value) {
+                      debugPrint('Something changed in Text Field');
+                    },
+                    decoration: InputDecoration(
+                        labelText: 'Location',
                         prefixIcon: Padding(
                           padding: EdgeInsets.only(top: 0),
                           // add padding to adjust icon
@@ -318,18 +384,14 @@ class AddEventState extends State<AddEvent> {
                   ),
                 ),
 
-                //Heads Field
+                //Url Field
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      WhitelistingTextInputFormatter.digitsOnly
-                    ],
-                    controller: headCountController,
+                    controller: urlController,
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return 'Please enter the head count';
+                        return 'Please enter the url';
                       }
                       return null;
                     },
@@ -340,12 +402,12 @@ class AddEventState extends State<AddEvent> {
                       debugPrint('Something changed in Text Field');
                     },
                     decoration: InputDecoration(
-                        labelText: 'Head Count',
+                        labelText: 'URL for more',
                         prefixIcon: Padding(
                           padding: EdgeInsets.only(top: 0),
                           // add padding to adjust icon
                           child: Icon(
-                            Icons.people,
+                            Icons.web,
                             color: Theme.of(context).primaryColor,
                           ),
                         ),
@@ -420,9 +482,11 @@ class AddEventState extends State<AddEvent> {
 
   void _reset() {
     nameController.text = '';
-    dateController.text = '';
-    venueController.text = '';
+    ageGroupMinController.text = '';
+    ageGroupMaxController.text = '';
+    priceController.text = '';
+    locationController.text = '';
     descriptionController.text = '';
-    headCountController.text = '';
+    urlController.text = '';
   }
 }

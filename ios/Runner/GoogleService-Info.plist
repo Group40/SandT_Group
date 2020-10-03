@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>224476496940-9uaopfb2bmjd1o6nd4nv31h7fatn43ga.apps.googleusercontent.com</string>
+	<string>973590138722-0kcl9tactc4o0cpcsuf1i2n4i04r8449.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.224476496940-9uaopfb2bmjd1o6nd4nv31h7fatn43ga</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>224476496940-6n72onrpr64e97ba1rb8eoeu23ovbl86.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.973590138722-0kcl9tactc4o0cpcsuf1i2n4i04r8449</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCuH8rRT3SoMMFfqO2uZLGbOSN_bf_ut1c</string>
+	<string>AIzaSyAtfu_G1naqdlEqaqfRUrLZAp_u0peHv4k</string>
 	<key>GCM_SENDER_ID</key>
-	<string>224476496940</string>
+	<string>973590138722</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.smartherd.sandtgroup</string>
 	<key>PROJECT_ID</key>
-	<string>sandt-22e61</string>
+	<string>sandtgroup-30435</string>
 	<key>STORAGE_BUCKET</key>
-	<string>sandt-22e61.appspot.com</string>
+	<string>sandtgroup-30435.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:224476496940:ios:680e75917ab428c7e6fd89</string>
+	<string>1:973590138722:ios:8e9f053c49914169bd663b</string>
 	<key>DATABASE_URL</key>
-	<string>https://sandt-22e61.firebaseio.com</string>
+	<string>https://sandtgroup-30435.firebaseio.com</string>
 </dict>
 </plist>
