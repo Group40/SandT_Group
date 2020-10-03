@@ -108,51 +108,6 @@ class AddEventState extends State<AddEvent> {
             padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
             child: ListView(
               children: <Widget>[
-<<<<<<< HEAD
-                //Name Field
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: TextFormField(
-                    controller: nameController,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'Please enter a Title';
-                      }
-                      return null;
-                    },
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    onChanged: (value) {
-                      debugPrint('Something changed in Text Field');
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'Title',
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.only(top: 0),
-                          // add padding to adjust icon
-                          child: Icon(
-                            Icons.perm_identity,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        labelStyle: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor,
-                              width: 2.0),
-                          borderRadius: BorderRadius.circular(35.0),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(35.0),
-                        )),
-                  ),
-                ),
-
-=======
->>>>>>> c7a68ba3f26629fe992bccb172de54f39902ecb8
                 //Date Field
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -191,13 +146,8 @@ class AddEventState extends State<AddEvent> {
                               ),
                               disabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-<<<<<<< HEAD
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2.0),
-=======
                                     color: Theme.of(context).accentColor,
                                     width: 0.0),
->>>>>>> c7a68ba3f26629fe992bccb172de54f39902ecb8
                                 borderRadius: BorderRadius.circular(35.0),
                               ),
                               border: OutlineInputBorder(

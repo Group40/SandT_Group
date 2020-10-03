@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/DiscussionForum/ViewForums.dart';
 import 'package:sandtgroup/Photography/MainPage.dart';
 import 'package:sandtgroup/Photography/UploadPics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -100,6 +101,15 @@ class _AppDrawerState extends State<AppDrawer> {
               Navigator.of(context).pop();
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => MainPage()));
+            },
+          ),
+          Menu(
+            icon: Icons.bookmark,
+            title: "Discussion",
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ViewForums();
+              }));
             },
           ),
           Divider(

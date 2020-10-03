@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:sandtgroup/DiscussionForum/UserViewForums.dart';
 import 'package:sandtgroup/EventPublishingBooking/EventBooking.dart';
 import 'package:sandtgroup/FirstScreen/Profile.dart';
@@ -9,9 +8,6 @@ import 'package:sandtgroup/main.dart';
 //import '../FirstSceen/Profile.dart';
 
 import 'Menu.dart';
-=======
-import 'AppDrawer.dart';
->>>>>>> c7a68ba3f26629fe992bccb172de54f39902ecb8
 
 class HomePage extends StatefulWidget {
   @override
@@ -24,17 +20,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        key: _scaffoldKey,
-        drawer: new AppDrawer(),
-        appBar: new AppBar(
-          title: new Text(
-            "S & T",
-            style: TextStyle(
-                color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-<<<<<<< HEAD
-        ],
-      ),*/
+      key: _scaffoldKey,
+      drawer: new AppDrawer(),
+      appBar: new AppBar(
+        title: new Text(
+          "S & T",
+          style: TextStyle(
+              color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+      ),
     );
   }
 }
@@ -49,99 +43,91 @@ class _AppDrawerState extends State<AppDrawer> {
   Widget build(BuildContext context) {
     return new Drawer(
         child: Container(
-      //color: Colors.cyan,
+            //color: Colors.cyan,
 
-      child: new ListView(
-        children: <Widget>[
-          new UserAccountsDrawerHeader(
-            accountName: Text(
-              getUsername().toUpperCase(),
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            accountEmail: Text(
-              getEmail(),
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            currentAccountPicture: Align(
-              alignment: Alignment.center,
-              child: Icon(
-                Icons.account_circle,
-                color: Colors.white,
-                size: 80,
-              ),
-            ),
+            child: new ListView(children: <Widget>[
+      new UserAccountsDrawerHeader(
+        accountName: Text(
+          getUsername().toUpperCase(),
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
-          Menu(
-            icon: Icons.person,
-            title: "Profile",
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Profile()));
-            },
-          ),
-          Menu(
-            icon: Icons.home,
-            title: "Home",
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
-            },
-          ),
-          Menu(
-            icon: Icons.home,
-            title: "Piyumal",
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => EventBooking()));
-            },
-          ),
-          Menu(
-            icon: Icons.home,
-            title: "Photography",
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ViewPhoto()));
-            },
-          ),
-          Menu(
-            icon: Icons.people,
-            title: "Discussion",
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => UserViewForums()));
-            },
-          ),
-          Divider(
-            height: 64,
-            thickness: 0.8,
-            color: Colors.black.withOpacity(0.3),
-            indent: 32,
-            endIndent: 32,
-          ),
-          Menu(
-            icon: Icons.settings,
-            title: "Setting",
-=======
         ),
-        body: Center(
-          child: Text(
-            "User Home Page ",
-            style: TextStyle(fontSize: 25),
->>>>>>> c7a68ba3f26629fe992bccb172de54f39902ecb8
+        accountEmail: Text(
+          getEmail(),
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
-        ));
+        ),
+        currentAccountPicture: Align(
+          alignment: Alignment.center,
+          child: Icon(
+            Icons.account_circle,
+            color: Colors.white,
+            size: 80,
+          ),
+        ),
+      ),
+      Menu(
+        icon: Icons.person,
+        title: "Profile",
+        onTap: () {
+          Navigator.of(context).pop();
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Profile()));
+        },
+      ),
+      Menu(
+        icon: Icons.home,
+        title: "Home",
+        onTap: () {
+          Navigator.of(context).pop();
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Home()));
+        },
+      ),
+      Menu(
+        icon: Icons.home,
+        title: "Piyumal",
+        onTap: () {
+          Navigator.of(context).pop();
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => EventBooking()));
+        },
+      ),
+      Menu(
+        icon: Icons.home,
+        title: "Photography",
+        onTap: () {
+          Navigator.of(context).pop();
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ViewPhoto()));
+        },
+      ),
+      Menu(
+        icon: Icons.people,
+        title: "Discussion",
+        onTap: () {
+          Navigator.of(context).pop();
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => UserViewForums()));
+        },
+      ),
+      Divider(
+        height: 64,
+        thickness: 0.8,
+        color: Colors.black.withOpacity(0.3),
+        indent: 32,
+        endIndent: 32,
+      ),
+      Menu(
+        icon: Icons.settings,
+        title: "Setting",
+      ),
+    ])));
   }
 }

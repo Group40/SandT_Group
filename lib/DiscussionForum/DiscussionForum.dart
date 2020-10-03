@@ -19,6 +19,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
   final listScrollController = ScrollController(initialScrollOffset: 50.0);
   String name;
   String email;
+  int urole;
   String eventID;
 
   //get eventID
@@ -37,6 +38,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
     super.initState();
     name = getUsername();
     email = getEmail();
+    urole = getrole();
     eventID = getID() as String;
     //isLoading = false;
   }
@@ -127,7 +129,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
 
   //send method
   Future<void> send(
-      String id, String name, String email, String content) async {
+      String name, String email, int urole, String content) async {
     if (content.trim() != '') {
       myController.clear();
     }
@@ -140,9 +142,9 @@ class _DiscussionForumState extends State<DiscussionForum> {
 
     _firestore.runTransaction((transaction) async {
       await transaction.set(documentReference, {
-        'id': id,
         'name': name,
         'email': email,
+        'urole': urole,
         'body': content,
         'timestamp': FieldValue.serverTimestamp()
       });
@@ -257,7 +259,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
                           child: IconButton(
                             icon: Icon(Icons.send, color: Colors.cyan),
                             onPressed: () =>
-                                send('100', name, email, myController.text),
+                                send(name, email, urole, myController.text),
                           ), //send method to send messages
                         ),
                         color: Colors.white,
