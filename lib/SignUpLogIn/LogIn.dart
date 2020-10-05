@@ -8,7 +8,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-var url = "http://10.0.2.2:8080/auth/signin";
+var url = "http://192.168.1.26:8080/auth/signin";
 
 class LoginScreen extends StatefulWidget {
   @override

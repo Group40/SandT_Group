@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sandtgroup/DiscussionForum/ViewForums.dart';
+import 'package:sandtgroup/DiscussionForum/UserViewForums.dart';
 import 'package:sandtgroup/Photography/MainPage.dart';
 import 'package:sandtgroup/Photography/UploadPics.dart';
+import 'package:sandtgroup/YouTube/Playlist.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../main.dart';
 import 'Menu.dart';
@@ -108,7 +109,16 @@ class _AppDrawerState extends State<AppDrawer> {
             title: "Discussion",
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return ViewForums();
+                return UserViewForums();
+              }));
+            },
+          ),
+          Menu(
+            icon: Icons.bookmark,
+            title: "YouTube",
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return Playlist();
               }));
             },
           ),

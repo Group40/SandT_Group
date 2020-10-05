@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 
-var url = "http://10.0.2.2:8080/addEventRequest";
+var url = "http://192.168.1.26:8080/addEventRequest";
 
 class EventDetail extends StatefulWidget {
   final String text;
@@ -31,7 +31,7 @@ class EventDetailState extends State<EventDetail> {
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllEvents/" + widget.text),
+        Uri.encodeFull("http://192.168.1.26:8080/findAllEvents/" + widget.text),
         headers: {"Accept": "application/json"});
 
     this.setState(() {

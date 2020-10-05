@@ -14,7 +14,7 @@ class AdminNotificationState extends State<AdminNotification> {
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllNotifications"),
+        Uri.encodeFull("http://192.168.1.26:8080/findAllNotifications"),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body).reversed.toList();
@@ -25,7 +25,7 @@ class AdminNotificationState extends State<AdminNotification> {
 
   void delete(String id) async {
     final http.Response response = await http.delete(
-      'http://10.0.2.2:8080/deleteNotification/' + id,
+      'http://192.168.1.26:8080/deleteNotification/' + id,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

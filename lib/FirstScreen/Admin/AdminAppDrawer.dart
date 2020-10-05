@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/DiscussionForum/AdminView.dart';
+import 'package:sandtgroup/DiscussionForum/UserViewForums.dart';
 import 'package:sandtgroup/Notification/AdminNotification.dart';
 import 'package:sandtgroup/Photography/MainPage.dart';
 import 'package:sandtgroup/Photography/UploadPics.dart';
+import 'package:sandtgroup/YouTube/Playlist.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 import '../Menu.dart';
@@ -73,6 +76,24 @@ class _AdminAppDrawerState extends State<AdminAppDrawer> {
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return AdminNotification();
+              }));
+            },
+          ),
+          Menu(
+            icon: Icons.assessment,
+            title: "Discussion",
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return AdminView();
+              }));
+            },
+          ),
+          Menu(
+            icon: Icons.add_alert,
+            title: "YouTube",
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return Playlist();
               }));
             },
           ),

@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-var url = "http://10.0.2.2:8080/auth/signup";
+var url = "http://192.168.1.26:8080/auth/signup";
 
 class SignUpScreen extends StatefulWidget {
   @override

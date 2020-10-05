@@ -27,7 +27,7 @@ class CourseListState extends State<CourseList> {
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllCourses"),
+        Uri.encodeFull("http://192.168.1.26:8080/findAllCourses"),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body);

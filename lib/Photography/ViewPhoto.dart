@@ -58,7 +58,7 @@ class ViewPhotoState extends State<ViewPhoto> {
     await Future.delayed(Duration(milliseconds: 3000));
     try {
       http.Response response = await http.get(
-          Uri.encodeFull("http://10.0.2.2:8080/getMypicslist/" +
+          Uri.encodeFull("http://192.168.1.26:8080/getMypicslist/" +
               email +
               "?pageSize=" +
               pagesize.toString() +
