@@ -47,7 +47,7 @@ class SeachPicState extends State<SeachPic> {
     } else {
       try {
         http.Response response = await http.get(
-            Uri.encodeFull("http://10.0.2.2:8080/serchPic/" +
+            Uri.encodeFull("http://192.168.1.26:8080/serchPic/" +
                 txt +
                 "?pageSize=" +
                 pagesize.toString() +
@@ -84,7 +84,7 @@ class SeachPicState extends State<SeachPic> {
   }
 
   Future<String> getPicdata(String url) async {
-    String dataurl = 'http://10.0.2.2:8080/viewPicsdata';
+    String dataurl = 'http://192.168.1.26:8080/viewPicsdata';
     var uri = Uri.parse(dataurl);
     var request = new http.MultipartRequest("POST", uri);
     request.fields['url'] = url;

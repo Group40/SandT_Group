@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import './EditEvent.dart';
 
-var url = "http://10.0.2.2:8080/addConfirmedEventRequest";
+var url = "http://192.168.1.26:8080/addConfirmedEventRequest";
 
 class RequestList extends StatefulWidget {
   final String text;
@@ -24,13 +24,13 @@ class RequestListState extends State<RequestList> {
   Future<String> getData() async {
     http.Response response = await http.get(
         Uri.encodeFull(
-            "http://10.0.2.2:8080/getEventRequestsByEventId/" + widget.text),
+            "http://192.168.1.26:8080/getEventRequestsByEventId/" + widget.text),
         headers: {"Accept": "application/json"});
     this.setState(() {
       requestData = jsonDecode(response.body);
     });
     http.Response response2 = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllEvents/" + widget.text),
+        Uri.encodeFull("http://192.168.1.26:8080/findAllEvents/" + widget.text),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -43,7 +43,7 @@ class RequestListState extends State<RequestList> {
   //Delete From Request Collection
   void deleteRequest(String id) async {
     final http.Response response = await http.delete(
-      'http://10.0.2.2:8080/deleteEventRequest/' + id,
+      'http://192.168.1.26:8080/deleteEventRequest/' + id,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -68,7 +68,7 @@ class RequestListState extends State<RequestList> {
       'headCount': eventData["headCount"],
       'available': available
     });
-    return await http.post("http://10.0.2.2:8080/updateEvent",
+    return await http.post("http://192.168.1.26:8080/updateEvent",
         body: body,
         headers: {
           "Accept": "application/json",

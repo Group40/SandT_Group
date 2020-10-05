@@ -3,35 +3,53 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:sandtgroup/DiscussionForum/UserViewForums.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 import 'package:http/http.dart' as http;
 
 class DiscussionForum extends StatefulWidget {
   final myController = TextEditingController();
+  final id;
+  final title;
+
+  DiscussionForum({Key key, this.id, this.title}) : super(key: key);
 
   @override
-  _DiscussionForumState createState() => _DiscussionForumState();
+  DiscussionForumState createState() => DiscussionForumState();
 }
 
-class _DiscussionForumState extends State<DiscussionForum> {
+class DiscussionForumState extends State<DiscussionForum> {
   final _firestore = Firestore.instance;
   final myController = TextEditingController();
   final listScrollController = ScrollController(initialScrollOffset: 50.0);
   String name;
   String email;
   int urole;
-  String eventID;
+  var event;
+  // String title;
 
   //get eventID
-  Future<String> getID() async {
-    var response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/getForums"),
-        headers: {"Accept": "application/json"});
-    this.setState(() {
-      List data = jsonDecode(response.body);
-    });
-    print('response body');
-  }
+  // Future<String> getID() async {
+  //   var response = await http.get(
+  //       Uri.encodeFull("http://10.0.2.2:8080/getForums"),
+  //       headers: {"Accept": "application/json"});
+  //   this.setState(() {
+  //     List data = jsonDecode(response.body);
+  //   });
+  //   print('response body');
+  // }
+
+  //get forum name by id
+  // Future<String> getById() async {
+  //   print("dfds");
+  //   var response = await http.get(
+  //       Uri.encodeFull("http://192.168.1.26:8080/getById/" + widget.id),
+  //       headers: {"Accpet": "application/json"});
+  //   this.setState(() {
+  //     event = jsonDecode(response.body);
+  //     title = event['title'];
+  //   });
+  // }
 
   @override
   void initState() {
@@ -39,7 +57,6 @@ class _DiscussionForumState extends State<DiscussionForum> {
     name = getUsername();
     email = getEmail();
     urole = getrole();
-    eventID = getID() as String;
     //isLoading = false;
   }
 
@@ -136,8 +153,8 @@ class _DiscussionForumState extends State<DiscussionForum> {
 
     var documentReference = _firestore
         .collection('messages')
-        .document(eventID)
-        .collection(eventID)
+        .document(widget.id)
+        .collection(widget.id)
         .document(DateTime.now().millisecondsSinceEpoch.toString());
 
     _firestore.runTransaction((transaction) async {
@@ -202,12 +219,16 @@ class _DiscussionForumState extends State<DiscussionForum> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
           title: Text(
-            'Discussion Forum',
+            widget.title,
             style: TextStyle(color: Colors.white),
+          ),
+          leading: BackButton(
+            color: Colors.white,
+            onPressed: null,
           ),
           automaticallyImplyLeading: false),
       resizeToAvoidBottomPadding: false,
@@ -282,7 +303,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
   //retieve message and send to listViewBuilder
   Widget messagesStream() {
     return Flexible(
-      child: eventID == ''
+      child: widget.id == ''
           ? Center(
               child: CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.cyan),
@@ -291,8 +312,8 @@ class _DiscussionForumState extends State<DiscussionForum> {
           : StreamBuilder<QuerySnapshot>(
               stream: _firestore
                   .collection('messages')
-                  .document(eventID)
-                  .collection(eventID)
+                  .document(widget.id)
+                  .collection(widget.id)
                   .orderBy('timestamp', descending: true)
                   .limit(20)
                   .snapshots(),

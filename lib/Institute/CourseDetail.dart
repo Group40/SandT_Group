@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 
-var url2 = "http://10.0.2.2:8080/updateCourse";
+var url2 = "http://192.168.1.26:8080/updateCourse";
 
 class CourseDetail extends StatefulWidget {
   final String text;
@@ -41,7 +41,7 @@ class CourseDetailState extends State<CourseDetail> {
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllCourses/" + widget.text),
+        Uri.encodeFull("http://192.168.1.26:8080/findAllCourses/" + widget.text),
         headers: {"Accept": "application/json"});
 
     this.setState(() {

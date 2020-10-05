@@ -7,7 +7,7 @@ import './EditEvent.dart';
 import './AddEvent.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 
-var notificationUrl = "http://10.0.2.2:8080/addNotification";
+var notificationUrl = "http://192.168.1.26:8080/addNotification";
 
 class EventByDateAdmin extends StatefulWidget {
   final String date;
@@ -25,7 +25,7 @@ class EventByDateAdminState extends State<EventByDateAdmin> {
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findEventsByDate/" + widget.date),
+        Uri.encodeFull("http://192.168.1.26:8080/findEventsByDate/" + widget.date),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body);
@@ -35,19 +35,19 @@ class EventByDateAdminState extends State<EventByDateAdmin> {
 
   void delete(String id, String name, String date) async {
     final http.Response response = await http.delete(
-      'http://10.0.2.2:8080/deleteEvent/' + id,
+      'http://192.168.1.26:8080/deleteEvent/' + id,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
     final http.Response response2 = await http.delete(
-      'http://10.0.2.2:8080/deleteEventRequestByEventId/' + id,
+      'http://192.168.1.26:8080/deleteEventRequestByEventId/' + id,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
     final http.Response response3 = await http.delete(
-      'http://10.0.2.2:8080/deleteConfirmedEventRequestByEventId/' + id,
+      'http://192.168.1.26:8080/deleteConfirmedEventRequestByEventId/' + id,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

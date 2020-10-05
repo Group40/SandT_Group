@@ -7,7 +7,7 @@ import './EditCourse.dart';
 import './AddCourse.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 
-var notificationUrl = "http://10.0.2.2:8080/addNotification";
+var notificationUrl = "http://192.168.1.26:8080/addNotification";
 
 class AdminCourse extends StatefulWidget {
   @override
@@ -19,7 +19,7 @@ class AdminCourseState extends State<AdminCourse> {
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/findAllCourses"),
+        Uri.encodeFull("http://192.168.1.26:8080/findAllCourses"),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body);
@@ -29,7 +29,7 @@ class AdminCourseState extends State<AdminCourse> {
 
   void delete(String id, String name) async {
     final http.Response response = await http.delete(
-      'http://10.0.2.2:8080/deleteCourse/' + id,
+      'http://192.168.1.26:8080/deleteCourse/' + id,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

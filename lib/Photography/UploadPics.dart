@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sandtgroup/FirstScreen/HomePage.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 
-var url = "http://10.0.2.2:8080/photouploading/uploadpic";
+var url = "http://192.168.1.26:8080/photouploading/uploadpic";
 
 class UploadPics extends StatefulWidget {
   @override
