@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/ArticleHandling/ArticleHome.dart';
 import 'package:sandtgroup/EventPublishingBooking/EventBooking.dart';
 import 'package:sandtgroup/Institute/CourseList.dart';
 import 'package:sandtgroup/Photography/MainPage.dart';
@@ -7,7 +8,7 @@ class HomeScreenGrids extends StatelessWidget {
   Item item1 = new Item("Event", 'assets/icons/calendar.jpg', EventBooking());
   Item item2 = new Item("Photography", 'assets/icons/pics.png', MainPage());
   Item item3 = new Item("Courses", 'assets/icons/course.png', CourseList());
-  Item item4 = new Item("Youtube", 'assets/icons/youtube.png', MainPage());
+  Item item4 = new Item("Youtube", 'assets/icons/youtube.png', ArticleHome());
   Item item5 = new Item("Magazine", 'assets/icons/magazine.jpg', MainPage());
   Item item6 = new Item("S&T Optics", 'assets/icons/store.png', MainPage());
 
