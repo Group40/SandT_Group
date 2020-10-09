@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+// import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:sandtgroup/DiscussionForum/UserViewForums.dart';
+import 'package:intl/intl.dart';
+// import 'package:sandtgroup/DiscussionForum/UserViewForums.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,30 +28,7 @@ class DiscussionForumState extends State<DiscussionForum> {
   String email;
   int urole;
   var event;
-  // String title;
-
-  //get eventID
-  // Future<String> getID() async {
-  //   var response = await http.get(
-  //       Uri.encodeFull("http://10.0.2.2:8080/getForums"),
-  //       headers: {"Accept": "application/json"});
-  //   this.setState(() {
-  //     List data = jsonDecode(response.body);
-  //   });
-  //   print('response body');
-  // }
-
-  //get forum name by id
-  // Future<String> getById() async {
-  //   print("dfds");
-  //   var response = await http.get(
-  //       Uri.encodeFull("http://192.168.1.26:8080/getById/" + widget.id),
-  //       headers: {"Accpet": "application/json"});
-  //   this.setState(() {
-  //     event = jsonDecode(response.body);
-  //     title = event['title'];
-  //   });
-  // }
+  DateTime myDateTime;
 
   @override
   void initState() {
@@ -60,48 +39,82 @@ class DiscussionForumState extends State<DiscussionForum> {
     //isLoading = false;
   }
 
-  //report message dialog //not running
-  Future<void> _reportMessage() {
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.white,
-        title: Text(
-          "Are you sure you want to report this message for inappropriate content?",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 15.0,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        actions: <Widget>[
-          FlatButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                "Cancel",
-                style: TextStyle(color: Colors.black),
-              )),
-          FlatButton(
-            onPressed: null, //call report function
-            child: Text(
-              "Report",
-              style: TextStyle(color: Colors.black),
-            ),
-          )
-        ],
-      ),
-    );
-  }
+  //report message dialog
+  // Future<void> _reportMessage() {
+  //   return showDialog(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     builder: (context) => AlertDialog(
+  //       backgroundColor: Colors.white,
+  //       title: Text(
+  //         "Are you sure you want to report this message for innappropriate content?",
+  //         style: TextStyle(
+  //           color: Colors.black,
+  //           fontSize: 15.0,
+  //           fontWeight: FontWeight.w500,
+  //         ),
+  //       ),
+  //       actions: <Widget>[
+  //         FlatButton(
+  //             onPressed: () => Navigator.pop(context),
+  //             child: Text(
+  //               "Cancel",
+  //               style: TextStyle(color: Colors.black),
+  //             )),
+  //         FlatButton(
+  //           onPressed: null, //call report function
+  //           child: Text(
+  //             "Report",
+  //             style: TextStyle(color: Colors.black),
+  //           ),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  //report function
+  // Future<void> _report(int index, DocumentSnapshot document) async {
+  //   return await http.post(
+  //     "http://192.168.1.26:8080/addMessage",
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(<String, String>{
+  //       'title': widget.title,
+  //       'name': document['name'],
+  //       'email': document['email'],
+  //       'message': document['body'],
+  //       'datetime': document['timestamp'].toDate().toString(),
+  //     }),
+  //   );
+  // }
 
   //display message
   Widget buildMessage(int index, DocumentSnapshot document) {
+    myDateTime = document['timestamp'].toDate();
+    String dateTime = DateFormat.yMMMd().add_jm().format(myDateTime).toString();
+
     return Flexible(
       child: Card(
         color: Colors.white,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            SizedBox(
+              width: 20.0,
+              height: 20.0,
+            ),
+            Container(
+              child: Text(
+                dateTime,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 12.0,
+                ),
+              ),
+              alignment: Alignment(-0.9, -1.0),
+            ),
             ListTile(
               title: Text(
                 document['name'],
@@ -118,26 +131,21 @@ class DiscussionForumState extends State<DiscussionForum> {
                     fontWeight: FontWeight.w400),
               ),
             ),
-            ButtonBar(
-              children: <Widget>[
-                FlatButton(
-                  onPressed: null,
-                  child: const Text(
-                    'REPLY',
-                    style: TextStyle(color: Colors.black, fontSize: 12.0),
-                  ),
-                ),
-                FlatButton(
-                  onPressed: () {
-                    _reportMessage();
-                  },
-                  child: const Text(
-                    'REPORT',
-                    style: TextStyle(color: Colors.black, fontSize: 12.0),
-                  ),
-                )
-              ],
-            ),
+            // ButtonBar(
+            //   children: <Widget>[
+            //     document['name'] != this.name
+            //         ? FlatButton(
+            //             onPressed: () {
+            //               _reportMessage();
+            //             },
+            //             child: const Text(
+            //               'REPORT',
+            //               style: TextStyle(color: Colors.black, fontSize: 12.0),
+            //             ),
+            //           )
+            //         : null
+            //   ],
+            // ),
           ],
         ),
       ),
@@ -232,75 +240,79 @@ class DiscussionForumState extends State<DiscussionForum> {
           ),
           automaticallyImplyLeading: false),
       resizeToAvoidBottomPadding: false,
-      body: WillPopScope(
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              messagesStream(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  child: Row(
-                    children: <Widget>[
-                      Material(
-                        child: Container(
-                          color: Colors.white,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.create,
-                              color: Colors.cyan,
+      body: Scrollbar(
+        isAlwaysShown: true,
+        controller: listScrollController,
+        child: WillPopScope(
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                messagesStream(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: Row(
+                      children: <Widget>[
+                        Material(
+                          child: Container(
+                            color: Colors.white,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.create,
+                                color: Colors.cyan,
+                              ),
+                              onPressed: null, //onPressed method to get images
                             ),
-                            onPressed: null, //onPressed method to get images
                           ),
                         ),
-                      ),
-                      Flexible(
-                        child: Container(
-                          child: TextField(
-                            textCapitalization: TextCapitalization.sentences,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15.0,
-                            ),
-                            controller: myController,
-                            decoration: InputDecoration.collapsed(
-                              hintText: 'Type message',
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
+                        Flexible(
+                          child: Container(
+                            child: TextField(
+                              textCapitalization: TextCapitalization.sentences,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15.0,
+                              ),
+                              controller: myController,
+                              decoration: InputDecoration.collapsed(
+                                hintText: 'Type message',
+                                hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Material(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: IconButton(
-                            icon: Icon(Icons.send, color: Colors.cyan),
-                            onPressed: () =>
-                                send(name, email, urole, myController.text),
-                          ), //send method to send messages
+                        Material(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 8.0),
+                            child: IconButton(
+                              icon: Icon(Icons.send, color: Colors.cyan),
+                              onPressed: () =>
+                                  send(name, email, urole, myController.text),
+                            ), //send method to send messages
+                          ),
+                          color: Colors.white,
                         ),
-                        color: Colors.white,
-                      ),
-                    ],
+                      ],
+                    ),
+                    width: double.infinity,
+                    height: 50.0,
+                    decoration: BoxDecoration(color: Colors.white),
                   ),
-                  width: double.infinity,
-                  height: 50.0,
-                  decoration: BoxDecoration(color: Colors.white),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          onWillPop: _onBackPressed,
         ),
-        onWillPop: _onBackPressed,
       ),
     );
   }
 
-  //retieve message and send to listViewBuilder
+  //retrieve message and send to listViewBuilder
   Widget messagesStream() {
     return Flexible(
       child: widget.id == ''

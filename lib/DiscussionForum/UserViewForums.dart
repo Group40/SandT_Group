@@ -17,6 +17,7 @@ class UserViewForums extends StatefulWidget {
 }
 
 class _UserViewForums extends State<UserViewForums> {
+  final scrollController = ScrollController(initialScrollOffset: 50.0);
   int urole;
   String status = "1";
 
@@ -70,26 +71,30 @@ class _UserViewForums extends State<UserViewForums> {
                   ),
                 ));
               } else {
-                return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        leading: Icon(Icons.assignment),
-                        title: Text(
-                          data[index]["title"],
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        // subtitle: Text(data[index]["id"]),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => DiscussionForum(
-                                      id: data[index]["id"],
-                                      title: data[index]["title"])));
-                        },
-                      );
-                    });
+                return Scrollbar(
+                  isAlwaysShown: true,
+                  controller: scrollController,
+                  child: ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          leading: Icon(Icons.assignment),
+                          title: Text(
+                            data[index]["title"],
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          // subtitle: Text(data[index]["id"]),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) => DiscussionForum(
+                                        id: data[index]["id"],
+                                        title: data[index]["title"])));
+                          },
+                        );
+                      }),
+                );
               }
             }),
       ),

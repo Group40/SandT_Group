@@ -10,6 +10,7 @@ class ViewAllForums extends StatefulWidget {
 }
 
 class _ViewAllForums extends State<ViewAllForums> {
+  final scrollController = ScrollController(initialScrollOffset: 50.0);
   List data;
 
   Future<List<Forums>> getAllForums() async {
@@ -44,15 +45,19 @@ class _ViewAllForums extends State<ViewAllForums> {
                   ),
                 );
               } else {
-                return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        leading: Icon(Icons.assignment),
-                        title: Text(data[index]["title"]),
-                        subtitle: Text(data[index]["date"]),
-                      );
-                    });
+                return Scrollbar(
+                  isAlwaysShown: true,
+                  controller: scrollController,
+                  child: ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          leading: Icon(Icons.assignment),
+                          title: Text(data[index]["title"]),
+                          subtitle: Text(data[index]["date"]),
+                        );
+                      }),
+                );
               }
             }),
       ),
