@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
+import 'package:sandtgroup/Photography/AdminFun/AdMainPage.dart';
 import 'package:sandtgroup/Photography/PicViewScreen.dart';
-import 'package:sandtgroup/Photography/UploadPics.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'MainPage.dart';
@@ -103,7 +103,11 @@ class MyUploadsState extends State<MyUploads> {
         appBar: AppBar(
           title: Text('My Uploads'),
         ),
-        bottomNavigationBar: MainPage(0),
+        bottomNavigationBar: getrole() == 1
+            ? MainPage(1)
+            : getrole() == 0
+                ? null
+                : AdMainPage(1),
         body: StreamBuilder(
             stream: null,
             builder: (context, snapshot) {

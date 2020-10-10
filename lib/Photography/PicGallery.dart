@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandtgroup/FirstScreen/Splash.dart';
+import 'package:sandtgroup/Photography/AdminFun/AdMainPage.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -34,6 +35,7 @@ class PicGalleryState extends State<PicGallery> {
 
   @override
   void initState() {
+    setcurrentindex();
     super.initState();
     getPicGallery();
     _scrollController.addListener(() {
@@ -113,7 +115,11 @@ class PicGalleryState extends State<PicGallery> {
             ),
           ],
         ),
-        bottomNavigationBar: MainPage(0),
+        bottomNavigationBar: getrole() == 1
+            ? MainPage(0)
+            : getrole() == 0
+                ? null
+                : AdMainPage(0),
         //   bottomNavigationBar: BottomNavigationBar(
         //   type: BottomNavigationBarType.fixed,
         //   currentIndex: _currentIndex,

@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:sandtgroup/FirstScreen/HomePage.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
+import 'package:sandtgroup/Photography/AdminFun/AdMainPage.dart';
 import 'package:shimmer/shimmer.dart';
 import 'ViewScreenAdmin.dart';
 
@@ -84,8 +85,7 @@ class ReviewPicState extends State<ReviewPic> {
   int getlenth() {
     if (isLoadmorePic) {
       return (picsurl.length + 1);
-    }
-    else{
+    } else {
       return (picsurl.length);
     }
   }
@@ -100,6 +100,7 @@ class ReviewPicState extends State<ReviewPic> {
         appBar: AppBar(
           title: Text('Review Upload Photos'),
         ),
+        bottomNavigationBar: AdMainPage(3),
         body: StreamBuilder(
             stream: null,
             builder: (context, snapshot) {
@@ -113,7 +114,7 @@ class ReviewPicState extends State<ReviewPic> {
                 return Container(
                     child: GridView.builder(
                         controller: _scrollController,
-                        itemCount:  getlenth(),//picsurl.length + 1,
+                        itemCount: getlenth(), //picsurl.length + 1,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             childAspectRatio: width / (height / 1.4),
                             crossAxisSpacing: 3,
