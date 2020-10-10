@@ -1,6 +1,5 @@
 //User Home Page
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
@@ -8,7 +7,6 @@ import 'package:sandtgroup/FirstScreen/HomeScreenGrids.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 import 'dart:async';
 import 'package:shimmer/shimmer.dart';
-
 import 'AppDrawer.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,9 +17,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   List imglist = List();
-  bool isLoading = true;
+  bool isLoading = false;
   bool networkImg = false;
   int _current = 0;
+  List<String> picsurl = new List();
 
   @override
   void initState() {
@@ -33,22 +32,31 @@ class _HomePageState extends State<HomePage> {
     await Future.delayed(Duration(milliseconds: 3000));
     try {
       http.Response response = await http
-          .get(Uri.encodeFull(getUrl() + "/viewGallery/"), headers: {
+          .get(Uri.encodeFull(getUrl() + "/appimage/mobview"), headers: {
         "Accept": "application/json"
       }).timeout(const Duration(seconds: 40));
 
       if (response.statusCode == 200) {
-        //imglist = ['assets/image/logo.jpg'];
         imglist = (json.decode(response.body) as List);
-        setState(() {
-          isLoading = false;
-          networkImg = true;
-        });
+        if (imglist.length == 0) {
+          setState(() {
+            isLoading = false;
+          });
+        } else {
+          for (int i = 0; i < imglist.length; i++) {
+            picsurl.add(json.decode(response.body)[i]['imageurl']);
+          }
+          setState(() {
+            isLoading = false;
+            networkImg = true;
+          });
+        }
+        imglist.clear();
       } else {
-        imglist = ['assets/image/logo.jpg'];
+        isLoading = false;
       }
     } on TimeoutException catch (_) {
-      imglist = ['assets/image/logo.jpg'];
+      isLoading = false;
     }
   }
 
@@ -77,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   SizedBox(height: 15.0),
                   CarouselSlider(
-                      items: imglist.map((e) {
+                      items: picsurl.map((e) {
                         return Builder(builder: (BuildContext context) {
                           return Container(
                               width: MediaQuery.of(context).size.width,
@@ -149,7 +157,7 @@ class _HomePageState extends State<HomePage> {
                           children: <Widget>[
                             Container(
                               height: 100,
-                              width: MediaQuery.of(context).size.width/1.2,
+                              width: MediaQuery.of(context).size.width / 1.2,
                               color: Colors.grey[300],
                             ),
                             //Padding(padding: EdgeInsets.all(25.0)),
@@ -160,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                           children: <Widget>[
                             Container(
                               height: 100,
-                              width: MediaQuery.of(context).size.width/1.2,
+                              width: MediaQuery.of(context).size.width / 1.2,
                               color: Colors.grey[300],
                             ),
                             //Padding(padding: EdgeInsets.all(25.0)),

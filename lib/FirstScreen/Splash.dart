@@ -166,6 +166,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void _navigationLog() {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (BuildContext context) => AuthScreen()));
+    //test edit
+    //MaterialPageRoute(builder: (BuildContext context) => HomePage()));
   }
 
   @override
@@ -241,8 +243,8 @@ int getrole() {
 }
 
 String getUrl() {
-  //return "http://10.0.2.2:8080";
-  return "http://santtest-env.eba-nxhcuuzz.ap-south-1.elasticbeanstalk.com";
+  return "http://10.0.2.2:8080";
+  //return "http://santtest-env.eba-nxhcuuzz.ap-south-1.elasticbeanstalk.com";
 }
 
 exitFromApp() {
@@ -256,6 +258,7 @@ void clearEmail() {
 void setlname(String name) {
   _lname = name;
 }
+
 void setfname(String name) {
   _fname = name;
 }

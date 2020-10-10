@@ -7,6 +7,8 @@ import 'package:sandtgroup/Photography/PicViewScreen.dart';
 import 'package:sandtgroup/Photography/UploadPics.dart';
 import 'package:shimmer/shimmer.dart';
 
+import 'MainPage.dart';
+
 class MyUploads extends StatefulWidget {
   @override
   MyUploadsState createState() => MyUploadsState();
@@ -100,16 +102,8 @@ class MyUploadsState extends State<MyUploads> {
         //backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text('My Uploads'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.file_upload),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UploadPics()));
-              },
-            ),
-          ],
         ),
+        bottomNavigationBar: MainPage(0),
         body: StreamBuilder(
             stream: null,
             builder: (context, snapshot) {

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
@@ -93,8 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } on TimeoutException catch (_) {
       _showErrorDialog("Internet Connection Problem");
-    }
-    catch (error) {
+    } catch (error) {
       _showErrorDialog('Could not authenticate you. Please try again later.');
     }
     setState(() {
