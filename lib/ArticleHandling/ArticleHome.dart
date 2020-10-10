@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sandtgroup/ArticleHandling/ArticleHandling.dart';
 import 'package:http/http.dart' as http;
+import 'package:sandtgroup/ArticleHandling/Singlearticle.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
@@ -68,12 +69,14 @@ class _ArticleHomeState extends State<ArticleHome> {
         int availableInt = 2;
         return Container(
           child: Card(
+        
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(35.0),
             ),
             color: Theme.of(context).accentColor,
             elevation: 1.0,
             child: ListTile(
+              
               leading: CircleAvatar(
                 backgroundColor: availableInt == 0
                     ? Colors.red
@@ -91,12 +94,14 @@ class _ArticleHomeState extends State<ArticleHome> {
               title: Text(data[position]["articleTitle"],
                   style: TextStyle(color: Theme.of(context).primaryColor)),
               subtitle: Text(data[position]["description"],
-                  style: TextStyle(color: Colors.black54)),
+                  style: TextStyle(color: Colors.black54),maxLines: 1,),
               onTap: () {
-                // debugPrint("Event clicked");
-                // Navigator.push(context, MaterialPageRoute(builder: (context) {
-                //   return EventDetail(text: data[position]["id"]);
-                // }));
+             
+                 Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                Singlearticle(data: data[position],)));
               },
             ),
           ),
