@@ -44,6 +44,7 @@ class _ArticleHomeState extends State<ArticleHome> {
       ),
        floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
+          Navigator.pop(context);
              Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ArticleHandling()),

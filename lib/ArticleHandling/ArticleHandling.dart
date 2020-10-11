@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:async/async.dart';
+import 'package:sandtgroup/ArticleHandling/ArticleHome.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 
 var url = getUrl() + "/addArticle";
@@ -148,6 +149,30 @@ class _ArticleHandlingState extends State<ArticleHandling> {
                       textColor: Theme.of(context).accentColor,
                       child: setUpButtonChild(),
                       onPressed: () {
+                        setState(() {
+                          if (titleController.text.isEmpty) {
+                            _validatetitle = false;
+                          } else {
+                            _validatetitle = true;
+                          }
+                          if (descrptController.text.isEmpty) {
+                            _validatedis = false;
+                          } else {
+                            _validatedis = true;
+                          }
+                        });
+                        if(_validatetitle && _validatedis ){
+                           _articleSend();
+                          Navigator.pop(context);
+                                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ArticleHome
+                                  ()));
+                        }
+                        //   (titleController.text.isEmpty)
+                        //       ?
+                        //       :
                         // setState(() {
                         //   (titleController.text.isEmpty)
                         //       ? _validatetitle = false
@@ -161,43 +186,41 @@ class _ArticleHandlingState extends State<ArticleHandling> {
                         //   setState(() {
                         //     _state = 1;
                         //     _articleSend();
-                           
 
-                           
                         //   });
                         // }
 
-                        _articleSend();
-                         showAlertDialog(BuildContext context) {
-                              // set up the button
-                              Widget okButton = FlatButton(
-                                child: Text("OK"),
-                                onPressed: () {
-                                   Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ArticleHandling()),
-                            );
-                                },
-                              );
+                        // _articleSend();
+                        //  showAlertDialog(BuildContext context) {
+                        //       // set up the button
+                        //       Widget okButton = FlatButton(
+                        //         child: Text("OK"),
+                        //         onPressed: () {
+                        //            Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) => ArticleHandling()),
+                        //     );
+                        //         },
+                        //       );
 
-                              // set up the AlertDialog
-                              AlertDialog alert = AlertDialog(
-                                title: Text("My title"),
-                                content: Text("This is my message."),
-                                actions: [
-                                  okButton,
-                                ],
-                              );
+                        //       // set up the AlertDialog
+                        //       AlertDialog alert = AlertDialog(
+                        //         title: Text("My title"),
+                        //         content: Text("This is my message."),
+                        //         actions: [
+                        //           okButton,
+                        //         ],
+                        //       );
 
-                              // show the dialog
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return alert;
-                                },
-                              );
-                            }
+                        //       // show the dialog
+                        //       showDialog(
+                        //         context: context,
+                        //         builder: (BuildContext context) {
+                        //           return alert;
+                        //         },
+                        //       );
+                        //     }
                       },
                       elevation: 6.0,
                     ),
