@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/DiscussionForum/AdminView.dart';
 import 'package:sandtgroup/EventPublishingBooking/EventBooking.dart';
 import 'package:sandtgroup/Institute/CourseList.dart';
 import 'package:sandtgroup/Photography/PicGallery.dart';
+import 'package:sandtgroup/YouTube/Playlist.dart';
 
 class CrewScreenGrids extends StatelessWidget {
   Item item1 =
       new Item("Event Management", Icons.calendar_today, EventBooking());
   Item item2 = new Item("Photography", Icons.image, PicGallery());
   Item item3 = new Item("Courses", Icons.school, CourseList());
-  Item item4 = new Item("Youtube", Icons.videocam, CourseList());
+  Item item4 = new Item("Youtube", Icons.videocam, Playlist());
   Item item5 = new Item("Magazine", Icons.book, CourseList());
-  Item item6 = new Item("S & T Optics", Icons.shopping_basket, CourseList());
-  Item item7 = new Item("Home Screen", Icons.home, CourseList());
+  Item item6 = new Item("Discussion Forum", Icons.shopping_basket, AdminView());
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,6 @@ class CrewScreenGrids extends StatelessWidget {
       item4,
       item5,
       item6,
-      item7,
     ];
     return Flexible(
       child: ListView(

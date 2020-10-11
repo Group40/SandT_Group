@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/DiscussionForum/AdminView.dart';
 import 'package:sandtgroup/EventPublishingBooking/EventBooking.dart';
-import 'package:sandtgroup/FirstScreen/UserScreenManagement/UserScreenManagement.dart';
 import 'package:sandtgroup/Institute/CourseList.dart';
 import 'package:sandtgroup/Photography/PicGallery.dart';
 import 'package:sandtgroup/UserManagementAdmin/UserManagementAdmin.dart';
+import 'package:sandtgroup/YouTube/Playlist.dart';
 
 class AdminScreenGrids extends StatelessWidget {
   Item item1 =
       new Item("Event Management", Icons.calendar_today, EventBooking());
   Item item2 = new Item("Photography", Icons.image, PicGallery());
   Item item3 = new Item("Courses", Icons.school, CourseList());
-  Item item4 = new Item("Youtube", Icons.videocam, UserScreenManagement());
-  Item item5 = new Item("Magazine", Icons.book, UserScreenManagement());
-  Item item6 =
-      new Item("S & T Optics", Icons.shopping_basket, UserScreenManagement());
-  Item item7 = new Item("Home Screen", Icons.home, UserScreenManagement());
+  Item item4 = new Item("Youtube", Icons.videocam, Playlist());
+  Item item5 = new Item("Magazine", Icons.book, Playlist());
+  Item item6 = new Item("Discussion Forum", Icons.shopping_basket, AdminView());
   Item item8 = new Item(
       "User Management", Icons.supervised_user_circle, UserManagementAdmin());
 
@@ -28,7 +27,6 @@ class AdminScreenGrids extends StatelessWidget {
       item4,
       item5,
       item6,
-      item7,
     ];
     return Flexible(
       child: ListView(
