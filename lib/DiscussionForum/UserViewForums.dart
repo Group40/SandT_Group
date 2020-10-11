@@ -46,7 +46,7 @@ class _UserViewForums extends State<UserViewForums> {
   }
 
   bool showAppBar() {
-    if (urole == 0) {
+    if (urole == 1) {
       return true;
     } else {
       return false;
