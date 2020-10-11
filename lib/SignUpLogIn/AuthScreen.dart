@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sandtgroup/SignUpLogIn/LogIn.dart';
 
-import '../SignUpLogIn/SignUP.dart';
+import '../SignUpLogIn/SignUp.dart';
+import 'SignUp.dart';
 
 class AuthScreen extends StatefulWidget {
   @override

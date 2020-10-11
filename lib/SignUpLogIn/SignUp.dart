@@ -1,35 +1,38 @@
-import 'dart:async';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sandtgroup/FirstScreen/Splash.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../SignUpLogIn/constants.dart';
-import 'SignUP.dart';
-import 'package:email_validator/email_validator.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:sandtgroup/FirstScreen/Splash.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-var url = getUrl() + "/auth/signin";
+var url = getUrl() + "/auth/signup";
 
-class LoginScreen extends StatefulWidget {
+class SignUpScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  String _token;
-  bool _pwvalid = true;
-  bool _emailvalid = true;
-  String _id;
+class _SignUpScreenState extends State<SignUpScreen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController fnameController = TextEditingController();
+  TextEditingController lnameController = TextEditingController();
+  TextEditingController passwordController2 = TextEditingController();
+
   String _fname;
   String _lname;
   String _email;
+  String _token;
   String _tokentype;
   int _role;
-  int _btnstate = 0;
-
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  bool _btnstate = false;
+  bool _emailvalidate = true;
+  bool _fnamevalidate = true;
+  bool _lnamevalidate = true;
+  bool _passwordvalidate = true;
+  bool _2passwordvalidate = true;
 
   void _showErrorDialog(String message) {
     showDialog(
@@ -42,7 +45,6 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Text('Okay'),
             onPressed: () {
               Navigator.of(ctx).pop();
-              _reset();
             },
           )
         ],
@@ -50,9 +52,10 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void send() async {
-    await Future.delayed(Duration(milliseconds: 3000));
+  void sends() async {
     var body = jsonEncode({
+      'username': fnameController.text,
+      'lname': lnameController.text,
       'email': emailController.text,
       'password': passwordController.text,
     });
@@ -60,8 +63,10 @@ class _LoginScreenState extends State<LoginScreen> {
       final res = await http.post(url, body: body, headers: {
         "Accept": "application/json",
         "content-type": "application/json"
-      }).timeout(const Duration(seconds: 60));
+      });
+
       if (res.statusCode == 200) {
+        _reset();
         final responseData = json.decode(res.body);
         _token = responseData['accessToken'];
         _fname = responseData['username'];
@@ -82,128 +87,213 @@ class _LoginScreenState extends State<LoginScreen> {
           },
         );
         prefs.setString('userData', userData);
-        setState(() {
-          Future.delayed(Duration(milliseconds: 3000));
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) => SplashScreen()));
-        });
+
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => SplashScreen()));
       } else {
-        _showErrorDialog("Email or password invalid");
+        _resetEmail();
+        _showErrorDialog("Email is already using try to login");
       }
-    } on TimeoutException catch (_) {
-      _showErrorDialog("Internet Connection Problem");
     } catch (error) {
       _showErrorDialog('Could not authenticate you. Please try again later.');
     }
     setState(() {
-      _btnstate = 0;
+      _btnstate = false;
     });
   }
 
   Widget _buildEmailTF() {
-    return Form(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'Email',
-            style: kLabelStyle,
-          ),
-          SizedBox(height: 10.0),
-          Container(
-            alignment: Alignment.centerLeft,
-
-            //decoration: kBoxDecorationStyle,
-            height: 60.0,
-            //color: Colors.black,
-            child: TextFormField(
-              keyboardType: TextInputType.emailAddress,
-              controller: emailController,
-              onChanged: (value) {
-                setState(() {
-                  _emailvalid = true;
-                });
-              },
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  borderRadius: BorderRadius.circular(35.0),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(35.0),
-                ),
-                errorText:
-                    _emailvalid ? null : 'Please Enter Valid Email Address',
-                //border: InputBorder.none,
-                contentPadding: EdgeInsets.only(top: 14.0),
-                prefixIcon: Icon(
-                  Icons.email,
-                  color: Colors.black,
-                ),
-                hintText: 'Enter your Email',
-                //hintStyle: kHintTextStyle,
+    return Padding(
+      padding: EdgeInsets.only(top: 25.0, bottom: 10.0),
+      child: TextFormField(
+        controller: emailController,
+        onChanged: (value) {
+          setState(() {
+            _emailvalidate = true;
+          });
+        },
+        style: TextStyle(
+          color: Colors.black,
+        ),
+        decoration: InputDecoration(
+            errorText: _emailvalidate ? null : 'Enter valid email address',
+            labelText: 'Email',
+            prefixIcon: Padding(
+              padding: EdgeInsets.only(top: 0),
+              child: Icon(
+                Icons.email,
+                color: Colors.black,
               ),
             ),
-          ),
-        ],
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.black, width: 2.0),
+              borderRadius: BorderRadius.circular(35.0),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(35.0),
+            )),
+      ),
+    );
+  }
+
+  Widget _buildFNameTF() {
+    return Padding(
+      padding: EdgeInsets.only(top: 25.0, bottom: 10.0),
+      child: TextFormField(
+        controller: fnameController,
+        onChanged: (value) {
+          setState(() {
+            _fnamevalidate = true;
+          });
+        },
+        style: TextStyle(
+          color: Colors.black,
+        ),
+        decoration: InputDecoration(
+            errorText: _fnamevalidate ? null : 'Enter first name',
+            labelText: 'First Name',
+            prefixIcon: Padding(
+              padding: EdgeInsets.only(top: 0),
+              child: Icon(
+                FontAwesomeIcons.userTie,
+                color: Colors.black,
+              ),
+            ),
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.black, width: 2.0),
+              borderRadius: BorderRadius.circular(35.0),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(35.0),
+            )),
+      ),
+    );
+  }
+
+  Widget _buildLNameTF() {
+    return Padding(
+      padding: EdgeInsets.only(top: 25.0, bottom: 10.0),
+      child: TextFormField(
+        controller: lnameController,
+        onChanged: (value) {
+          setState(() {
+            _lnamevalidate = true;
+          });
+        },
+        style: TextStyle(
+          color: Colors.black,
+        ),
+        decoration: InputDecoration(
+            errorText: _lnamevalidate ? null : 'Enter last name',
+            labelText: 'Last Name',
+            prefixIcon: Padding(
+              padding: EdgeInsets.only(top: 0),
+              child: Icon(
+                FontAwesomeIcons.userTie,
+                color: Colors.black,
+              ),
+            ),
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.black, width: 2.0),
+              borderRadius: BorderRadius.circular(35.0),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(35.0),
+            )),
       ),
     );
   }
 
   Widget _buildPasswordTF() {
-    return Form(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'Password',
-            style: kLabelStyle,
-          ),
-          SizedBox(height: 10.0),
-          Container(
-            alignment: Alignment.centerLeft,
-            //decoration: kBoxDecorationStyle,
-            color: Colors.transparent,
-            height: 60.0,
-            child: TextFormField(
-              obscureText: true,
-              controller: passwordController,
-              onChanged: (value) {
-                setState(() {
-                  _pwvalid = true;
-                });
-              },
-              style: TextStyle(
+    return Padding(
+      padding: EdgeInsets.only(top: 25.0, bottom: 10.0),
+      child: TextFormField(
+        obscureText: true,
+        controller: passwordController,
+        onChanged: (value) {
+          setState(() {
+            _passwordvalidate = true;
+          });
+        },
+        style: TextStyle(
+          color: Colors.black,
+        ),
+        decoration: InputDecoration(
+            errorText: _passwordvalidate
+                ? null
+                : 'Use 8 characters or more for your password',
+            labelText: 'Password',
+            prefixIcon: Padding(
+              padding: EdgeInsets.only(top: 0),
+              child: Icon(
+                FontAwesomeIcons.lock,
                 color: Colors.black,
               ),
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  borderRadius: BorderRadius.circular(35.0),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(35.0),
-                ),
-                errorText: _pwvalid ? null : 'This Field Can\'t Be Empty',
-                // border: InputBorder.none,
-                contentPadding: EdgeInsets.only(top: 14.0),
-                prefixIcon: Icon(
-                  Icons.lock,
-                  color: Colors.black,
-                ),
-                hintText: 'Enter your Password',
-                //hintStyle: kHintTextStyle,
-              ),
             ),
-          ),
-        ],
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.black, width: 2.0),
+              borderRadius: BorderRadius.circular(35.0),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(35.0),
+            )),
       ),
     );
   }
 
-  Widget _buildLoginBtn() {
+  Widget _buildPasswordReTF() {
+    return Padding(
+      padding: EdgeInsets.only(top: 25.0, bottom: 10.0),
+      child: TextFormField(
+        obscureText: true,
+        controller: passwordController2,
+        onChanged: (value) {
+          setState(() {
+            _2passwordvalidate = true;
+          });
+        },
+        style: TextStyle(
+          color: Colors.black,
+        ),
+        decoration: InputDecoration(
+            errorText: _2passwordvalidate
+                ? null
+                : 'Those password didn\'t match try again',
+            labelText: 'Confirm Password',
+            prefixIcon: Padding(
+              padding: EdgeInsets.only(top: 0),
+              child: Icon(
+                FontAwesomeIcons.lock,
+                color: Colors.black,
+              ),
+            ),
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.black, width: 2.0),
+              borderRadius: BorderRadius.circular(35.0),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(35.0),
+            )),
+      ),
+    );
+  }
+
+  Widget _buildSignupBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
@@ -211,17 +301,17 @@ class _LoginScreenState extends State<LoginScreen> {
           elevation: 5.0,
           onPressed: () {
             setState(() {
-              (passwordController.text.isEmpty)
-                  ? _pwvalid = false
-                  : _pwvalid = true;
-              EmailValidator.validate(emailController.text)
-                  ? _emailvalid = true
-                  : _emailvalid = false;
+              validate();
+              passwordvalidate();
             });
-            if (_pwvalid == true && _emailvalid == true) {
+
+            if (_fnamevalidate == true &&
+                _lnamevalidate == true &&
+                _passwordvalidate == true &&
+                _2passwordvalidate == true) {
               setState(() {
-                _btnstate = 1;
-                send();
+                _btnstate = true;
+                sends();
               });
             }
           },
@@ -235,18 +325,16 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget setUpButtonChild() {
-    if (_btnstate == 0) {
+    if (_btnstate == false) {
       return new Text(
-        'LOGIN',
+        'SIGH UP',
         style: TextStyle(
-          color: Colors.white,
-          letterSpacing: 1.5,
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-          fontFamily: 'OpenSans',
-        ),
+            color: Colors.white,
+            letterSpacing: 1.5,
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold),
       );
-    } else if (_btnstate == 1) {
+    } else if (_btnstate == true) {
       return CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
       );
@@ -255,46 +343,17 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Widget _buildSignupBtn() {
-    return GestureDetector(
-      onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (BuildContext context) => SignUpScreen())),
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: 'Don\'t have an Account? ',
-              style: TextStyle(
-                color: Colors.blueAccent,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            TextSpan(
-              text: 'Sign Up',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
-          //onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Stack(
             children: <Widget>[
               Container(
-                height: double.infinity,
+                //height: double.infinity,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -306,23 +365,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       Colors.white,
                       Colors.white
                     ],
-                    stops: [0.009, 0.2, 0.8, 0.9],
+                    stops: [0.1, 0.4, 0.7, 0.9],
                   ),
                 ),
               ),
               Container(
-                height: double.infinity,
+                //height: MediaQuery.of(context).size.height,
                 child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.symmetric(
                     horizontal: 40.0,
-                    vertical: MediaQuery.of(context).size.height / 10,
+                    // vertical: MediaQuery.of(context).size.height / 5,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      SizedBox(height: 50.0),
                       Text(
-                        'Sign In',
+                        'SIGH UP',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 30.0,
@@ -336,13 +395,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             'assets/image/logo.jpg',
                             scale: 13,
                           )),
-                      SizedBox(height: 20.0),
+                      SizedBox(height: 10.0),
+                      _buildFNameTF(),
+                      _buildLNameTF(),
                       _buildEmailTF(),
-                      SizedBox(
-                        height: 30.0,
-                      ),
                       _buildPasswordTF(),
-                      _buildLoginBtn(),
+                      _buildPasswordReTF(),
                       _buildSignupBtn(),
                     ],
                   ),
@@ -358,5 +416,35 @@ class _LoginScreenState extends State<LoginScreen> {
   void _reset() {
     emailController.text = '';
     passwordController.text = '';
+    fnameController.text = '';
+    lnameController.text = '';
+    passwordController2.text = "";
+  }
+
+  void _resetEmail() {
+    emailController.text = '';
+  }
+
+  void passwordvalidate() {
+    if (_passwordvalidate) {
+      passwordController.text == passwordController2.text
+          ? _2passwordvalidate = true
+          : _2passwordvalidate = false;
+    }
+  }
+
+  void validate() {
+    fnameController.text.isEmpty
+        ? _fnamevalidate = false
+        : _fnamevalidate = true;
+    lnameController.text.isEmpty
+        ? _lnamevalidate = false
+        : _lnamevalidate = true;
+    EmailValidator.validate(emailController.text)
+        ? _emailvalidate = true
+        : _emailvalidate = false;
+    passwordController.text.length > 7
+        ? _passwordvalidate = true
+        : _passwordvalidate = false;
   }
 }

@@ -4,10 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../SignUpLogIn/constants.dart';
-import 'SignUP.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'SignUp.dart';
 
 var url = getUrl() + "/auth/signin";
 
