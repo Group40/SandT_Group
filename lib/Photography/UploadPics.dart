@@ -7,6 +7,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:async/async.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sandtgroup/FirstScreen/Splash.dart';
+import 'package:sandtgroup/Photography/MainPage.dart';
+
+import 'AdminFun/AdMainPage.dart';
 
 var url = getUrl() + "/photouploading/uploadpic";
 
@@ -103,6 +106,11 @@ class UploadPicsState extends State<UploadPics> {
             ),
           ],
         ),
+        bottomNavigationBar: getrole() == 1
+            ? MainPage(2)
+            : getrole() == 0
+                ? null
+                : AdMainPage(2),
         body: ListView(
           shrinkWrap: true,
           padding: EdgeInsets.only(left: 15.0, right: 15.0),

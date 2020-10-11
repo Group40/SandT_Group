@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:sandtgroup/EventPublishingBooking/EventBooking.dart';
-import 'package:sandtgroup/Institute/CourseList.dart';
-import 'package:sandtgroup/Photography/PicGallery.dart';
+import 'package:sandtgroup/UserManagementAdmin/AdminUsers.dart';
 
-class CrewScreenGrids extends StatelessWidget {
+import 'Block.dart';
+import 'CrewMembers.dart';
+import 'UserMembers.dart';
+
+class UserManagementGrid extends StatelessWidget {
   Item item1 =
-      new Item("Event Management", Icons.calendar_today, EventBooking());
-  Item item2 = new Item("Photography", Icons.image, PicGallery());
-  Item item3 = new Item("Courses", Icons.school, CourseList());
-  Item item4 = new Item("Youtube", Icons.videocam, CourseList());
-  Item item5 = new Item("Magazine", Icons.book, CourseList());
-  Item item6 = new Item("S & T Optics", Icons.shopping_basket, CourseList());
-  Item item7 = new Item("Home Screen", Icons.home, CourseList());
+      new Item("Admin Members", Icons.admin_panel_settings, AdminUsers());
+  Item item2 = new Item(
+      "Crew Members", Icons.admin_panel_settings_outlined, CrewUsers());
+  Item item3 =
+      new Item("Users", Icons.supervised_user_circle_sharp, NormalUsers());
+  Item item4 = new Item("Block Users", Icons.block, BlockUsers());
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +21,6 @@ class CrewScreenGrids extends StatelessWidget {
       item2,
       item3,
       item4,
-      item5,
-      item6,
-      item7,
     ];
     return Flexible(
       child: ListView(
@@ -38,7 +36,7 @@ class CrewScreenGrids extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Card(
-                      color: Colors.grey[400],
+                      color: Colors.white,
                       child: ListTile(
                         leading: Icon(data.icon),
                         title: Text(
@@ -46,7 +44,7 @@ class CrewScreenGrids extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                         dense: false,

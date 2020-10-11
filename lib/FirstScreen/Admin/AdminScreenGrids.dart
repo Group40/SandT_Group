@@ -2,24 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:sandtgroup/EventPublishingBooking/EventBooking.dart';
 import 'package:sandtgroup/FirstScreen/UserScreenManagement/UserScreenManagement.dart';
 import 'package:sandtgroup/Institute/CourseList.dart';
-import 'package:sandtgroup/Photography/AdminFun/MainPage.dart';
+import 'package:sandtgroup/Photography/PicGallery.dart';
 import 'package:sandtgroup/UserManagementAdmin/UserManagementAdmin.dart';
 
 class AdminScreenGrids extends StatelessWidget {
   Item item1 =
       new Item("Event Management", Icons.calendar_today, EventBooking());
-  Item item2 = new Item("Photography", Icons.image, MainPage());
+  Item item2 = new Item("Photography", Icons.image, PicGallery());
   Item item3 = new Item("Courses", Icons.school, CourseList());
-  Item item4 = new Item("Youtube", Icons.videocam, MainPage());
-  Item item5 = new Item("Magazine", Icons.book, MainPage());
-  Item item6 = new Item("S & T Optics", Icons.shopping_basket, MainPage());
+  Item item4 = new Item("Youtube", Icons.videocam, UserScreenManagement());
+  Item item5 = new Item("Magazine", Icons.book, UserScreenManagement());
+  Item item6 =
+      new Item("S & T Optics", Icons.shopping_basket, UserScreenManagement());
   Item item7 = new Item("Home Screen", Icons.home, UserScreenManagement());
-  Item item8 =
-      new Item("User Management", Icons.supervised_user_circle, UserManagementAdmin());
+  Item item8 = new Item(
+      "User Management", Icons.supervised_user_circle, UserManagementAdmin());
 
   @override
   Widget build(BuildContext context) {
     List<Item> iconlist = [
+      item8,
       item1,
       item2,
       item3,
@@ -27,7 +29,6 @@ class AdminScreenGrids extends StatelessWidget {
       item5,
       item6,
       item7,
-      item8
     ];
     return Flexible(
       child: ListView(

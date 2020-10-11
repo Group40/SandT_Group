@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sandtgroup/Photography/MainPage.dart';
+import 'package:sandtgroup/Photography/PicGallery.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../main.dart';
 import 'Menu.dart';
@@ -97,8 +98,8 @@ class _AppDrawerState extends State<AppDrawer> {
             title: "Photography",
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MainPage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PicGallery()));
             },
           ),
           Divider(

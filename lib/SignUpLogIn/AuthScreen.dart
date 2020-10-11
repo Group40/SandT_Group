@@ -105,9 +105,8 @@ class _AuthScreenState extends State<AuthScreen> {
               onPressed: () {
                 setState(() {
                   Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
                 });
-                
               },
             ),
           ),

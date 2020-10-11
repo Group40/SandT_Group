@@ -166,6 +166,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void _navigationLog() {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (BuildContext context) => AuthScreen()));
+    //test edit
+    //MaterialPageRoute(builder: (BuildContext context) => HomePage()));
   }
 
   @override
@@ -256,6 +258,7 @@ void clearEmail() {
 void setlname(String name) {
   _lname = name;
 }
+
 void setfname(String name) {
   _fname = name;
 }

@@ -1,32 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/Photography/AdminFun/ReviewPic.dart';
 import 'package:sandtgroup/Photography/MyUploads.dart';
 import 'package:sandtgroup/Photography/PicGallery.dart';
 import 'package:sandtgroup/Photography/UploadPics.dart';
 
 int _currentIndex = 0;
 
-class MainPage extends StatefulWidget {
+class AdMainPage extends StatefulWidget {
   // final int page;
   // MainPage(int i, {Key key, this.page}) : super(key: key);
   // @override
   // State<StatefulWidget> createState() => new MainPageState();
-  MainPage(this.page);
+  AdMainPage(this.page);
   final int page;
 
   @override
-  MainPageState createState() => MainPageState();
+  AdMainPageState createState() => AdMainPageState();
 }
 
 @override
 void initState() {}
 
-class MainPageState extends State<MainPage> {
+class AdMainPageState extends State<AdMainPage> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: _currentIndex,
       iconSize: 25,
       selectedFontSize: 15,
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.white,
       items: [
         BottomNavigationBarItem(
             icon: Icon(Icons.photo),
@@ -39,6 +42,10 @@ class MainPageState extends State<MainPage> {
         BottomNavigationBarItem(
             icon: Icon(Icons.cloud_upload),
             title: Text("Upload Photo"),
+            backgroundColor: Colors.blueAccent),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.mark_chat_read),
+            title: Text("Review Photo"),
             backgroundColor: Colors.blueAccent),
       ],
       onTap: (index) {
@@ -61,9 +68,18 @@ class MainPageState extends State<MainPage> {
                 MaterialPageRoute(builder: (context) {
               return UploadPics();
             }));
+          } else if (_currentIndex == 3) {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) {
+              return ReviewPic();
+            }));
           }
         }
       },
     );
   }
+}
+
+void setcurrentindex() {
+  _currentIndex = 0;
 }

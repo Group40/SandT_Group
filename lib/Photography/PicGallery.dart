@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sandtgroup/FirstScreen/Splash.dart';
+import 'package:sandtgroup/Photography/AdminFun/AdMainPage.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'AdminFun/ViewScreenAdmin.dart';
+import 'MainPage.dart';
 import 'PicViewScreen.dart';
 import 'Search.dart';
 
@@ -33,6 +35,7 @@ class PicGalleryState extends State<PicGallery> {
 
   @override
   void initState() {
+    setcurrentindex();
     super.initState();
     getPicGallery();
     _scrollController.addListener(() {
@@ -48,15 +51,16 @@ class PicGalleryState extends State<PicGallery> {
     await Future.delayed(Duration(milliseconds: 3000));
     try {
       http.Response response = await http.get(
-          Uri.encodeFull(getUrl() +
-              "/viewGallery/" +
-              "?pageSize=" +
-              pagesize.toString() +
-              "&pageNo=" +
-              pageno.toString()),
-          headers: {
+              Uri.encodeFull(getUrl() +
+                  "/viewGallery/" +
+                  "?pageSize=" +
+                  pagesize.toString() +
+                  "&pageNo=" +
+                  pageno.toString()),
+              headers: {
             "Accept": "application/json"
-          }).timeout(const Duration(seconds: 40));
+          }) //.timeout(const Duration(seconds: 40))
+          ;
 
       if (response.statusCode == 200) {
         list = (json.decode(response.body) as List);
@@ -74,12 +78,13 @@ class PicGalleryState extends State<PicGallery> {
         }
         list.clear();
       } else {
-        _showNetErrorDialog("Somjething went wrong ");
+        //_showNetErrorDialog("Somjething went wrong ");
         return null;
       }
     } on TimeoutException catch (_) {
-      _showNetErrorDialog("Internet Connection Problem");
-      throw Exception('Failed to load');
+      //_showNetErrorDialog("Internet Connection Problem");
+      //throw Exception('Failed to load');
+      return null;
     }
   }
 
@@ -95,6 +100,7 @@ class PicGalleryState extends State<PicGallery> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    int _currentIndex = 0;
     return Scaffold(
         key: _scaffoldKey,
         //backgroundColor: Colors.white,
@@ -109,6 +115,26 @@ class PicGalleryState extends State<PicGallery> {
             ),
           ],
         ),
+        bottomNavigationBar: getrole() == 1
+            ? MainPage(0)
+            : getrole() == 0
+                ? null
+                : AdMainPage(0),
+        //   bottomNavigationBar: BottomNavigationBar(
+        //   type: BottomNavigationBarType.fixed,
+        //   currentIndex: _currentIndex,
+        //   backgroundColor: Colors.white,
+        //   selectedItemColor: Colors.blueAccent,
+        //   unselectedItemColor: Colors.blueAccent.withOpacity(0.5),
+        //   onTap: (value) => {
+        //     setState(()=>_currentIndex=value)
+        //   },
+        //   items: [
+        //     BottomNavigationBarItem(icon: new Icon(Icons.image)),
+        //     BottomNavigationBarItem(icon: new Icon(Icons.camera)),
+        //     BottomNavigationBarItem(icon: new Icon(Icons.camera))
+        //   ],
+        // ),
         body: StreamBuilder(
             stream: null,
             builder: (context, snapshot) {
