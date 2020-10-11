@@ -1,169 +1,48 @@
 import 'package:flutter/material.dart';
-import './CrewMembers.dart';
-import './Admins.dart';
-import './Block.dart';
+import 'package:sandtgroup/UserManagementAdmin/UserManagementGrid.dart';
 
-
-class UserManagementAdmin extends StatelessWidget {
+class UserManagementAdmin extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Manage Users',
-      debugShowCheckedModeBanner: false,
-      home: Home(),
-      theme: ThemeData(
-          brightness: Brightness.dark,
-          primaryColor: Colors.cyan,
-          accentColor: Colors.indigoAccent),
-    );
-    throw UnimplementedError();
-  }
+  _UserManagementAdminState createState() => new _UserManagementAdminState();
 }
 
-class Home extends StatelessWidget {
+class _UserManagementAdminState extends State<UserManagementAdmin> {
+  var _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Manage Users'),
-      ),
-      body: Center(
-        child: Container(
-          padding: EdgeInsets.only(left: 10.0, top: 40.0),
-          alignment: Alignment.center,
-          color: Colors.white,
+    return new Scaffold(
+        backgroundColor: Colors.grey[300],
+        key: _scaffoldKey,
+        appBar: new AppBar(
+          title: new Text(
+            "User Management",
+            style: TextStyle(
+                color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+        ),
+        body: Container(
+          //padding: EdgeInsets.all(20.0),
+          //height: 200,
           child: Column(
+            mainAxisAlignment: (MainAxisAlignment.start),
+            //crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              AdminButton(),
-              CrewButton(),
-              BlockButton(),
+              SizedBox(height: 15.0),
+              Container(
+                padding: EdgeInsets.all(20),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "User Management Panel",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              //SizedBox(height: 5.0),
+              UserManagementGrid()
             ],
           ),
-        ),
-      ),
-    );
-
-    throw UnimplementedError();
+        ));
   }
 }
-
-class AdminButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 30.0),
-      width: 250.0,
-      height: 50.0,
-      child: RaisedButton(
-        textColor: Colors.white,
-        child: Container(
-          decoration: const BoxDecoration (
-            color: Colors.blue,
-          ),
-          child: Text(
-            "Admins",
-            style: TextStyle(fontSize: 20.0, color: Colors.white),
-          ),
-        ),
-        elevation: 6.0,
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return Admins();
-          }));
-        }, //onpressed
-      ),
-    );
-    throw UnimplementedError();
-  }
-}
-
-class CrewButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 30.0),
-      width: 250.0,
-      height: 50.0,
-      child: RaisedButton(
-        textColor: Colors.white,
-        child: Container(
-            decoration: const BoxDecoration (
-              color: Colors.blue,
-            ),
-          child: Text(
-            "Crew Members",
-            style: TextStyle(fontSize: 20.0, color: Colors.white),
-          ),
-        ),
-        elevation: 6.0,
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return CrewMembers();
-          }));
-        }, //onpressed
-      ),
-    );
-    throw UnimplementedError();
-  }
-}
-
-class BlockButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 30.0),
-      width: 250.0,
-      height: 50.0,
-      child: RaisedButton(
-        color: Colors.red,
-        textColor: Colors.white,
-        child: Container(
-          decoration: const BoxDecoration (
-            color: Colors.red,
-          ),
-          child: Text(
-            "Block Users",
-            style: TextStyle(fontSize: 20.0, color: Colors.white),
-          ),
-        ),
-        elevation: 6.0,
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return Block();
-          }));
-        }, //onpressed
-      ),
-    );
-    throw UnimplementedError();
-  }
-}
-
-/*class Home extends StatelessWidget {
-  @override
-  Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Manage Users'),
-        centerTitle: true,
-        backgroundColor: Colors.blue[600],
-      ),
-      body: Center(
-        child: Text('hello',
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 2.0,
-            color: Colors.grey[600],
-
-          ),
-        ),
-
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Text('click '),
-        backgroundColor: Colors.red[600],
-      ),
-    );
-  }
-}*/

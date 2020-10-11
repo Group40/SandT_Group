@@ -1,34 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:sandtgroup/EventPublishingBooking/EventBooking.dart';
-import 'package:sandtgroup/FirstScreen/UserScreenManagement/UserScreenManagement.dart';
-import 'package:sandtgroup/Institute/CourseList.dart';
-import 'package:sandtgroup/Photography/PicGallery.dart';
-import 'package:sandtgroup/UserManagementAdmin/UserManagementAdmin.dart';
+import 'package:sandtgroup/UserManagementAdmin/AdminUsers.dart';
 
-class AdminScreenGrids extends StatelessWidget {
+import 'Block.dart';
+import 'CrewMembers.dart';
+import 'UserMembers.dart';
+
+class UserManagementGrid extends StatelessWidget {
   Item item1 =
-      new Item("Event Management", Icons.calendar_today, EventBooking());
-  Item item2 = new Item("Photography", Icons.image, PicGallery());
-  Item item3 = new Item("Courses", Icons.school, CourseList());
-  Item item4 = new Item("Youtube", Icons.videocam, UserScreenManagement());
-  Item item5 = new Item("Magazine", Icons.book, UserScreenManagement());
-  Item item6 =
-      new Item("S & T Optics", Icons.shopping_basket, UserScreenManagement());
-  Item item7 = new Item("Home Screen", Icons.home, UserScreenManagement());
-  Item item8 = new Item(
-      "User Management", Icons.supervised_user_circle, UserManagementAdmin());
+      new Item("Admin Members", Icons.admin_panel_settings, AdminUsers());
+  Item item2 = new Item(
+      "Crew Members", Icons.admin_panel_settings_outlined, CrewUsers());
+  Item item3 =
+      new Item("Users", Icons.supervised_user_circle_sharp, NormalUsers());
+  Item item4 = new Item("Block Users", Icons.block, BlockUsers());
 
   @override
   Widget build(BuildContext context) {
     List<Item> iconlist = [
-      item8,
       item1,
       item2,
       item3,
       item4,
-      item5,
-      item6,
-      item7,
     ];
     return Flexible(
       child: ListView(
@@ -71,9 +63,3 @@ class Item {
   final Widget page;
   Item(this.title, this.icon, this.page);
 }
-//event
-//photography
-//optics
-//magazine
-//youtube
-//course

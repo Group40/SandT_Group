@@ -5,17 +5,17 @@ import 'dart:convert';
 
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 
-class CrewUsers extends StatefulWidget {
+class NormalUsers extends StatefulWidget {
   @override
-  _CrewUsersState createState() => _CrewUsersState();
+  _NormalUsersState createState() => _NormalUsersState();
 }
 
-class _CrewUsersState extends State<CrewUsers> {
+class _NormalUsersState extends State<NormalUsers> {
   List data;
 
   Future<String> getData() async {
     http.Response response = await http.get(
-        Uri.encodeFull(getUrl() + "/userdata/findcrew"),
+        Uri.encodeFull(getUrl() + "/userdata/finduser"),
         headers: {"Accept": "application/json"});
     this.setState(() {
       data = jsonDecode(response.body);
@@ -37,7 +37,7 @@ class _CrewUsersState extends State<CrewUsers> {
         backgroundColor: Colors.blueAccent,
         elevation: 0,
         title: Text(
-          "Crew Members",
+          "Normal Users",
           style: TextStyle(color: Colors.black),
         ),
         iconTheme: new IconThemeData(color: Colors.white),
