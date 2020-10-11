@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "973590138722",
+    "firebase_url": "https://sandtgroup-30435.firebaseio.com",
+    "project_id": "sandtgroup-30435",
+    "storage_bucket": "sandtgroup-30435.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973590138722:android:487fbdde2e56ca0abd663b",
+        "android_client_info": {
+          "package_name": "com.smartherd.sandtgroup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "973590138722-rfoqj5bdb17rgatsppfkesgh0ce79955.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYky0-qxflCkMZSstTlVy_t3Oz9H7aHKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "973590138722-rfoqj5bdb17rgatsppfkesgh0ce79955.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
