@@ -5,6 +5,8 @@ import 'dart:convert';
 
 import 'package:sandtgroup/FirstScreen/Splash.dart';
 
+import 'ViewUserData.dart';
+
 class NormalUsers extends StatefulWidget {
   @override
   _NormalUsersState createState() => _NormalUsersState();
@@ -63,18 +65,29 @@ class _NormalUsersState extends State<NormalUsers> {
           child: Column(
             children: <Widget>[
               ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Theme.of(context).accentColor,
-                  child: Icon(Icons.people),
-                ),
-                title: Text(
-                    "Name : " +
-                        data[position]["username"] +
-                        data[position]["lname"],
-                    style: TextStyle(color: Colors.black54)),
-                subtitle: Text("\nEmail : " + data[position]["email"],
-                    style: TextStyle(color: Colors.black54)),
-              ),
+                  leading: CircleAvatar(
+                    backgroundColor: Theme.of(context).accentColor,
+                    child: Icon(Icons.people),
+                  ),
+                  title: Text(
+                      "Name : " +
+                          data[position]["username"] +
+                          data[position]["lname"],
+                      style: TextStyle(color: Colors.black54)),
+                  subtitle: Text("\nEmail : " + data[position]["email"],
+                      style: TextStyle(color: Colors.black54)),
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ViewUserData(
+                          name: data[position]["username"] +
+                              data[position]["lname"],
+                          email: data[position]["email"],
+                          role: 1,
+                          date: data[position]["username"],
+                          id: data[position]["id"],
+                        ),
+                      ))),
             ],
           ),
         );

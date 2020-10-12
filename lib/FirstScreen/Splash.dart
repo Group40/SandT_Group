@@ -243,8 +243,8 @@ int getrole() {
 }
 
 String getUrl() {
-  return "http://10.0.2.2:8080";
-  //return "http://santtest-env.eba-nxhcuuzz.ap-south-1.elasticbeanstalk.com";
+  //return "http://10.0.2.2:8080";
+  return "http://sandtgroup-env.eba-6dvhzmva.ap-south-1.elasticbeanstalk.com";
 }
 
 exitFromApp() {
