@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sandtgroup/ArticleHandling/ArticleAdmin.dart';
 import 'package:sandtgroup/DiscussionForum/AdminView.dart';
 import 'package:sandtgroup/EventPublishingBooking/EventBooking.dart';
 import 'package:sandtgroup/Institute/CourseList.dart';
@@ -16,6 +17,7 @@ class AdminScreenGrids extends StatelessWidget {
   Item item4 = new Item("Youtube", Icons.videocam, Playlist());
   Item item5 = new Item("Magazine", Icons.book, Playlist());
   Item item6 = new Item("Discussion Forum", Icons.shopping_basket, AdminView());
+  Item item7 = new Item("Article", Icons.article, ArticleAdmin());
   Item item8 = new Item(
       "User Management", Icons.supervised_user_circle, UserManagementAdmin());
 
@@ -29,6 +31,7 @@ class AdminScreenGrids extends StatelessWidget {
       item4,
       item5,
       item6,
+      item7,
     ];
     return Flexible(
       child: ListView(
