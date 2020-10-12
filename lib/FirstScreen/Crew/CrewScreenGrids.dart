@@ -4,12 +4,14 @@ import 'package:sandtgroup/EventPublishingBooking/EventBooking.dart';
 import 'package:sandtgroup/Institute/CourseList.dart';
 import 'package:sandtgroup/Photography/PicGallery.dart';
 import 'package:sandtgroup/YouTube/Playlist.dart';
+import '../../EventPublishingBooking/EventPublishing.dart';
+import '../../Institute/AdminCourseList.dart';
 
 class CrewScreenGrids extends StatelessWidget {
   Item item1 =
-      new Item("Event Management", Icons.calendar_today, EventBooking());
+      new Item("Event Management", Icons.calendar_today, EventPublishing());
   Item item2 = new Item("Photography", Icons.image, PicGallery());
-  Item item3 = new Item("Courses", Icons.school, CourseList());
+  Item item3 = new Item("Courses", Icons.school, AdminCourse());
   Item item4 = new Item("Youtube", Icons.videocam, Playlist());
   Item item5 = new Item("Magazine", Icons.book, CourseList());
   Item item6 = new Item("Discussion Forum", Icons.shopping_basket, AdminView());
