@@ -327,7 +327,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget setUpButtonChild() {
     if (_btnstate == false) {
       return new Text(
-        'SIGH UP',
+        'SIGN UP',
         style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -381,7 +381,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     children: <Widget>[
                       SizedBox(height: 50.0),
                       Text(
-                        'SIGH UP',
+                        'SIGN UP',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 30.0,
