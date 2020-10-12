@@ -343,7 +343,7 @@ class CourseDetailState extends State<CourseDetail> {
                       Padding(
                         padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                         child: TextFormField(
-                          controller: commentController..text = comment,
+                          controller: commentController..text,
                           validator: (String value) {
                             if (value.isEmpty) {
                               return 'comment section cannot be empty';
@@ -354,7 +354,7 @@ class CourseDetailState extends State<CourseDetail> {
                             color: Theme.of(context).primaryColor,
                           ),
                           onChanged: (value) {
-                            //comment = value;
+                            comment = value;
                             debugPrint('Something changed in Text Field');
                           },
                           decoration: InputDecoration(
@@ -364,6 +364,7 @@ class CourseDetailState extends State<CourseDetail> {
                               )),
                         ),
                       ),
+
                       Padding(
                         padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
                         child: Row(
