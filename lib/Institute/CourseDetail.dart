@@ -18,7 +18,7 @@ class CourseDetail extends StatefulWidget {
 
 class CourseDetailState extends State<CourseDetail> {
   CourseDetailState(String text);
-
+  TextEditingController commentController = TextEditingController();
   var _formKey = GlobalKey<FormState>();
 
   var isLiked = false;
@@ -90,8 +90,6 @@ class CourseDetailState extends State<CourseDetail> {
       }
     }
   }
-
-  TextEditingController commentController = TextEditingController();
 
   void addComment() async {
     commentData = 'UserToken.u99D5,hq={' +
@@ -356,7 +354,7 @@ class CourseDetailState extends State<CourseDetail> {
                             color: Theme.of(context).primaryColor,
                           ),
                           onChanged: (value) {
-                            comment = value;
+                            //comment = value;
                             debugPrint('Something changed in Text Field');
                           },
                           decoration: InputDecoration(
