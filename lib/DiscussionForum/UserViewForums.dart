@@ -31,7 +31,7 @@ class _UserViewForums extends State<UserViewForums> {
   Future<List<Forums>> getForums() async {
     print("sdf");
     http.Response response = await http.get(
-        Uri.encodeFull("http://192.168.1.26:8080/findByStatus/1"),
+        Uri.encodeFull(getUrl() + "/findByStatus/1"),
         headers: {"Accept": "application/json"});
     data = jsonDecode(response.body);
     print(response.statusCode);

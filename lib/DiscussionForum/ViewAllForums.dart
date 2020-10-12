@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:sandtgroup/FirstScreen/Splash.dart';
 
 class ViewAllForums extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _ViewAllForums extends State<ViewAllForums> {
 
   Future<List<Forums>> getAllForums() async {
     http.Response response = await http.get(
-        Uri.encodeFull("http://192.168.1.26:8080/getForums"),
+        Uri.encodeFull(getUrl() + "/getForums"),
         headers: {"Accept": "application/json"});
     data = jsonDecode(response.body);
     print(response.statusCode);

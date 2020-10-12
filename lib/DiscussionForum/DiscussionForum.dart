@@ -38,57 +38,6 @@ class DiscussionForumState extends State<DiscussionForum> {
     urole = getrole();
   }
 
-  //report message dialog
-  // Future<void> _reportMessage() {
-  //   return showDialog(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (context) => AlertDialog(
-  //       backgroundColor: Colors.white,
-  //       title: Text(
-  //         "Are you sure you want to report this message for innappropriate content?",
-  //         style: TextStyle(
-  //           color: Colors.black,
-  //           fontSize: 15.0,
-  //           fontWeight: FontWeight.w500,
-  //         ),
-  //       ),
-  //       actions: <Widget>[
-  //         FlatButton(
-  //             onPressed: () => Navigator.pop(context),
-  //             child: Text(
-  //               "Cancel",
-  //               style: TextStyle(color: Colors.black),
-  //             )),
-  //         FlatButton(
-  //           onPressed: null, //call report function
-  //           child: Text(
-  //             "Report",
-  //             style: TextStyle(color: Colors.black),
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  //report function
-  // Future<void> _report(int index, DocumentSnapshot document) async {
-  //   return await http.post(
-  //     "http://192.168.1.26:8080/addMessage",
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(<String, String>{
-  //       'title': widget.title,
-  //       'name': document['name'],
-  //       'email': document['email'],
-  //       'message': document['body'],
-  //       'datetime': document['timestamp'].toDate().toString(),
-  //     }),
-  //   );
-  // }
-
   //display message
   Widget buildMessage(int index, DocumentSnapshot document) {
     myDateTime = (document['timestamp'].toDate());
@@ -130,21 +79,6 @@ class DiscussionForumState extends State<DiscussionForum> {
                     fontWeight: FontWeight.w400),
               ),
             ),
-            // ButtonBar(
-            //   children: <Widget>[
-            //     document['name'] != this.name
-            //         ? FlatButton(
-            //             onPressed: () {
-            //               _reportMessage();
-            //             },
-            //             child: const Text(
-            //               'REPORT',
-            //               style: TextStyle(color: Colors.black, fontSize: 12.0),
-            //             ),
-            //           )
-            //         : null
-            //   ],
-            // ),
           ],
         ),
       ),
@@ -174,17 +108,6 @@ class DiscussionForumState extends State<DiscussionForum> {
       });
     });
 
-    // _firestore
-    //     .collection('messages')
-    //     .document('eventID')
-    //     .collection('eventID')
-    //     .add({
-    //   'id': id,
-    //   'name': name,
-    //   'body': content,
-    //   'timestamp': FieldValue.serverTimestamp()
-    //   //DateTime.now().millisecondsSinceEpoch.toString()
-    // });
     listScrollController.animateTo(0.0,
         duration: Duration(milliseconds: 300), curve: Curves.easeOut);
   }
@@ -288,10 +211,11 @@ class DiscussionForumState extends State<DiscussionForum> {
                           child: Container(
                             margin: EdgeInsets.symmetric(horizontal: 8.0),
                             child: IconButton(
-                              icon: Icon(Icons.send, color: Colors.cyan),
-                              onPressed: () =>
-                                  send(name, email, urole, myController.text),
-                            ), //send method to send messages
+                                icon: Icon(Icons.send, color: Colors.cyan),
+                                onPressed: () => myController.text != ''
+                                    ? send(
+                                        name, email, urole, myController.text)
+                                    : null), //send method to send messages
                           ),
                           color: Colors.white,
                         ),
