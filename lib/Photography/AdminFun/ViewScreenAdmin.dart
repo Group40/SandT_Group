@@ -8,6 +8,8 @@ import 'package:shimmer/shimmer.dart';
 
 import '../PicGallery.dart';
 
+var notificationUrl = getUrl() + "/addNotification";
+
 class ViewScreenAdmin extends StatefulWidget {
   final String picurl;
   final bool ismypic;
@@ -77,6 +79,29 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
     }
   }
 
+  Future<String> confirmPicReport() async {
+    var notificationBody = jsonEncode({
+      'authorName': getUsername(),
+      'authorType': getrole(),
+      'authorMail': getEmail(),
+      'name': title,
+      'nameType': "confirmed the photo",
+      'date': DateTime.now().toString(),
+    });
+    return http.post(notificationUrl, body: notificationBody, headers: {
+      "Accept": "application/json",
+      "content-type": "application/json"
+    }).then((dynamic res) {
+      setState(() {
+        _btnstateconfirm = false;
+      });
+      Navigator.of(context).pop();
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return ReviewPic();
+      }));
+    });
+  }
+
   Future<String> confirmPic() async {
     String senturl = getUrl() + '/picreviewed/' + picid;
     try {
@@ -88,15 +113,7 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
         },
       );
       if (response.statusCode == 200) {
-        setState(() {
-          _btnstateconfirm = false;
-          
-        });
-        Navigator.of(context).pop();
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return ReviewPic();
-        }));
+        confirmPicReport();
       } else {
         _showNetErrorDialog("Somjething went wrong ");
         return null;
@@ -105,6 +122,29 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
       _showNetErrorDialog("Internet Connection Problem");
       throw Exception('Failed to load');
     }
+  }
+
+  Future<String> unreviewePicReport() async {
+    var notificationBody = jsonEncode({
+      'authorName': getUsername(),
+      'authorType': getrole(),
+      'authorMail': getEmail(),
+      'name': title,
+      'nameType': "unreview photo",
+      'date': DateTime.now().toString(),
+    });
+    return http.post(notificationUrl, body: notificationBody, headers: {
+      "Accept": "application/json",
+      "content-type": "application/json"
+    }).then((dynamic res) {
+      setState(() {
+        _btnstatedelete = false;
+      });
+      Navigator.of(context).pop();
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return PicGallery();
+      }));
+    });
   }
 
   Future<String> unreviewePic() async {
@@ -118,14 +158,7 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
         },
       );
       if (response.statusCode == 200) {
-        setState(() {
-          _btnstatedelete = false;
-        });
-        Navigator.of(context).pop();
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return PicGallery();
-        }));
+        unreviewePicReport();
       } else {
         _showNetErrorDialog("Somjething went wrong ");
         return null;
@@ -134,6 +167,29 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
       _showNetErrorDialog("Internet Connection Problem");
       throw Exception('Failed to load');
     }
+  }
+
+  Future<String> deletReport() async {
+    var notificationBody = jsonEncode({
+      'authorName': getUsername(),
+      'authorType': getrole(),
+      'authorMail': getEmail(),
+      'name': title,
+      'nameType': "deleted photo",
+      'date': DateTime.now().toString(),
+    });
+    return http.post(notificationUrl, body: notificationBody, headers: {
+      "Accept": "application/json",
+      "content-type": "application/json"
+    }).then((dynamic res) {
+      setState(() {
+        _btnstatedelete = false;
+      });
+      Navigator.of(context).pop();
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return PicGallery();
+      }));
+    });
   }
 
   Future<String> deletePic() async {
@@ -147,14 +203,7 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
         },
       );
       if (response.statusCode == 200) {
-        setState(() {
-          _btnstatedelete = false;
-        });
-        Navigator.of(context).pop();
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return ReviewPic();
-        }));
+        deletReport();
       } else {
         _showNetErrorDialog("Somjething went wrong ");
         return null;
@@ -374,7 +423,6 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
                 if (isdelete) {
                   deletePic();
                 } else {
-
                   unreviewePic();
                 }
               });

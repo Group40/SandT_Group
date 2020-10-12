@@ -325,10 +325,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         'Sign In',
                         style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            color: Colors.black,
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Raleway'),
                       ),
                       SizedBox(height: 20.0),
                       Opacity(

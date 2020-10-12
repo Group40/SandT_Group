@@ -21,12 +21,16 @@ class UploadPics extends StatefulWidget {
 class UploadPicsState extends State<UploadPics> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descrptController = TextEditingController();
+  TextEditingController townController = TextEditingController();
+  TextEditingController districController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
 
   File _image;
   int _state = 0;
   bool _validatetitle = true;
   bool _validatedis = true;
   bool _picvalidate = false;
+  DateTime _dateTime = DateTime.now();
 
   @override
   void dispose() {
@@ -48,6 +52,9 @@ class UploadPicsState extends State<UploadPics> {
     request.fields['email'] = getEmail();
     request.fields['title'] = titleController.text;
     request.fields['detail'] = descrptController.text;
+    request.fields['town'] = townController.text;
+    request.fields['distric'] = districController.text;
+    request.fields['date'] = dateController.text;
     request.fields['name'] = getUsername();
     request.files.add(multipartFile);
     //var response = await request.send()
@@ -183,6 +190,159 @@ class UploadPicsState extends State<UploadPics> {
             Padding(
               padding: EdgeInsets.only(top: 15.0, bottom: 10.0),
               child: TextFormField(
+                controller: townController,
+                onChanged: (value) {
+                  setState(() {
+                    _validatetitle = true;
+                  });
+                },
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+                decoration: InputDecoration(
+                    errorText: _validatetitle ? null : 'Town Can\'t Be Empty',
+                    labelText: 'Capture Town',
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.only(top: 0),
+                      child: Icon(
+                        FontAwesomeIcons.home,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    labelStyle: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).primaryColor, width: 2.0),
+                      borderRadius: BorderRadius.circular(35.0),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(35.0),
+                    )),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 15.0, bottom: 10.0),
+              child: TextFormField(
+                controller: districController,
+                onChanged: (value) {
+                  setState(() {
+                    _validatetitle = true;
+                  });
+                },
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+                decoration: InputDecoration(
+                    errorText:
+                        _validatetitle ? null : 'Distric Can\'t Be Empty',
+                    labelText: 'Capture Distric',
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.only(top: 0),
+                      child: Icon(
+                        Icons.location_on,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    labelStyle: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).primaryColor, width: 2.0),
+                      borderRadius: BorderRadius.circular(35.0),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(35.0),
+                    )),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+              child: Row(
+                children: <Widget>[
+                  //Date Field
+                  Expanded(
+                    child: TextFormField(
+                      enabled: false,
+                      controller: dateController
+                        ..text = _dateTime.toString().substring(0, 10),
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Please enter the date';
+                        }
+                        return null;
+                      },
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      onChanged: (value) {
+                        //debugPrint('Something changed in Text Field');
+                      },
+                      decoration: InputDecoration(
+                          labelText: 'Date',
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.only(top: 0),
+                            // add padding to adjust icon
+                            child: Icon(
+                              Icons.date_range,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          labelStyle: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).accentColor,
+                                width: 0.0),
+                            borderRadius: BorderRadius.circular(35.0),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(35.0),
+                          )),
+                    ),
+                  ),
+                  Container(
+                    width: 5.0,
+                  ),
+
+                  //Calendar Button
+                  Expanded(
+                    child: ButtonTheme(
+                      child: RaisedButton(
+                        color: Theme.of(context).accentColor,
+                        child: Text(
+                          'Select Captured date',
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                        onPressed: () {
+                          showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2001),
+                            lastDate: DateTime(2222),
+                          ).then((date) => {
+                                setState(() {
+                                  if (date == null) {
+                                    date = DateTime.now();
+                                  }
+                                  _dateTime = date;
+                                }),
+                              });
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 15.0, bottom: 10.0),
+              child: TextFormField(
                 keyboardType: TextInputType.multiline,
                 maxLines: 3,
                 controller: descrptController,
@@ -235,6 +395,15 @@ class UploadPicsState extends State<UploadPics> {
                                 ? _validatetitle = false
                                 : _validatetitle = true;
                             (descrptController.text.isEmpty)
+                                ? _validatedis = false
+                                : _validatedis = true;
+                            (townController.text.isEmpty)
+                                ? _validatedis = false
+                                : _validatedis = true;
+                            (districController.text.isEmpty)
+                                ? _validatedis = false
+                                : _validatedis = true;
+                            (dateController.text.isEmpty)
                                 ? _validatedis = false
                                 : _validatedis = true;
                           });

@@ -51,7 +51,7 @@ class _AuthScreenState extends State<AuthScreen> {
           child: Align(
             alignment: Alignment(0, -MediaQuery.of(context).size.height / 1100),
             child: new Text(
-              "APP_NAME",
+              "altair",
               style: TextStyle(
                   fontSize: 40,
                   color: Colors.white,

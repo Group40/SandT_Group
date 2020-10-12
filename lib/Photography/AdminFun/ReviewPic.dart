@@ -110,6 +110,13 @@ class ReviewPicState extends State<ReviewPic> {
                     backgroundColor: Colors.black,
                   ),
                 );
+              } else if (picsurl.length == 0) {
+                return Center(
+                  child: Text(
+                    "Nothing to review",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                );
               } else {
                 return Container(
                     child: GridView.builder(

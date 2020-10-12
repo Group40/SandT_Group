@@ -381,7 +381,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     children: <Widget>[
                       SizedBox(height: 50.0),
                       Text(
-                        'SIGN UP',
+                        'Sign Up',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 30.0,

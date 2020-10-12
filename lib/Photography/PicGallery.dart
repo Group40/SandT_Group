@@ -242,9 +242,12 @@ class DataSerch extends SearchDelegate<String> {
     "sun",
     "moon",
     "mars",
-    "test",
-    "title",
     "star",
+    "polaris",
+    "starship",
+    "sirius",
+    "milky way"
+        "galaxy"
   ];
   final recent = [];
   PicGallery picGallery;
