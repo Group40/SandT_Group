@@ -131,6 +131,7 @@ class CourseDetailState extends State<CourseDetail> {
         "content-type": "application/json"
       }).then((dynamic res) {
         print(res.toString());
+        getData();
       });
     } catch (err) {
       print(err);
