@@ -90,17 +90,7 @@ class _AdminAppDrawerState extends State<AdminAppDrawer> {
             indent: 32,
             endIndent: 32,
           ),
-          Menu(
-            icon: Icons.settings,
-            title: "Setting",
-          ),
-          Divider(
-            height: 40,
-            thickness: 0.8,
-            color: Colors.black.withOpacity(0.3),
-            indent: 32,
-            endIndent: 32,
-          ),
+          
           Menu(
             icon: Icons.clear_all,
             title: "Log Out",

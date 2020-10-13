@@ -21,6 +21,9 @@ class _PicViewScreenState extends State<PicViewScreen> {
   String detail = "";
   String ownername = "";
   String picid = "";
+  String date = "";
+  String town = "";
+  String distric = "";
   List<String> picsid = new List();
   bool isLoading = true;
   bool _btnstatedelete = false;
@@ -49,6 +52,9 @@ class _PicViewScreenState extends State<PicViewScreen> {
           detail = list[0]['picDetails'];
           ownername = list[0]['ownername'];
           picid = list[0]['uploadPhotoId'];
+          date = list[0]['date'];
+          town = list[0]['town'];
+          distric = list[0]['distric'];
           // viewpic(
           //   url,
           //   list[0]['picTitle'],
@@ -183,8 +189,10 @@ class _PicViewScreenState extends State<PicViewScreen> {
                     Row(
                       children: [
                         Text(
-                          "Captuer Date : ",
+                          "Captuer Date : "+
+                          " " + date,
                           style: TextStyle(
+                            
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -197,8 +205,10 @@ class _PicViewScreenState extends State<PicViewScreen> {
                     Row(
                       children: [
                         Text(
-                          "Captuer Town : ",
+                          "Captuer Town : "+
+                          " " + town,
                           style: TextStyle(
+                            
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -211,8 +221,10 @@ class _PicViewScreenState extends State<PicViewScreen> {
                     Row(
                       children: [
                         Text(
-                          "Captuer Ditric : ",
+                          "Captuer Ditric : "+
+                          " " + distric,
                           style: TextStyle(
+                            
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,

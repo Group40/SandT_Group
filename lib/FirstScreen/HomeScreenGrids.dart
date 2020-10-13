@@ -11,7 +11,7 @@ class HomeScreenGrids extends StatelessWidget {
   Item item2 = new Item("Photography", 'assets/icons/pics.png', PicGallery());
   Item item3 = new Item("Courses", 'assets/icons/course.png', CourseList());
   Item item4 = new Item("Youtube", 'assets/icons/youtube.png', Playlist());
-  Item item5 = new Item("Magazine", 'assets/icons/magazine.jpg', ArticleHome());
+  Item item5 = new Item("Article", 'assets/icons/at.jpeg', ArticleHome());
   Item item6 = new Item("Forum", 'assets/icons/magazine.jpg', UserViewForums());
 
   @override

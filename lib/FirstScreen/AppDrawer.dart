@@ -66,15 +66,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   context, MaterialPageRoute(builder: (context) => Profile()));
             },
           ),
-          Menu(
-            icon: Icons.home,
-            title: "Home",
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
-            },
-          ),
+          
           Menu(
             icon: Icons.event,
             title: "Upcoming Event",

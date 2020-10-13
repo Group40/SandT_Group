@@ -59,15 +59,6 @@ class _CrewAppDrawerState extends State<CrewAppDrawer> {
             },
           ),
           Menu(
-            icon: Icons.home,
-            title: "Home",
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
-            },
-          ),
-          Menu(
             icon: Icons.event,
             title: "Publish Events",
             onTap: () {
@@ -102,17 +93,6 @@ class _CrewAppDrawerState extends State<CrewAppDrawer> {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => PicGallery()));
             },
-          ),
-          Divider(
-            height: 64,
-            thickness: 0.8,
-            color: Colors.black.withOpacity(0.3),
-            indent: 32,
-            endIndent: 32,
-          ),
-          Menu(
-            icon: Icons.settings,
-            title: "Setting",
           ),
           Divider(
             height: 40,

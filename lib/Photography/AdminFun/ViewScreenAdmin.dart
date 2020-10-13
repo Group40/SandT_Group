@@ -32,6 +32,9 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
   bool _btnstateconfirm = false;
   bool _btnstatedelete = false;
   String picid = "";
+  String date = "";
+  String town = "";
+  String distric = "";
 
   @override
   void initState() {
@@ -58,6 +61,9 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
           ownername = list[0]['ownername'];
           email = list[0]['ownerEmail'];
           picid = list[0]['uploadPhotoId'];
+          date = list[0]['date'];
+          town = list[0]['town'];
+          distric = list[0]['distric'];
           // viewpic(
           //   url,
           //   list[0]['picTitle'],
@@ -304,7 +310,8 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
                     Row(
                       children: [
                         Text(
-                          "Captuer Date : ",
+                          "Captuer Date : "+
+                          " " + date,
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
@@ -318,7 +325,8 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
                     Row(
                       children: [
                         Text(
-                          "Captuer Town : ",
+                          "Captuer Town : "+
+                          " " + town,
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
@@ -332,7 +340,9 @@ class _ViewScreenAdminState extends State<ViewScreenAdmin> {
                     Row(
                       children: [
                         Text(
-                          "Captuer Ditric : ",
+                          "Captuer Ditric : "
+                          +
+                          " " + distric,
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,

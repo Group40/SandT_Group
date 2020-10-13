@@ -23,7 +23,6 @@ class CrewScreenGrids extends StatelessWidget {
       item2,
       item3,
       item4,
-      item5,
       item6,
     ];
     return Flexible(
